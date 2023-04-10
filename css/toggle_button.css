@@ -1,3 +1,9 @@
+.dark-mode-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .text {
     font-size: 16px;
     color: #8b8b8b;
