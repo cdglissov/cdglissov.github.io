@@ -5,7 +5,8 @@
 }
 
 .text {
-    font-size: 16px;
+    font-size: 14px;
+    padding-left: 4px;
     color: #8b8b8b;
   }
 
@@ -33,16 +34,16 @@
   }
 
 .active {
-    border-color: #494949;
+    border-color: #8b8b8b;
   }
 
 .active + .text {
-    color: #494949;
+    color: #8b8b8b;
   }
 
 .active .circle {
     left: 100%;
     transform: translateX(-100%);
     transition: .3s;
-    background-color: #494949;
+    background-color: #8b8b8b;
   }
