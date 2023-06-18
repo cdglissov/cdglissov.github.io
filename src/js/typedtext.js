@@ -1,6 +1,10 @@
 import Typed from 'typed.js';
 
-var typed = new Typed('#element', {
-    strings: ["First sentence.", "Second sentence."],
-    typeSpeed: 30
-  });
+export var typed = new Typed('#typed-anim-js', {
+  strings: ['Machine learning engineer', 'Data consultant'],
+  typeSpeed: 80,
+  backSpeed: 20,
+  smartBackspace: false,
+  loop: true,
+  showCursor: false
+});
