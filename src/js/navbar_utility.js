@@ -1,11 +1,11 @@
 const sections = document.querySelectorAll("section")
 const navElements = document.querySelectorAll("header #navbarNav ul li a.nav-link")
 
-window.onscroll = function() {
+export default window.onscroll = function() {
     navbarActive()
 };
 
-function navbarActive() {
+export function navbarActive() {
     var currentNavitem = "";
     sections.forEach( (section) => {
         var secTop = section.offsetTop

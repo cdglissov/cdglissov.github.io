@@ -1,6 +1,7 @@
 # Ignore folders
 /img
 /node_modules
-/assets/img/tst_img
-/assets/styles.scss
+src/assets/img/
+src/assets/fav
 sources.txt
+/dist/*.map

@@ -1,6 +1,6 @@
-let active = false
+export let active = false
 
-function toggle() {
+export default window.toggle = function() {
     let toggle = document.querySelector('.toggle')
     let text = document.querySelector('.text')
 
@@ -16,3 +16,4 @@ function toggle() {
       text.innerHTML = 'Dark mode on'
     }
   }
+
