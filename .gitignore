@@ -1,1 +1,6 @@
+# Ignore folders
 /img
+/node_modules
+/assets/img/tst_img
+/assets/styles.scss
+sources.txt

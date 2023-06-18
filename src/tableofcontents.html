@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Christian D. Glissov</title>
+  <link rel="stylesheet" href="../assets/styles.css">
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+
+
+<body>
+  
+
+  <header class="fixed-top">
+    <nav class="navbar navbar-expand-md bg-primary">
+      <div class="container">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="../src/index.html#contact">
+          <img src="..\assets\fav\personal_favicon.ico" alt="Logo" width="18" height="18" class="d-none d-md-block my-1">
+        </a>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active home" aria-current="page" href="../src/index.html#home">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link about" href="../src/index.html#about">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link projects" href="../src/index.html#projects">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link blog" href="#blog">Blog</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link contact" href="../src/index.html#contact">Contact</a>
+            </li>
+
+          </ul>
+        </div>
+        <div class="dark-mode-toggle">
+          <div class="toggle" onclick="toggle()">
+            <div class="circle"></div>
+          </div>
+          <span class="text">Dark mode on</span>
+        </div>
+      </div>
+    </nav>
+
+  </header>
+
+  <script src="js/toggle_button.js"></script>
+  <script src="js/navbar_utility.js"></script>
+</body>
