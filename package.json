@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "css-lint": "stylelint scss/",
     "build": "webpack --config webpack.prod.js",
-    "dev": "webpack-dev-server --config webpack.dev.js --open --port 3000"
+    "dev": "webpack-dev-server --config webpack.dev.js --open --port 3000 --no-hot --compress --history-api-fallback"
   },
   "keywords": [
     "ML"

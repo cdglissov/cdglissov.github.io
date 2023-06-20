@@ -11,5 +11,6 @@ import personal_favicon from '.././assets/personal_favicon.ico'
 import envelope_white from '../assets/envelope_white.svg'
 import github_white from '../assets/github_white.svg'
 import LinkedIn_white from '../assets/LinkedIn_white.svg'
+import arrow from '../assets/arrow.png'
 import python_png from '../assets/python.png'
 
