@@ -5,7 +5,7 @@ import "../styles/styles.scss"
 
 import {toggle, active} from './toggle_button.js'
 import {typed} from "./typedtext.js"
-import onscroll from './navbar_utility.js'
+import {onscroll, navbarScrolled} from './navbar_utility.js'
 
 import personal_favicon from '.././assets/personal_favicon.ico'
 import envelope_white from '../assets/envelope_white.svg'
@@ -13,4 +13,5 @@ import github_white from '../assets/github_white.svg'
 import LinkedIn_white from '../assets/LinkedIn_white.svg'
 import arrow from '../assets/arrow.png'
 import python_png from '../assets/python.png'
+import ext_link from '../assets/external_link_fa.svg'
 import cv from '../assets/CV.pdf'

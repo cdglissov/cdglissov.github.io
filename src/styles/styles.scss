@@ -183,7 +183,7 @@ $headers-color: rgb(213, 221, 229);
     font-weight: $inner-text-font-weight;
 }
 
-// add skills
+// skills
 .skills-content {
     width: 100%;
     max-width: 1000px;
@@ -213,7 +213,18 @@ $headers-color: rgb(213, 221, 229);
     font-size: .9rem;
 }
 
+// navbar utility
+.nb-scrolled {
+    background-color: $primary;
+    transition-duration: 500ms;
+}
 
+.nb {
+    background-color: rgba($primary, 0);
+    transition-duration: 500ms;
+}
+
+// change header colors
 @include color-mode(dark) {
     h1, h2, h3, h4, h5 {
         color: $headers-color;
@@ -228,4 +239,13 @@ $headers-color: rgb(213, 221, 229);
     .skills-label{
         color: $headers-color;
     }
+}
+
+// icon next to nav-link blog
+.nav-item-flex{
+    display: flex;
+}
+
+.ext-link-icon{
+    margin-left: 5px
 }
