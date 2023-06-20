@@ -31,7 +31,7 @@
     <nav class="navbar navbar-expand-md" id="navigationbar">
       <div class="container">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" id="nbToggler">
           <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand" href="#home">
@@ -47,6 +47,9 @@
             </li>
             <li class="nav-item">
               <a class="nav-link projects" href="#projects">Projects</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link contact" href="#contact">Contact</a>
             </li>
             <li class="nav-item">
               <a class="nav-link blog nav-item-flex" href="./tableofcontents.html">Blog 
@@ -82,7 +85,7 @@
               height="30px" id="git-icon"></a>
             <a class="icon-link" target="_blank" href="https://www.linkedin.com/in/christian-glissov/"><img src="./assets/LinkedIn_white.svg"
                 height="30px" id="ln-icon"></a>
-            <a class="icon-link" target="_blank" href="mailto:cdglissov@gmail.com"><img src="./assets/envelope_white.svg"
+            <a class="icon-link" href="#contact"><img src="./assets/envelope_white.svg"
                 height="30px" id="envelope-icon" style="padding-left: 4px;"></a>
           </div>
         </div>
@@ -139,8 +142,7 @@
             <li class="skill-li"> NLTK </li>
             <li class="skill-li"> Polars </li>
             <li class="skill-li"> Spark </li>
-            <li class="skill-li"> d3js </li>
-            <li class="skill-li"> Bootstrap </li>
+            <li class="skill-li"> and many more </li>
           </ul>
         </div>
         <div class="skills-category"> 
@@ -180,10 +182,34 @@
   
   <section class="container pt-5 pb-5 mb-5" id="projects">
     <div class="d-flex justify-content-left content-header">
-      <h1 class="display-5 mb-3 robo-bold">PROJECTS</h1>
+      <h1 class="display-5 mb-3 robo-bold section-header">Projects</h1>
     </div>
     <div class="container">
+      <p>Make blocks of image with aligned text next to</p>
+    </div>
+  </section>
+
+
+  <section class="container pt-5 pb-5 mb-5" id="contact">
+    <div class="d-flex justify-content-left content-header">
+      <h1 class="display-5 mb-3 robo-bold section-header">Contact</h1>
+    </div>
+    <div class="container">
+      <p> If you have a question or just want to chat, feel free to send me a message and I will get back to you!</p>
       
+      <div class="form wrapper">
+        <div class="form links">
+          <p>icons here</p>
+        </div>
+        <form class="form">
+          <input aria-label="Enter your name" class="form__name" type="text" name="user_name" placeholder="Name" required="">
+          <input aria-label="Enter your email address" class="form__email" type="email" name="user_email" placeholder="Email" required="">
+          <textarea aria-label="Enter your message" class="form__message" name="message" placeholder="Message" required=""></textarea>
+          <p>Here needs to be a button and text, need to align everything. Hash email</p>
+        </form>
+      </div>
+      
+    
     </div>
   </section>
 

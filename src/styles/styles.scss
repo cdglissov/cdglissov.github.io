@@ -224,6 +224,7 @@ $headers-color: rgb(213, 221, 229);
     transition-duration: 500ms;
 }
 
+
 // change header colors
 @include color-mode(dark) {
     h1, h2, h3, h4, h5 {

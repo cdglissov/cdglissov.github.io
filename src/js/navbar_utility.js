@@ -11,7 +11,7 @@ export function navbarActive() {
     sections.forEach( (section) => {
         const secTop = section.offsetTop
         const sectionHeight = section.clientHeight;
-        if(scrollY >= secTop - sectionHeight / 3){
+        if(scrollY >= secTop - sectionHeight / 3 - 200){
             currentNavitem = section.getAttribute("id")
         };
     });
@@ -32,14 +32,32 @@ export function navbarActive() {
 
 
 const id_value = document.getElementById("navigationbar")
-const home_val = document.getElementById("home")
+// color navbar based on scroll
 export function navbarScrolled() {
     if (scrollY > 100) {
         id_value.classList.remove("nb");
         id_value.classList.add("nb-scrolled");
-      } else {
+    } else {
         id_value.classList.remove("nb-scrolled");
         id_value.classList.add("nb");
-      }
+    }
 }
+
+
+const navbarElement = document.getElementById("nbToggler")
+// if user at top color navbar to avoid overlap of title
+export const navbarToggler = () => {
+    navbarElement.addEventListener('click', () => {
+        if (window.scrollY == 0 & navbarElement.className == "navbar-toggler"){
+            id_value.classList.remove("nb");
+            id_value.classList.add("nb-scrolled")
+        } else if(window.scrollY == 0 & navbarElement.className == "navbar-toggler collapsed"){
+            id_value.classList.remove("nb-scrolled");
+            id_value.classList.add("nb")
+        }
+    })
+}
+
+
+
 
