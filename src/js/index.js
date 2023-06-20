@@ -13,4 +13,4 @@ import github_white from '../assets/github_white.svg'
 import LinkedIn_white from '../assets/LinkedIn_white.svg'
 import arrow from '../assets/arrow.png'
 import python_png from '../assets/python.png'
-
+import cv from '../assets/CV.pdf'

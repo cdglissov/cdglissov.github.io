@@ -16,6 +16,13 @@ module.exports = {
                 }
             },
             {
+                test: /\.(pdf)$/i,
+                type: 'asset/resource',
+                generator: {
+                    filename: '[name][ext]'
+                }
+            },
+            {
                 test:/\.js$/,
                 exclude: /node_modules/,
                 use: {
