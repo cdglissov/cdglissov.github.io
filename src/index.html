@@ -81,11 +81,11 @@
           <h2 id="typed-anim-js" class="d-inline" style = "color: var(--bs-body-color)"></h2>
           <span id="typed" style="visibility:hidden;">|</span>
           <div class="d-flex justify-content-left mt-4 gap-2">
-            <a class="icon-link" target="_blank" href="https://github.com/cdglissov"><img src="./assets/github_white.svg"
+            <a class="icon-link" target="_blank" href="https://github.com/cdglissov"><img class="icon-link-img" src="./assets/github_white.svg"
               height="30px" id="git-icon"></a>
-            <a class="icon-link" target="_blank" href="https://www.linkedin.com/in/christian-glissov/"><img src="./assets/LinkedIn_white.svg"
+            <a class="icon-link" target="_blank" href="https://www.linkedin.com/in/christian-glissov/"><img class="icon-link-img" src="./assets/LinkedIn_white.svg"
                 height="30px" id="ln-icon"></a>
-            <a class="icon-link" href="#contact"><img src="./assets/envelope_white.svg"
+            <a class="icon-link" href="#contact"><img class="icon-link-img" src="./assets/envelope_white.svg"
                 height="30px" id="envelope-icon" style="padding-left: 4px;"></a>
           </div>
         </div>
@@ -177,6 +177,33 @@
     <div class="display-6 pt-5 content-header-small section-sub-header">
       Experience
     </div>
+    
+    <div class="d-flex justify-content-center experience-wrapper">
+      <div class="container experience-content">
+        <div class="d-lg-flex justify-content-between experience-category flex-wrap">
+          <div class="experience-label">
+            Netcompany
+          </div>
+          <div class="experience-item">
+            May 2018 - Present
+          </div>
+        </div>
+        <div class="experience-description text-wrap text-break">
+          Data consultant
+        </div>
+        <div class="d-lg-flex justify-content-between experience-category flex-wrap">
+          <div class="experience-label">
+            Technical University of Denmark
+          </div>
+          <div class="experience-item">
+            May 2018 - Present
+          </div>
+        </div>
+        <div class="experience-description text-wrap text-break">
+          Teacher
+        </div>
+      </div>
+    </div>
 
   </section>
   
@@ -197,15 +224,20 @@
     <div class="container">
       <p> If you have a question or just want to chat, feel free to send me a message and I will get back to you!</p>
       
-      <div class="form wrapper">
-        <div class="form links">
-          <p>icons here</p>
-        </div>
-        <form class="form">
-          <input aria-label="Enter your name" class="form__name" type="text" name="user_name" placeholder="Name" required="">
-          <input aria-label="Enter your email address" class="form__email" type="email" name="user_email" placeholder="Email" required="">
-          <textarea aria-label="Enter your message" class="form__message" name="message" placeholder="Message" required=""></textarea>
-          <p>Here needs to be a button and text, need to align everything. Hash email</p>
+      <div class="form-wrapper">
+          <div class="form-links">
+            <a class="form-icon" href="https://github.com/cdglissov">
+              <img class="form-icon-img" src="./assets/github_white.svg" height="40px" id="git-icon"></a>
+            <a class="form-icon" href="https://www.linkedin.com/in/christian-glissov/">
+              <img class="form-icon-img" src="./assets/LinkedIn_white.svg" height="40px" id="ln-icon"></a>
+          </div>
+        <form class="form-content">
+          <input aria-label="Enter your name" class="form-name" type="text" name="user_name" placeholder="Name" required="">
+          <input aria-label="Enter your email address" class="form-email" type="email" name="user_email" placeholder="Email" required="">
+          <textarea aria-label="Enter your message" class="form-message" name="message" placeholder="Message" required=""></textarea>
+          <button class="link-contact-form-send" type="submit" value="Send"><div class="link" data-link-alt="Send">
+            <span class="button-text">Send</span>
+          </button>
         </form>
       </div>
       

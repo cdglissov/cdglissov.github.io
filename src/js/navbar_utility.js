@@ -6,6 +6,7 @@ export default window.onscroll = function() {
     navbarScrolled()
 };
 
+
 export function navbarActive() {
     let currentNavitem = "";
     sections.forEach( (section) => {
@@ -32,9 +33,13 @@ export function navbarActive() {
 
 
 const id_value = document.getElementById("navigationbar")
+const navbarElement = document.getElementById("nbToggler")
 // color navbar based on scroll
 export function navbarScrolled() {
-    if (scrollY > 100) {
+    if (scrollY <= 100 & navbarElement.className == "navbar-toggler"){
+        id_value.classList.remove("nb");
+        id_value.classList.add("nb-scrolled");
+    } else if (scrollY > 100) {
         id_value.classList.remove("nb");
         id_value.classList.add("nb-scrolled");
     } else {
@@ -44,7 +49,6 @@ export function navbarScrolled() {
 }
 
 
-const navbarElement = document.getElementById("nbToggler")
 // if user at top color navbar to avoid overlap of title
 export const navbarToggler = () => {
     navbarElement.addEventListener('click', () => {
