@@ -12,7 +12,7 @@ export function navbarActive() {
     sections.forEach( (section) => {
         const secTop = section.offsetTop
         const sectionHeight = section.clientHeight;
-        if(scrollY >= secTop - sectionHeight / 3 - 200){
+        if(scrollY >= secTop - sectionHeight ){
             currentNavitem = section.getAttribute("id")
         };
     });
@@ -30,6 +30,8 @@ export function navbarActive() {
     });
 
 };
+
+
 
 const collapsedWindow = window.matchMedia("(min-width: 767px)")
 const id_value = document.getElementById("navigationbar")
