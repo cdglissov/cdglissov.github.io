@@ -18,7 +18,7 @@ export function navbarActive() {
     });
 
     // if bottom of page, choose last element
-    if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight) {
+    if ((window.innerHeight + scrollY) >= document.body.offsetHeight) {
         currentNavitem = sections[sections.length-1].getAttribute("id")
     }
 
@@ -31,12 +31,14 @@ export function navbarActive() {
 
 };
 
-
+const collapsedWindow = window.matchMedia("(min-width: 767px)")
 const id_value = document.getElementById("navigationbar")
 const navbarElement = document.getElementById("nbToggler")
+
 // color navbar based on scroll
 export function navbarScrolled() {
-    if (scrollY <= 100 & navbarElement.className == "navbar-toggler"){
+    let expandedScreen = collapsedWindow.matches
+    if (scrollY <= 100 & (navbarElement.className == "navbar-toggler" & !expandedScreen)){
         id_value.classList.remove("nb");
         id_value.classList.add("nb-scrolled");
     } else if (scrollY > 100) {
@@ -48,8 +50,19 @@ export function navbarScrolled() {
     }
 }
 
+// color navbar based on window resize
+export const checkResize = collapsedWindow.onchange = (evt) => {    
+    let expandedScreen = collapsedWindow.matches
+    if (scrollY <= 100 & (navbarElement.className == "navbar-toggler" & expandedScreen)){
+        id_value.classList.add("nb");
+        id_value.classList.remove("nb-scrolled");
+    } else if (scrollY <= 100 & (navbarElement.className == "navbar-toggler" & !expandedScreen)) {
+        id_value.classList.remove("nb");
+        id_value.classList.add("nb-scrolled");
+    }
+}
 
-// if user at top color navbar to avoid overlap of title
+// Color navbar based on click
 export const navbarToggler = () => {
     navbarElement.addEventListener('click', () => {
         if (window.scrollY == 0 & navbarElement.className == "navbar-toggler"){
@@ -62,6 +75,20 @@ export const navbarToggler = () => {
     })
 }
 
+
+/*
+export const CheckResize = () => {
+    window.addEventListener("resize", ResizeWindow)
+}
+
+export const ResizeWindow = (e) => {
+    const collapsedWindow = window.matchMedia("(min-width: 767px)").matches
+    if (scrollY <= 100 & (navbarElement.className == "navbar-toggler" & collapsedWindow)){
+        id_value.classList.remove("nb");
+        id_value.classList.add("nb-scrolled");
+    }
+}
+*/
 
 
 

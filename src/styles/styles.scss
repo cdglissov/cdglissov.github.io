@@ -363,3 +363,36 @@ input, textarea {
     height: 5rem;
 }
 
+// contact button
+.arrow-link-button {
+    @include transition;
+
+    font-weight: 500;
+    display: inline-block;
+    background: none;
+    white-space: nowrap;
+    overflow: hidden;
+    padding: 0;
+    border: none;
+    width:fit-content;
+    padding-right: 40px;
+}
+
+.arrow-link-button::after {
+    @include transition;
+
+    position: relative;
+    bottom: 2px;
+    margin-left: 15px;
+    content: '';
+    background: url('../assets/arrow.png') no-repeat center;
+    background-size: 100%;
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.arrow-link-button:hover::after {
+    transform: translateX(7px);
+}
