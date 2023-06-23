@@ -24,15 +24,16 @@ module.exports = WebpackMerge.merge(WebpackCommon, {
             {
                 test:/\.scss$/,
                 use: [
-                    MiniCssExtractPlugin.loader, //style-loader was here TODO: fix asset size exceeds recommended limit
+                    MiniCssExtractPlugin.loader,
                     'css-loader', 
-                    'sass-loader'
+                    'postcss-loader',
+                    'sass-loader',
                 ]
             },
         ]
     },
     plugins: [
         //use css instead of js
-        new MiniCssExtractPlugin({filename: "[name].css"})
+        new MiniCssExtractPlugin({filename: "[name].css"}),
         ]
     });
