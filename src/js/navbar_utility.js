@@ -75,10 +75,8 @@ export const checkResize = collapsedWindow.onchange = (evt) => {
     navSpans.forEach( (navSpan) => {
         if (styleNav =='flex'){
             navSpan.dataset.bsTarget=''
-            console.log("test")
         } else {
             navSpan.dataset.bsTarget='#navbarNav'
-            console.log("test")
         }
     })
 }
@@ -104,10 +102,8 @@ export function navbarCollapseAdjustTimer() {
             let styleNav = getComputedStyle(navbarnav).display
             if (styleNav =='flex'){
                 navSpan.dataset.bsTarget=''
-                console.log("test")
             } else {
                 navSpan.dataset.bsTarget='#navbarNav'
-                console.log("test2")
             }
         })
     })
