@@ -1,5 +1,8 @@
 const sections = document.querySelectorAll("section")
 const navElements = document.querySelectorAll("header #navbarNav ul li a.nav-link")
+const navbarnav = document.getElementById("navbarNav")
+const navSpans = document.querySelectorAll("#cevent")
+
 
 export default window.onscroll = function() {
     navbarActive()
@@ -67,6 +70,17 @@ export const checkResize = collapsedWindow.onchange = (evt) => {
         id_value.classList.remove("nb");
         id_value.classList.add("nb-scrolled");
     }
+
+    let styleNav = getComputedStyle(navbarnav).display
+    navSpans.forEach( (navSpan) => {
+        if (styleNav =='flex'){
+            navSpan.dataset.bsTarget=''
+            console.log("test")
+        } else {
+            navSpan.dataset.bsTarget='#navbarNav'
+            console.log("test")
+        }
+    })
 }
 
 // Color navbar based on click
@@ -81,3 +95,21 @@ export const navbarToggler = () => {
         }
     })
 }
+
+
+
+export function navbarCollapseAdjustTimer() {
+    navSpans.forEach( (navSpan) => {
+        navSpan.addEventListener('click', () => {
+            let styleNav = getComputedStyle(navbarnav).display
+            if (styleNav =='flex'){
+                navSpan.dataset.bsTarget=''
+                console.log("test")
+            } else {
+                navSpan.dataset.bsTarget='#navbarNav'
+                console.log("test2")
+            }
+        })
+    })
+}
+

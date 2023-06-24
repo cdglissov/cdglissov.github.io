@@ -5,7 +5,7 @@ import "../styles/styles.scss"
 
 import {toggle, active} from './toggle_button.js'
 import {typed} from "./typedtext.js"
-import {onscroll, navbarScrolled, navbarToggler, checkResize} from './navbar_utility.js'
+import {onscroll, navbarScrolled, navbarToggler, checkResize, navbarCollapseAdjustTimer} from './navbar_utility.js'
 
 // images. TODO: this is ugly create JS function to get all images and export
 import personal_favicon from '.././assets/personal_favicon.ico'
@@ -24,3 +24,4 @@ import dataaug2 from '../assets/dataaug2.png'
 
 checkResize()
 navbarToggler()
+navbarCollapseAdjustTimer()
