@@ -6,13 +6,13 @@ export default window.onscroll = function() {
     navbarScrolled()
 };
 
-
+// TODO: This could be better
 export function navbarActive() {
     let currentNavitem = "";
     sections.forEach( (section) => {
         const secTop = section.offsetTop
         const sectionHeight = section.clientHeight;
-        if(scrollY >= secTop - sectionHeight ){
+        if(scrollY >= secTop - sectionHeight/3 ){
             currentNavitem = section.getAttribute("id")
         };
     });
@@ -77,20 +77,6 @@ export const navbarToggler = () => {
     })
 }
 
-
-/*
-export const CheckResize = () => {
-    window.addEventListener("resize", ResizeWindow)
-}
-
-export const ResizeWindow = (e) => {
-    const collapsedWindow = window.matchMedia("(min-width: 767px)").matches
-    if (scrollY <= 100 & (navbarElement.className == "navbar-toggler" & collapsedWindow)){
-        id_value.classList.remove("nb");
-        id_value.classList.add("nb-scrolled");
-    }
-}
-*/
 
 
 

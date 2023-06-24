@@ -7,6 +7,7 @@ import {toggle, active} from './toggle_button.js'
 import {typed} from "./typedtext.js"
 import {onscroll, navbarScrolled, navbarToggler, checkResize} from './navbar_utility.js'
 
+// images. TODO: this is ugly create JS function to get all images and export
 import personal_favicon from '.././assets/personal_favicon.ico'
 import envelope_white from '../assets/envelope_white.svg'
 import github_white from '../assets/github_white.svg'
@@ -15,6 +16,11 @@ import arrow from '../assets/arrow.png'
 import python_png from '../assets/python.png'
 import ext_link from '../assets/external_link_fa.svg'
 import cv from '../assets/CV.pdf'
+import nyccov19 from '../assets/nyccov19.png'
+import thesis from '../assets/thesis.png'
+import danskparlament from '../assets/danskparlament.png'
+import timeseries from '../assets/timeseries1.png'
+import dataaug2 from '../assets/dataaug2.png'
 
 checkResize()
 navbarToggler()

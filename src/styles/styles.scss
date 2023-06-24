@@ -12,7 +12,7 @@ $enable-shadows: false;
 $inner-text-font-weight: 300;
 $headers-color: rgb(213, 221, 229);
 
-// Required Bootstrap imports
+/* Required Bootstrap imports */
 @import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/variables-dark";
 @import "../../node_modules/bootstrap/scss/maps";
@@ -34,10 +34,10 @@ $headers-color: rgb(213, 221, 229);
 @import "../../node_modules/bootstrap/scss/buttons";
 @import "../../node_modules/bootstrap/scss/button-group";
 
-// api
+/* api */
 @import "../../node_modules/bootstrap/scss/utilities/api";
 
-// Toggle dark mode button
+/* Toggle dark mode button */
 .dark-mode-toggle {
     display: flex;
     align-items: center;
@@ -88,7 +88,7 @@ $headers-color: rgb(213, 221, 229);
     background-color: rgba(var(--bs-emphasis-color-rgb), 0.75);
 }
 
-// main title
+/* main title */
 .icon-link-img {
     transition: transform 200ms ease-in-out;
 }
@@ -97,7 +97,7 @@ $headers-color: rgb(213, 221, 229);
     transform: scale(1.1);
 }
 
-// Content
+/* Content */
 .content-header {
     position: relative;
     width: 100%;
@@ -114,6 +114,10 @@ $headers-color: rgb(213, 221, 229);
     bottom: 20px;
     left: 200;
     background: $primary;
+}
+
+.text-content{
+    font-size: 0.9rem;
 }
 
 .content-header-small {
@@ -192,7 +196,7 @@ $headers-color: rgb(213, 221, 229);
     font-weight: $inner-text-font-weight;
 }
 
-// skills
+/* skills */
 .skills-content {
     width: 100%;
     max-width: 1000px;
@@ -224,7 +228,7 @@ $headers-color: rgb(213, 221, 229);
     font-size: 0.9rem;
 }
 
-// navbar utility
+/* navbar utility */
 .nb-scrolled {
     background-color: $primary;
     transition-duration: 500ms;
@@ -236,7 +240,7 @@ $headers-color: rgb(213, 221, 229);
 }
 
 
-// change header colors
+/* change header colors */
 @include color-mode(dark) {
     h1, h2, h3, h4, h5 {
         color: $headers-color;
@@ -249,7 +253,7 @@ $headers-color: rgb(213, 221, 229);
     }
 }
 
-// icon next to nav-link blog
+/* icon next to nav-link blog */
 .nav-item-flex{
     display: flex;
 }
@@ -258,7 +262,7 @@ $headers-color: rgb(213, 221, 229);
     margin-left: 5px
 }
 
-// experience
+/* experience */
 .experience-content {
     font-weight: $inner-text-font-weight;
     font-size: 1rem;
@@ -281,7 +285,7 @@ $headers-color: rgb(213, 221, 229);
     font-size: 0.9rem;
 }
 
-// Contact
+/* Contact */
 .form-wrapper {
     margin-top: 2rem;
     width: 100%;
@@ -363,7 +367,7 @@ input, textarea {
     height: 5rem;
 }
 
-// contact button
+/* contact button */
 .arrow-link-button {
     @include transition;
 
@@ -401,7 +405,7 @@ input, textarea {
     background: linear-gradient(45deg,#86cffd 0,$primary 100%);
     position: relative;
     width: 100%;
-    height: 80px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -413,7 +417,7 @@ input, textarea {
     font-family: monospace;
 }
 
-// projects
+/* projects */
 .img-container{
     position: relative;
     display: flex;
@@ -469,3 +473,47 @@ input, textarea {
         margin-left:0px;
     }
 }
+
+/* images, credit to https://codepen.io/sosuke/pen/Pjoqqp for the filter */
+.p-link-img{
+    vertical-align: top;
+    min-width: 100%;
+    min-height: 100%;
+    backface-visibility: hidden;
+}
+
+.img-wrapper {
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+    transition: transform 1s ease-in-out;
+}
+
+.img-wrapper::before,
+.img-wrapper::after {
+    content: '';
+    background-color: rgba(80, 132, 165, 20%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:260px;
+    height:170px;
+    transition: all 1s ease;
+    opacity: 0;
+}
+
+.img-wrapper:hover {
+    transition: transform 0.55s ease-in-out;
+    transform: scale(1.1);
+}
+
+
+.img-wrapper:hover::before,
+.img-wrapper:hover::after {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+
+
+//https://github.com/cdglissov/MBML_project/blob/master/main.ipynb
