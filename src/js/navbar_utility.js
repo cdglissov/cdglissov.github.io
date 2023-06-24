@@ -22,6 +22,11 @@ export function navbarActive() {
         currentNavitem = sections[sections.length-1].getAttribute("id")
     }
 
+    // if top of page
+    if (scrollY ==0) {
+        currentNavitem = sections[0].getAttribute("id")
+    }
+
     navElements.forEach((a) => {
         a.classList.remove("active")
         if(a.classList.contains(currentNavitem)){
@@ -76,7 +81,4 @@ export const navbarToggler = () => {
         }
     })
 }
-
-
-
 
