@@ -71,6 +71,7 @@ export const checkResize = collapsedWindow.onchange = (evt) => {
         id_value.classList.add("nb-scrolled");
     }
 
+    // fixes collapse when navbar is not collapsed
     let styleNav = getComputedStyle(navbarnav).display
     navSpans.forEach( (navSpan) => {
         if (styleNav =='flex'){
@@ -95,7 +96,7 @@ export const navbarToggler = () => {
 }
 
 
-
+// fixes collapse when navbar is not collapsed
 export function navbarCollapseAdjustTimer() {
     navSpans.forEach( (navSpan) => {
         navSpan.addEventListener('click', () => {
