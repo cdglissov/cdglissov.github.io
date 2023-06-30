@@ -1,7 +1,7 @@
 import Typed from 'typed.js';
 
-export var typed = new Typed('#typed-anim-js', {
-  strings: ['Welcome to my homepage! <span>&#x1F44B;</span>','Machine learning specialist', 'Data consultant'],
+export let typed = new Typed('#typed-anim-js', {
+  strings: ['Welcome to my homepage! <span>&#x1F44B;</span>','Machine learning engineer', 'MSc in Mathematical Modelling and Scientific Computing'],
   typeSpeed: 40,
   backSpeed: 20,
   backDelay: 1000,
