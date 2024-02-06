@@ -20,6 +20,7 @@ import thesis from '../assets/thesis.png'
 import danskparlament from '../assets/danskparlament.png'
 import timeseries from '../assets/timeseries1.png'
 import dataaug2 from '../assets/dataaug2.png'
+import og_img from '../assets/og_image.png'
 
 checkResize()
 navbarToggler()
