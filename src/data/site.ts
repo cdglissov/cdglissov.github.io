@@ -2,7 +2,7 @@ export const siteConfig = {
   name: 'Christian D. Glissov',
   role: 'Senior AI Specialist',
   shortBio: 'Mathematical modelling and scientific computing turned into practical AI systems.',
-  heroPhrases: ['Hello world! 👋','Welcome to my digital space 🌌', 'Senior AI Specialist', 'MSc in Mathematical Modelling and Computation'],
+  heroPhrases: ['❯ Hello world! 👋','❯ Welcome to my digital space 🌌', '❯ Senior AI Specialist', '❯ MSc in Mathematical Modelling and Computation'],
   githubUrl: 'https://github.com/cdglissov',
   linkedinUrl: 'https://www.linkedin.com/in/christian-glissov/',
   formspreeUrl: 'https://formspree.io/f/xvojpppy'

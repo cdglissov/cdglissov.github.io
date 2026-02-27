@@ -84,7 +84,7 @@ a {
 
 .timeline-list {
   display: grid;
-  gap: 1rem;
+  gap: 2.5rem;
 }
 
 .timeline-entry {

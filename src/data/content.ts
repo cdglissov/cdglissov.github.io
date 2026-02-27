@@ -17,8 +17,10 @@ export type Project = {
 };
 
 export const aboutParagraphs = [
-  'I design and ship AI systems that stay usable after launch: measurable, observable, and aligned with real business constraints.',
-  'My background in mathematical modelling and scientific computing helps me bridge research depth and production reliability, especially for optimization-heavy and data-intensive workflows.'
+  'As a kid growing up in Copenhagen in the \'90s, I was fascinated by space, nature, and science. I spent hours tinkering with computers, exploring nature, and gaming with friends.',
+  'I had a strange obsession with observing ants and introducing grape snails to our garden (we didn\'t have any, but my aunt had plenty, and I thought they were amazing - much to my parents\' delight). I\'ve always been captivated by space: a vast, dark, mysterious expanse where you can gaze at the stars and let your thoughts drift. What\'s out there? Why is it there? Why are we here? I credit that fascination with the unknown for my love of science fiction, and science.',
+  'In my teenage years, I took up strength training. I didn\'t know much about anatomy and physiology at the time - but I wanted to. That curiosity led me to specialize in powerlifting and eventually become a certified strength coach. The same drive to understand how things work - whether the human body or tiny bits - has shaped my path ever since. It led me to a career at the intersection of research and engineering where I specialised in generative machine learning.',
+  'Today, I\'m a Senior AI Specialist, working on building AI systems and experimenting with emerging technologies. In my free time I code, hike, powerlift, and spend time with my lovely family and friends.'
 ];
 
 export const learningTimeline: LearningEntry[] = [
