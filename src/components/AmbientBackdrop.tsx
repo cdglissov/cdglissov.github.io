@@ -27,7 +27,7 @@ type StarParticle = {
   y: number;
 };
 
-const NEBULA_COLORS = ['#34d399', '#2dd4bf', '#67e8f9', '#0ea5e9', '#60a5fa'];
+const NEBULA_COLORS = ['#34d399', '#2dd4bf', '#67e8f9', '#0ea5e9', '#60a5fa', '#a78bfa'];
 const STAR_CHANNEL_DIM = 77;
 const STAR_CHANNEL_BRIGHT = 255;
 
@@ -56,10 +56,11 @@ export default function AmbientBackdrop() {
     let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-    const devicePixelRatio = Math.min(window.devicePixelRatio || 1, 1.75);
+    let devicePixelRatio = Math.min(window.devicePixelRatio || 1, 1.75);
     let width = 0;
     let height = 0;
     let rafId = 0;
+    let resizeRafId = 0;
     let lastTime = 0;
     let stopped = false;
     let smokeLoaded = false;
@@ -91,22 +92,14 @@ export default function AmbientBackdrop() {
       smokeLoaded = true;
     };
 
-    const resize = () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
+    const targetCounts = (viewportWidth: number, viewportHeight: number) => ({
+      nebula: Math.min(24, Math.max(12, Math.floor((viewportWidth * viewportHeight) / 110000))),
+      stars: Math.min(380, Math.max(190, Math.floor((viewportWidth * viewportHeight) / 6000)))
+    });
 
-      canvas.width = Math.floor(width * devicePixelRatio);
-      canvas.height = Math.floor(height * devicePixelRatio);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-
-      context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-
-      const nebulaCount = Math.min(24, Math.max(12, Math.floor((width * height) / 110000)));
-      const starCount = Math.min(380, Math.max(190, Math.floor((width * height) / 6000)));
-      const baseNebulaSize = Math.max(width, height) * 0.42;
-
-      nebulaParticles = Array.from({ length: nebulaCount }, () => ({
+    const createNebulaParticle = (viewportWidth: number, viewportHeight: number): NebulaParticle => {
+      const baseNebulaSize = Math.max(viewportWidth, viewportHeight) * 0.42;
+      return {
         alpha: randomBetween(0.05, 0.14),
         drift: randomBetween(14, 42),
         phase: randomBetween(0, Math.PI * 2),
@@ -116,22 +109,78 @@ export default function AmbientBackdrop() {
         spriteIndex: Math.floor(Math.random() * NEBULA_COLORS.length),
         velocityX: randomBetween(-1.2, 1.2),
         velocityY: randomBetween(-0.9, 0.9),
-        x: randomBetween(-width * 0.15, width * 1.15),
-        y: randomBetween(-height * 0.15, height * 1.15)
-      }));
+        x: randomBetween(-viewportWidth * 0.15, viewportWidth * 1.15),
+        y: randomBetween(-viewportHeight * 0.15, viewportHeight * 1.15)
+      };
+    };
 
-      starParticles = Array.from({ length: starCount }, () => ({
-        blue: starChannel(),
-        green: starChannel(),
-        phase: randomBetween(0, Math.PI * 2),
-        red: starChannel(),
-        size: randomBetween(0.55, 2.35),
-        twinkleRate: randomBetween(0.35, 1.1),
-        velocityX: randomBetween(-2.8, 2.8),
-        velocityY: randomBetween(-2.3, 2.3),
-        x: randomBetween(0, width),
-        y: randomBetween(0, height)
-      }));
+    const createStarParticle = (viewportWidth: number, viewportHeight: number): StarParticle => ({
+      blue: starChannel(),
+      green: starChannel(),
+      phase: randomBetween(0, Math.PI * 2),
+      red: starChannel(),
+      size: randomBetween(0.55, 2.35),
+      twinkleRate: randomBetween(0.35, 1.1),
+      velocityX: randomBetween(-2.8, 2.8),
+      velocityY: randomBetween(-2.3, 2.3),
+      x: randomBetween(0, viewportWidth),
+      y: randomBetween(0, viewportHeight)
+    });
+
+    const resize = () => {
+      const previousWidth = width || window.innerWidth;
+      const previousHeight = height || window.innerHeight;
+      const previousMax = Math.max(previousWidth, previousHeight);
+
+      width = window.innerWidth;
+      height = window.innerHeight;
+      devicePixelRatio = Math.min(window.devicePixelRatio || 1, 1.75);
+
+      canvas.width = Math.floor(width * devicePixelRatio);
+      canvas.height = Math.floor(height * devicePixelRatio);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+
+      context.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+
+      const { nebula: targetNebulaCount, stars: targetStarCount } = targetCounts(width, height);
+
+      if (!nebulaParticles.length || !starParticles.length) {
+        nebulaParticles = Array.from({ length: targetNebulaCount }, () => createNebulaParticle(width, height));
+        starParticles = Array.from({ length: targetStarCount }, () => createStarParticle(width, height));
+        return;
+      }
+
+      const scaleX = width / previousWidth;
+      const scaleY = height / previousHeight;
+      const sizeScale = Math.max(width, height) / previousMax;
+
+      for (const particle of nebulaParticles) {
+        particle.x *= scaleX;
+        particle.y *= scaleY;
+        particle.size *= sizeScale;
+      }
+
+      for (const star of starParticles) {
+        star.x *= scaleX;
+        star.y *= scaleY;
+      }
+
+      if (nebulaParticles.length < targetNebulaCount) {
+        while (nebulaParticles.length < targetNebulaCount) {
+          nebulaParticles.push(createNebulaParticle(width, height));
+        }
+      } else if (nebulaParticles.length > targetNebulaCount) {
+        nebulaParticles.length = targetNebulaCount;
+      }
+
+      if (starParticles.length < targetStarCount) {
+        while (starParticles.length < targetStarCount) {
+          starParticles.push(createStarParticle(width, height));
+        }
+      } else if (starParticles.length > targetStarCount) {
+        starParticles.length = targetStarCount;
+      }
     };
 
     const drawNebula = (time: number, delta: number) => {
@@ -200,16 +249,19 @@ export default function AmbientBackdrop() {
       }
     };
 
-    const drawFrame = (timeMs: number) => {
-      if (stopped) return;
-
+    const renderFrame = (timeMs: number, delta: number) => {
       const time = timeMs * 0.001;
-      const delta = Math.min((timeMs - lastTime) * 0.001 || 0.016, 0.05);
-      lastTime = timeMs;
-
       context.clearRect(0, 0, width, height);
       drawNebula(time, delta);
       drawStars(time, delta);
+    };
+
+    const drawFrame = (timeMs: number) => {
+      if (stopped) return;
+
+      const delta = Math.min((timeMs - lastTime) * 0.001 || 0.016, 0.05);
+      lastTime = timeMs;
+      renderFrame(timeMs, delta);
 
       if (!reducedMotion) {
         rafId = window.requestAnimationFrame(drawFrame);
@@ -231,6 +283,16 @@ export default function AmbientBackdrop() {
       }
     };
 
+    const onResize = () => {
+      if (resizeRafId) return;
+      resizeRafId = window.requestAnimationFrame(() => {
+        resizeRafId = 0;
+        resize();
+        lastTime = performance.now();
+        renderFrame(lastTime, 0);
+      });
+    };
+
     resize();
 
     if (smokeImage.complete) {
@@ -239,7 +301,7 @@ export default function AmbientBackdrop() {
       smokeImage.addEventListener('load', createNebulaSprites);
     }
 
-    window.addEventListener('resize', resize, { passive: true });
+    window.addEventListener('resize', onResize, { passive: true });
     reducedMotionQuery.addEventListener('change', onReducedMotionChange);
 
     if (reducedMotion) {
@@ -251,7 +313,8 @@ export default function AmbientBackdrop() {
     return () => {
       stopped = true;
       if (rafId) window.cancelAnimationFrame(rafId);
-      window.removeEventListener('resize', resize);
+      if (resizeRafId) window.cancelAnimationFrame(resizeRafId);
+      window.removeEventListener('resize', onResize);
       reducedMotionQuery.removeEventListener('change', onReducedMotionChange);
       smokeImage.removeEventListener('load', createNebulaSprites);
     };
