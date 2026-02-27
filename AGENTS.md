@@ -1,70 +1,43 @@
 # AGENTS.md
 
 ## Project Overview
-This repository contains a static personal portfolio website built with HTML, JavaScript, Sass, Bootstrap, and Webpack. It has two pages:
-- `index.html`: main portfolio landing page.
-- `tableofcontents.html`: lightweight blog/table-of-contents page.
+A clean, modern personal portfolio / CV site with a "tech" feel.
 
-The site is compiled into `dist/` and deployed to GitHub Pages.
+# Features
+- 
+- Function over flair: prioritize readable structure and clear sections (About/Skills/Experience/Projects/Contact) rather than heavy animations.
+
+- Modern Stack: Built with Astro, TypeScript, and Tailwind CSS
+- Smooth Animations: Framer Motion for elegant transitions and interactions
+- Fully Responsive: Optimized for all devices and screen sizes
+- SEO Optimized: Meta tags and structured data for search engines
+- Security-First: Following best practices and secure coding standards 
+- Zero Config Deployment: Automated GitHub Actions workflow
+- Accessible: WCAG compliant design
+
+## Colors
+- Color is restrained and utilitarian. It's a neutral palette (near-black/charcoal) with gray UI elements for separation and hierarchy.
+- Accent color is used sparingly (mainly on interactive bits like links / emphasis), so nothing feels loud or "branded" - more "professional/dev portfolio."
+- Readability and atmosphere is priority. The colors should feel calm, minimal, and safe.
+
+## Design
+- Clear hierarchy & flow: sections are ordered logically (About → Skills → Experience → Projects → Contact) and the nav makes it easy to jump around.
+- Consistency: the site uses repeated patterns (headings, cards, spacing) so it feels coherent.
+- Hero area: Name should be clear. Use typedtext below the name. Add icons for linkedin, github, email. Make room for a punchy line.
+- Background: 
 
 ## Tech Stack
-- Bundler: Webpack 5
-- Styling: Sass + PostCSS + Bootstrap 5
-- JavaScript: ES modules (transpiled with Babel)
-- Hosting: GitHub Pages (workflow uploads `dist/`)
+- Framework: Astro
+- UI components: React (only where needed)
+- Language: TypeScript
+- Styling: Tailwind CSS
+- Animations: Framer Motion (inside React components)
+- Icons: React Icons
+- Deployment: GitHub Pages via GitHub Actions 
+- Content: Markdown/MDX
 
-## Repository Structure
-```text
-.
-|-- src/                         # Source files edited during development
-|   |-- index.html               # Main page template
-|   |-- tableofcontents.html     # Secondary page template
-|   |-- js/
-|   |   |-- index.js             # Main bundle entry; imports UI modules, styles, and assets
-|   |   |-- index_toc.js         # TOC page entry
-|   |   |-- navbar_utility.js    # Scroll/resize/toggler navbar behavior
-|   |   |-- toggle_button.js     # Theme toggle logic (dark/light)
-|   |   `-- typedtext.js         # Typed.js setup for hero text
-|   |-- styles/
-|   |   |-- styles.scss          # Primary Sass source
-|   |   |-- styles.css           # Compiled CSS artifact committed in repo
-|   |   `-- styles.css.map       # Source map artifact
-|   `-- assets/                  # Images/icons used by pages and bundles
-|
-|-- dist/                        # Build output served in production (generated)
-|-- .github/workflows/static.yml # Deploys dist/ to GitHub Pages on push to main
-|
-|-- webpack.common.js            # Shared webpack config (entries, loaders, HTML generation)
-|-- webpack.dev.js               # Development config (source maps, style-loader)
-|-- webpack.prod.js              # Production config (hashes, minification, CSS extraction)
-|-- postcss.config.js            # PostCSS preset-env setup
-|-- package.json                 # Scripts and dependencies
-`-- README.md
-```
-
-## Build and Development Flow
-- Install dependencies: `npm install`
-- Run dev server: `npm run dev`
-- Create production build: `npm run build`
-
-`npm run build` writes hashed JS/CSS and copied assets into `dist/`.
-
-## Webpack Entry Points
-- `main` -> `src/js/index.js` -> generates bundle for `src/index.html`
-- `toc` -> `src/js/index_toc.js` -> generates bundle for `src/tableofcontents.html`
-
-`HtmlWebpackPlugin` creates `dist/index.html` and `dist/tableofcontents.html` and injects the right bundles.
-
-## Deployment
-GitHub Actions workflow `.github/workflows/static.yml`:
-- Triggers on pushes to `main` (and manual dispatch).
-- Uploads `./dist` as the Pages artifact.
-- Deploys that artifact to GitHub Pages.
-
-## Editing Guidelines
-- Treat `src/` as source of truth.
-- Treat `dist/` as generated output.
-- Keep asset imports centralized through entry files so webpack can track and emit them.
-- If changing page structure, verify related navbar behavior in `src/js/navbar_utility.js`.
-- Always use 4 space identation
-- Follow stylelint best practices when modifying .scss and .css files.
+## Context
+Site url: https://cdglissov.github.io/
+Linkedin: https://www.linkedin.com/in/christian-glissov/
+Formspree: https://formspree.io/f/xvojpppy
+About me: Senior AI specialist. Background in mathematical modelling and scientific computing
