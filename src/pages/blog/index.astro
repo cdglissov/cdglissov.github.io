@@ -97,6 +97,7 @@ const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort((
     const tagButtons = Array.from(filterBar.querySelectorAll('[data-tag]'));
     const posts = Array.from(document.querySelectorAll('[data-post-card]'));
     const selectedTags = new Set();
+    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
 
     if (!allButton || posts.length === 0) {
       return;
@@ -138,6 +139,10 @@ const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort((
     allButton.addEventListener('click', () => {
       selectedTags.clear();
       update();
+
+      if (isCoarsePointer && 'blur' in allButton) {
+        allButton.blur();
+      }
     });
 
     tagButtons.forEach((button) => {
@@ -155,6 +160,10 @@ const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort((
         }
 
         update();
+
+        if (isCoarsePointer && 'blur' in button) {
+          button.blur();
+        }
       });
     });
 
