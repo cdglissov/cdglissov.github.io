@@ -18,7 +18,11 @@ const links = [
         {
           links.map((link) => (
             <li>
-              <a class="rounded-md px-2 py-1 transition hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent" href={link.href}>
+              <a
+                class="nav-link rounded-md px-2 py-1 transition hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+                href={link.href}
+                data-section-link={link.href.startsWith('/#') ? link.href.slice(2) : undefined}
+              >
                 {link.label}
               </a>
             </li>
@@ -30,14 +34,71 @@ const links = [
 </header>
 <script is:inline>
   (() => {
-    const header = document.getElementById('site-header');
-    if (!header) return;
+    const init = () => {
+      const header = document.getElementById('site-header');
+      if (!header) return;
 
-    const updateHeaderState = () => {
-      header.dataset.scrolled = window.scrollY > 12 ? 'true' : 'false';
+      const trackedLinks = Array.from(header.querySelectorAll('a[data-section-link]'))
+        .map((link) => {
+          const sectionId = link.getAttribute('data-section-link');
+          const section = sectionId ? document.getElementById(sectionId) : null;
+          return sectionId && section ? { link, sectionId, section } : null;
+        })
+        .filter(Boolean);
+
+      const updateHeaderState = () => {
+        header.dataset.scrolled = window.scrollY > 12 ? 'true' : 'false';
+      };
+
+      const updateActiveLink = () => {
+        if (!trackedLinks.length) return;
+
+        const offsetTop = header.getBoundingClientRect().bottom + 12;
+        const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+        let activeSectionId = isAtBottom ? trackedLinks[trackedLinks.length - 1].sectionId : trackedLinks[0].sectionId;
+
+        if (!isAtBottom) {
+          for (let i = trackedLinks.length - 1; i >= 0; i -= 1) {
+            const tracked = trackedLinks[i];
+            if (tracked.section.getBoundingClientRect().top <= offsetTop) {
+              activeSectionId = tracked.sectionId;
+              break;
+            }
+          }
+        }
+
+        for (const tracked of trackedLinks) {
+          const isCurrent = tracked.sectionId === activeSectionId;
+          tracked.link.dataset.current = isCurrent ? 'true' : 'false';
+          if (isCurrent) {
+            tracked.link.setAttribute('aria-current', 'location');
+          } else {
+            tracked.link.removeAttribute('aria-current');
+          }
+        }
+      };
+
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(() => {
+          updateHeaderState();
+          updateActiveLink();
+          ticking = false;
+        });
+      };
+
+      updateHeaderState();
+      updateActiveLink();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
     };
 
-    updateHeaderState();
-    window.addEventListener('scroll', updateHeaderState, { passive: true });
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init, { once: true });
+    } else {
+      init();
+    }
   })();
 </script>

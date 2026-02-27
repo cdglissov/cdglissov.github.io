@@ -14,8 +14,8 @@
   --text-main: #d7dde5;
   --text-muted: #98a4b3;
   --accent: #8ea4bf;
-  --kicker: rgb(74 127 168);
-  --header-scrolled-bg: rgb(74 127 168);
+  --kicker: rgb(74, 144, 177);
+  --header-scrolled-bg: rgba(74, 144, 177, 0.096);
   --border: #252a32;
 }
 
@@ -99,6 +99,16 @@ a {
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 10px 30px rgb(0 0 0 / 0.25);
+}
+
+.nav-link {
+  border: 1px solid transparent;
+}
+
+.nav-link[data-current='true'] {
+  color: #edf4fc;
+  border-color: rgb(142 164 191 / 0.32);
+  background: rgb(142 164 191 / 0.14);
 }
 
 .mono {

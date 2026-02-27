@@ -27,7 +27,7 @@ type StarParticle = {
   y: number;
 };
 
-const NEBULA_COLORS = ['#34d399', '#2dd4bf', '#67e8f9', '#0ea5e9', '#60a5fa', '#a78bfa'];
+const NEBULA_COLORS = ['#33b8ca', '#2dbbd4', '#506aff', '#0ea5e9', '#60a5fa', '#a78bfa'];
 const STAR_CHANNEL_DIM = 77;
 const STAR_CHANNEL_BRIGHT = 255;
 
