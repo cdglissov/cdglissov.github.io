@@ -67,9 +67,18 @@ type NebulaSpriteSet = {
 };
 
 type AlienFlight = {
-  arcAmount: number;
   bobAmount: number;
   bobRate: number;
+  control1X: number;
+  control1Y: number;
+  control2X: number;
+  control2Y: number;
+  driftXAmount: number;
+  driftXPhase: number;
+  driftXRate: number;
+  driftYAmount: number;
+  driftYPhase: number;
+  driftYRate: number;
   durationMs: number;
   endX: number;
   endY: number;
@@ -91,16 +100,25 @@ const NEBULA_PALETTES: NebulaPalette[] = [
 ];
 const STAR_CHANNEL_DIM = 77;
 const STAR_CHANNEL_BRIGHT = 255;
-const ALIEN_MIN_INTERVAL_MS = 11000;
-const ALIEN_MAX_INTERVAL_MS = 28000;
-const ALIEN_MIN_DURATION_MS = 10000;
-const ALIEN_MAX_DURATION_MS = 16500;
+const ALIEN_MIN_INTERVAL_MS = 18000;
+const ALIEN_MAX_INTERVAL_MS = 30000;
+const ALIEN_MIN_DURATION_MS = 12000;
+const ALIEN_MAX_DURATION_MS = 20500;
 
 const randomBetween = (min: number, max: number) => Math.random() * (max - min) + min;
 const starChannel = () => (Math.random() < 0.2 ? STAR_CHANNEL_DIM : STAR_CHANNEL_BRIGHT);
 const clampValue = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 const lerp = (start: number, end: number, progress: number) => start + (end - start) * progress;
 const easeInOutSine = (progress: number) => 0.5 - Math.cos(progress * Math.PI) * 0.5;
+const cubicBezier = (p0: number, p1: number, p2: number, p3: number, progress: number) => {
+  const oneMinus = 1 - progress;
+  return (
+    oneMinus * oneMinus * oneMinus * p0 +
+    3 * oneMinus * oneMinus * progress * p1 +
+    3 * oneMinus * progress * progress * p2 +
+    progress * progress * progress * p3
+  );
+};
 
 const wrapValue = (value: number, min: number, max: number) => {
   if (value < min) return max;
@@ -181,10 +199,43 @@ export default function AmbientBackdrop() {
         endY = -margin;
       }
 
+      const dx = endX - startX;
+      const dy = endY - startY;
+      const distance = Math.hypot(dx, dy) || 1;
+      const normalX = -dy / distance;
+      const normalY = dx / distance;
+      const tangentJitter = distance * randomBetween(0.05, 0.16);
+      const lateralJitter = Math.min(Math.max(width, height) * 0.34, distance * randomBetween(0.2, 0.5));
+
+      const c1T = randomBetween(0.2, 0.42);
+      const c2T = randomBetween(0.58, 0.82);
+      const c1BaseX = lerp(startX, endX, c1T);
+      const c1BaseY = lerp(startY, endY, c1T);
+      const c2BaseX = lerp(startX, endX, c2T);
+      const c2BaseY = lerp(startY, endY, c2T);
+
+      const c1Lateral = randomBetween(-lateralJitter, lateralJitter);
+      const c2Lateral = randomBetween(-lateralJitter, lateralJitter);
+      const c1Tangent = randomBetween(-tangentJitter, tangentJitter);
+      const c2Tangent = randomBetween(-tangentJitter, tangentJitter);
+      const control1X = c1BaseX + normalX * c1Lateral + (dx / distance) * c1Tangent;
+      const control1Y = c1BaseY + normalY * c1Lateral + (dy / distance) * c1Tangent;
+      const control2X = c2BaseX + normalX * c2Lateral + (dx / distance) * c2Tangent;
+      const control2Y = c2BaseY + normalY * c2Lateral + (dy / distance) * c2Tangent;
+
       return {
-        arcAmount: randomBetween(8, 26) * (Math.random() < 0.5 ? -1 : 1),
         bobAmount: randomBetween(3.5, 10),
         bobRate: randomBetween(1.2, 2.4),
+        control1X,
+        control1Y,
+        control2X,
+        control2Y,
+        driftXAmount: randomBetween(2.5, 10),
+        driftXPhase: randomBetween(0, Math.PI * 2),
+        driftXRate: randomBetween(0.55, 1.85),
+        driftYAmount: randomBetween(2.5, 10),
+        driftYPhase: randomBetween(0, Math.PI * 2),
+        driftYRate: randomBetween(0.55, 1.85),
         durationMs: randomBetween(ALIEN_MIN_DURATION_MS, ALIEN_MAX_DURATION_MS),
         endX,
         endY,
@@ -483,11 +534,27 @@ export default function AmbientBackdrop() {
       const fadeIn = clampValue(progress / fadeWindow, 0, 1);
       const fadeOut = clampValue((1 - progress) / fadeWindow, 0, 1);
       const alpha = Math.min(fadeIn, fadeOut) * 0.88;
-      const x = lerp(alienFlight.startX, alienFlight.endX, easedProgress);
-      const yLinear = lerp(alienFlight.startY, alienFlight.endY, easedProgress);
-      const yArc = Math.sin(easedProgress * Math.PI) * alienFlight.arcAmount;
+      const xPath = cubicBezier(
+        alienFlight.startX,
+        alienFlight.control1X,
+        alienFlight.control2X,
+        alienFlight.endX,
+        easedProgress
+      );
+      const yPath = cubicBezier(
+        alienFlight.startY,
+        alienFlight.control1Y,
+        alienFlight.control2Y,
+        alienFlight.endY,
+        easedProgress
+      );
+      const xDrift =
+        Math.sin(time * alienFlight.driftXRate + alienFlight.driftXPhase) * alienFlight.driftXAmount;
+      const yDrift =
+        Math.sin(time * alienFlight.driftYRate + alienFlight.driftYPhase) * alienFlight.driftYAmount;
       const yBob = Math.sin(time * alienFlight.bobRate + alienFlight.phase) * alienFlight.bobAmount;
-      const y = yLinear + yArc + yBob;
+      const x = xPath + xDrift;
+      const y = yPath + yDrift + yBob;
       const wobble = Math.sin(time * alienFlight.wobbleRate + alienFlight.phase) * alienFlight.wobbleAmount;
 
       context.save();
