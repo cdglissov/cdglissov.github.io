@@ -1,0 +1,218 @@
+---
+import { siteConfig } from '@/data/site';
+
+const links = [
+  { label: 'About', href: '/#about' },
+  { label: 'Projects', href: '/#projects' },
+  { label: 'Learning', href: '/#learning' },
+  { label: 'Contact', href: '/#contact' },
+  { label: 'Blog', href: '/blog/' }
+];
+const isBlogRoute =
+  Astro.url.pathname === '/blog/' || Astro.url.pathname.startsWith('/blog/');
+---
+
+<header
+  id="site-header"
+  class="site-header sticky top-0 z-30 border-b border-transparent"
+>
+  <div
+    class="site-header-inner mx-auto flex h-14 w-[min(1080px,92vw)] items-center justify-between"
+  >
+    <a href="/" class="text-sm font-semibold tracking-wide text-slate-100"
+      >{siteConfig.name}</a
+    >
+
+    <button
+      id="mobile-nav-toggle"
+      type="button"
+      class="mobile-nav-toggle md:hidden"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-nav-panel"
+    >
+      <span class="mobile-nav-toggle__bar" aria-hidden="true"></span>
+    </button>
+
+    <nav aria-label="Primary" class="hidden md:block">
+      <ul class="flex items-center gap-4 text-sm text-muted">
+        {
+          links.map((link) => {
+            const isBlogLink = link.href === '/blog/';
+            const isCurrent = isBlogLink && isBlogRoute;
+
+            return (
+              <li>
+                <a
+                  class="nav-link rounded-md px-2 py-1 transition hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+                  href={link.href}
+                  aria-current={isCurrent ? 'page' : undefined}
+                  data-current={isCurrent ? 'true' : undefined}
+                  data-section-link={
+                    link.href.startsWith('/#') ? link.href.slice(2) : undefined
+                  }
+                >
+                  {link.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+
+    <nav
+      id="mobile-nav-panel"
+      aria-label="Primary mobile"
+      class="mobile-nav-panel md:hidden"
+      data-open="false"
+      hidden
+    >
+      <ul class="grid gap-1 text-sm text-muted">
+        {
+          links.map((link) => {
+            const isBlogLink = link.href === '/blog/';
+            const isCurrent = isBlogLink && isBlogRoute;
+
+            return (
+              <li>
+                <a
+                  class="nav-link block w-full rounded-md px-3 py-2 transition hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+                  href={link.href}
+                  aria-current={isCurrent ? 'page' : undefined}
+                  data-current={isCurrent ? 'true' : undefined}
+                  data-section-link={
+                    link.href.startsWith('/#') ? link.href.slice(2) : undefined
+                  }
+                >
+                  {link.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+<script is:inline>
+  (() => {
+    const init = () => {
+      const header = document.getElementById('site-header');
+      if (!header) return;
+      const mobileToggle = document.getElementById('mobile-nav-toggle');
+      const mobilePanel = document.getElementById('mobile-nav-panel');
+
+      const trackedLinks = Array.from(
+        header.querySelectorAll('a[data-section-link]')
+      )
+        .map((link) => {
+          const sectionId = link.getAttribute('data-section-link');
+          const section = sectionId ? document.getElementById(sectionId) : null;
+          return sectionId && section ? { link, sectionId, section } : null;
+        })
+        .filter(Boolean);
+
+      const updateHeaderState = () => {
+        header.dataset.scrolled = window.scrollY > 12 ? 'true' : 'false';
+      };
+
+      const updateActiveLink = () => {
+        if (!trackedLinks.length) return;
+
+        const offsetTop = header.getBoundingClientRect().bottom + 12;
+        const isAtBottom =
+          window.innerHeight + window.scrollY >=
+          document.documentElement.scrollHeight - 2;
+        let activeSectionId = isAtBottom
+          ? trackedLinks[trackedLinks.length - 1].sectionId
+          : trackedLinks[0].sectionId;
+
+        if (!isAtBottom) {
+          for (let i = trackedLinks.length - 1; i >= 0; i -= 1) {
+            const tracked = trackedLinks[i];
+            if (tracked.section.getBoundingClientRect().top <= offsetTop) {
+              activeSectionId = tracked.sectionId;
+              break;
+            }
+          }
+        }
+
+        for (const tracked of trackedLinks) {
+          const isCurrent = tracked.sectionId === activeSectionId;
+          tracked.link.dataset.current = isCurrent ? 'true' : 'false';
+          if (isCurrent) {
+            tracked.link.setAttribute('aria-current', 'location');
+          } else {
+            tracked.link.removeAttribute('aria-current');
+          }
+        }
+      };
+
+      const setMobileMenuState = (isOpen) => {
+        if (!mobileToggle || !mobilePanel) return;
+
+        mobileToggle.setAttribute('aria-expanded', String(isOpen));
+        mobilePanel.dataset.open = isOpen ? 'true' : 'false';
+        mobilePanel.hidden = !isOpen;
+        header.dataset.mobileOpen = isOpen ? 'true' : 'false';
+      };
+
+      let ticking = false;
+      const onScroll = () => {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(() => {
+          updateHeaderState();
+          updateActiveLink();
+          ticking = false;
+        });
+      };
+
+      if (mobileToggle && mobilePanel) {
+        mobileToggle.addEventListener('click', () => {
+          const isOpen = mobileToggle.getAttribute('aria-expanded') === 'true';
+          setMobileMenuState(!isOpen);
+        });
+
+        mobilePanel.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => {
+            setMobileMenuState(false);
+          });
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            setMobileMenuState(false);
+          }
+        });
+
+        document.addEventListener('click', (event) => {
+          const target = event.target;
+          if (!(target instanceof Node)) return;
+          if (!header.contains(target)) {
+            setMobileMenuState(false);
+          }
+        });
+
+        setMobileMenuState(false);
+      }
+
+      updateHeaderState();
+      updateActiveLink();
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', () => {
+        if (window.matchMedia('(min-width: 768px)').matches) {
+          setMobileMenuState(false);
+        }
+        onScroll();
+      });
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init, { once: true });
+    } else {
+      init();
+    }
+  })();
+</script>

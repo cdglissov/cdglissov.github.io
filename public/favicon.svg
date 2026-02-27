@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="C prompt icon">
+  <rect width="64" height="64" rx="12" fill="#0f141a" />
+  <path
+    d="M28 20a12 12 0 0 0 0 24c3.5 0 6.2-1.1 8.5-3.4l3.2 3.3C36.8 46.9 33 48 28 48c-9.3 0-16-6.9-16-16s6.8-16 16-16c5 0 8.8 1.2 11.7 4.2l-3.2 3.3c-2.3-2.3-4.9-3.5-8.5-3.5z"
+    fill="#dbe4ef"
+  />
+  <text
+    x="42"
+    y="41"
+    fill="#4a7fa8"
+    font-family="'Source Sans 3', 'Segoe UI', sans-serif"
+    font-size="24"
+    font-weight="500"
+    transform="translate(0 -26.6) scale(1 1.8)"
+  >
+    ❯
+  </text>
+</svg>

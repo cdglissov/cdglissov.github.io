@@ -1,70 +1,142 @@
 # AGENTS.md
 
-## Project Overview
-This repository contains a static personal portfolio website built with HTML, JavaScript, Sass, Bootstrap, and Webpack. It has two pages:
-- `index.html`: main portfolio landing page.
-- `tableofcontents.html`: lightweight blog/table-of-contents page.
+## Mission
 
-The site is compiled into `dist/` and deployed to GitHub Pages.
+Build and maintain a clean, professional Astro portfolio/blog where readability, information hierarchy, and reliability matter more than visual gimmicks.
 
-## Tech Stack
-- Bundler: Webpack 5
-- Styling: Sass + PostCSS + Bootstrap 5
-- JavaScript: ES modules (transpiled with Babel)
-- Hosting: GitHub Pages (workflow uploads `dist/`)
+## Product goals
 
-## Repository Structure
-```text
-.
-|-- src/                         # Source files edited during development
-|   |-- index.html               # Main page template
-|   |-- tableofcontents.html     # Secondary page template
-|   |-- js/
-|   |   |-- index.js             # Main bundle entry; imports UI modules, styles, and assets
-|   |   |-- index_toc.js         # TOC page entry
-|   |   |-- navbar_utility.js    # Scroll/resize/toggler navbar behavior
-|   |   |-- toggle_button.js     # Theme toggle logic (dark/light)
-|   |   `-- typedtext.js         # Typed.js setup for hero text
-|   |-- styles/
-|   |   |-- styles.scss          # Primary Sass source
-|   |   |-- styles.css           # Compiled CSS artifact committed in repo
-|   |   `-- styles.css.map       # Source map artifact
-|   `-- assets/                  # Images/icons used by pages and bundles
-|
-|-- dist/                        # Build output served in production (generated)
-|-- .github/workflows/static.yml # Deploys dist/ to GitHub Pages on push to main
-|
-|-- webpack.common.js            # Shared webpack config (entries, loaders, HTML generation)
-|-- webpack.dev.js               # Development config (source maps, style-loader)
-|-- webpack.prod.js              # Production config (hashes, minification, CSS extraction)
-|-- postcss.config.js            # PostCSS preset-env setup
-|-- package.json                 # Scripts and dependencies
-`-- README.md
+- Keep the experience calm, minimal, and technical.
+- Prioritize clear sections and scannable content.
+- Use motion sparingly and purposefully.
+- Preserve SEO, accessibility, and deployment reliability as first-class requirements.
+
+## Information architecture
+
+Homepage flow should stay coherent and easy to navigate:
+
+- Hero
+- About
+- Projects
+- Learning
+- Featured Writing
+- Contact
+
+Blog structure:
+
+- Index page at `/blog/`
+- Post pages at `/blog/<slug>/`
+- Tag pages at `/blog/tag/<tag>/`
+- RSS at `/rss.xml`
+
+## Source-of-truth files
+
+- Site identity + external links: `src/data/site.ts`
+- About, experience, learning timeline, projects: `src/data/content.ts`
+- Blog frontmatter schema: `src/content.config.ts`
+- Homepage composition: `src/pages/index.astro`
+- Blog listing + tag pages: `src/pages/blog/index.astro`, `src/pages/blog/tag/[tag].astro`
+- Global styling tokens and base look: `src/styles/global.css`
+- SEO/canonical site settings: `astro.config.mjs`, `src/layouts/BaseLayout.astro`
+
+When changing content structure, update the relevant type definitions in `src/data/content.ts` before editing entries.
+
+## Design rules
+
+- Keep a restrained neutral palette; avoid loud branding colors.
+- Use accent color sparingly for links, focus, and interactive emphasis.
+- Preserve high contrast and readable body copy.
+- Maintain consistent spacing, card structure, and heading patterns across sections.
+- Keep typography modern and legible; avoid decorative display styles.
+
+## Motion and React island rules
+
+Use React islands only when needed:
+
+- Typed text in hero (`TypedText`).
+- Small Framer Motion transitions (`MotionReveal`, `MotionCard`).
+
+Motion constraints:
+
+- Respect `prefers-reduced-motion`.
+- Avoid animation-heavy section choreography.
+- Keep transitions short and subtle.
+
+## Content rules
+
+- Tone: professional, technically grounded, concise.
+- Avoid filler copy and hype language.
+- Keep chronology and role labels accurate in experience and learning timelines.
+- Ensure every external link is valid and uses safe attributes (`target="_blank"` + `rel="noreferrer"` where appropriate).
+- Do not leave obvious placeholders in shipped content unless explicitly intentional.
+
+## Accessibility and SEO rules
+
+- Use semantic headings and maintain logical heading order.
+- Keep keyboard focus states visible.
+- Include descriptive labels for form fields and interactive controls.
+- Preserve structured data consistency with `personSchema` in `src/data/site.ts`.
+- Keep canonical URL/site config aligned with `https://cdglissov.github.io/`.
+- Ensure sitemap and RSS continue to build correctly.
+
+## Engineering standards
+
+- Stack: Astro + TypeScript + Tailwind CSS + React islands + Framer Motion.
+- Runtime: Node.js `>=24.14.0`.
+- Lint/format/type/build must pass before shipping.
+
+Required local commands:
+
+```bash
+npm run typecheck
+npm run lint
+npm run format:check
+npm run build
 ```
 
-## Build and Development Flow
-- Install dependencies: `npm install`
-- Run dev server: `npm run dev`
-- Create production build: `npm run build`
+Single-command gate:
 
-`npm run build` writes hashed JS/CSS and copied assets into `dist/`.
+```bash
+npm run check
+```
 
-## Webpack Entry Points
-- `main` -> `src/js/index.js` -> generates bundle for `src/index.html`
-- `toc` -> `src/js/index_toc.js` -> generates bundle for `src/tableofcontents.html`
+## CI, deployment, and maintenance
 
-`HtmlWebpackPlugin` creates `dist/index.html` and `dist/tableofcontents.html` and injects the right bundles.
+- CI workflow runs typecheck, lint, format check, build, and link check.
+- Deploy workflow publishes `dist/` to GitHub Pages on pushes to `main`.
+- Dependabot should remain enabled for npm and GitHub Actions.
+- Keep README workflows current for adding projects and blog posts.
 
-## Deployment
-GitHub Actions workflow `.github/workflows/static.yml`:
-- Triggers on pushes to `main` (and manual dispatch).
-- Uploads `./dist` as the Pages artifact.
-- Deploys that artifact to GitHub Pages.
+## Quick update workflows
 
-## Editing Guidelines
-- Treat `src/` as source of truth.
-- Treat `dist/` as generated output.
-- Keep asset imports centralized through entry files so webpack can track and emit them.
-- If changing page structure, verify related navbar behavior in `src/js/navbar_utility.js`.
-- Always use 4 space identation
-- Follow stylelint best practices when modifying .scss and .css files.
+Add/update a project:
+
+1. Edit `projects` in `src/data/content.ts`.
+2. Confirm `name`, `description`, `stack`, and `href` are complete.
+3. Run `npm run build` and verify the project card renders correctly.
+
+Add/update a learning timeline entry:
+
+1. Edit `learningTimeline` in `src/data/content.ts`.
+2. Keep `period`, `topic`, and `description` concise and typo-free.
+3. Verify timeline ordering and mobile readability on the homepage.
+
+Add a blog post:
+
+1. Create a new markdown file in `src/content/blog/`.
+2. Include valid frontmatter required by `src/content.config.ts`:
+   - `title`
+   - `description`
+   - `pubDate`
+   - `tags` (optional but recommended)
+   - `featured` / `draft` as needed
+3. Run `npm run build` and verify post, tag page, and RSS output.
+
+## Ship checklist
+
+- Mobile layout checks passed for homepage and blog pages.
+- Contact form action points to configured Formspree endpoint.
+- LinkedIn/GitHub/contact links resolve correctly.
+- Canonical URL, sitemap, and RSS are valid.
+- `npm run check` passes locally.
+- No accidental regressions in accessibility or readability.

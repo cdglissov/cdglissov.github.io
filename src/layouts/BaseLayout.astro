@@ -1,0 +1,96 @@
+---
+import '@/styles/global.css';
+import AmbientBackdrop from '@/components/AmbientBackdrop';
+
+interface Props {
+  title: string;
+  description: string;
+  path?: string;
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+}
+
+const { title, description, path = '/', structuredData } = Astro.props;
+const siteUrl = Astro.site ?? new URL('https://cdglissov.github.io');
+const canonical = new URL(path, siteUrl).toString();
+const schemaItems = Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <link rel="alternate" type="application/rss+xml" title="Christian D. Glissov RSS" href="/rss.xml" />
+    {
+      schemaItems.map((schema) => (
+        <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+      ))
+    }
+  </head>
+  <body>
+    <AmbientBackdrop client:load />
+    <div class="site-shell">
+      <a href="#content" class="skip-link">Skip to content</a>
+      <slot />
+    </div>
+    <script is:inline>
+      (() => {
+        const attachCopyButtons = () => {
+          const codeBlocks = document.querySelectorAll('pre.astro-code');
+          codeBlocks.forEach((block) => {
+            if (!(block instanceof HTMLElement) || block.dataset.copyAttached === 'true') {
+              return;
+            }
+
+            block.dataset.copyAttached = 'true';
+            const wrapper = document.createElement('div');
+            wrapper.className = 'code-wrap';
+            block.parentNode?.insertBefore(wrapper, block);
+            wrapper.appendChild(block);
+
+            const button = document.createElement('button');
+            button.className = 'copy-btn';
+            button.type = 'button';
+            button.textContent = 'Copy';
+            button.setAttribute('aria-label', 'Copy code block');
+
+            button.addEventListener('click', async () => {
+              try {
+                await navigator.clipboard.writeText(block.innerText);
+                button.textContent = 'Copied';
+                window.setTimeout(() => {
+                  button.textContent = 'Copy';
+                }, 1300);
+              } catch {
+                button.textContent = 'Failed';
+                window.setTimeout(() => {
+                  button.textContent = 'Copy';
+                }, 1300);
+              }
+            });
+
+            wrapper.appendChild(button);
+          });
+        };
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', attachCopyButtons);
+        } else {
+          attachCopyButtons();
+        }
+      })();
+    </script>
+  </body>
+</html>
