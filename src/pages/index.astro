@@ -93,15 +93,16 @@ const featuredPosts = (await getCollection('blog', (entry) => !entry.data.draft 
           {
             projects.map((project) => (
               <MotionCard client:visible className="h-full">
-                <article class="flex h-full flex-col rounded-xl border border-border bg-white/5 p-5">
-                  <h3 class="text-base font-semibold text-slate-100">{project.name}</h3>
+                <article class="flex h-full flex-col rounded-xl border border-border bg-white/5 p-5 transition-all duration-200 hover:border-[rgb(141,182,214)] hover:ring-1 hover:ring-[rgb(141,182,214)]">
+                  <h3 class="text-base font-semibold text-slate-100">
+                    <a class="underline-offset-4 hover:text-accent hover:underline" href={project.href} target="_blank" rel="noreferrer">
+                      {project.name}
+                    </a>
+                  </h3>
                   <p class="mt-2 text-sm text-muted">{project.description}</p>
                   <ul class="mt-4 flex flex-wrap gap-2">
                     {project.stack.map((tech) => <li class="tag">{tech}</li>)}
                   </ul>
-                  <a class="mt-5 text-sm text-accent underline-offset-4 hover:underline" href={project.href} target="_blank" rel="noreferrer">
-                    View details
-                  </a>
                 </article>
               </MotionCard>
             ))
@@ -120,18 +121,20 @@ const featuredPosts = (await getCollection('blog', (entry) => !entry.data.draft 
         <div class="grid gap-4 md:grid-cols-3">
           {
             featuredPosts.map((post) => (
-              <article class="rounded-xl border border-border bg-white/5 p-4">
-                <p class="mono text-xs uppercase tracking-wide text-muted">{formatDate(post.data.pubDate)}</p>
-                <h3 class="mt-2 text-base font-semibold text-slate-100">
-                  <a class="hover:text-accent" href={`/blog/${post.slug}/`}>
-                    {post.data.title}
-                  </a>
-                </h3>
-                <p class="mt-2 text-sm text-muted">{post.data.description}</p>
-                <ul class="mt-3 flex flex-wrap gap-2">
-                  {post.data.tags.map((tag) => <li class="tag">{tag}</li>)}
-                </ul>
-              </article>
+              <MotionCard client:visible className="h-full">
+                <article class="h-full rounded-xl border border-border bg-white/5 p-4 transition-all duration-200 hover:border-[rgb(141,182,214)] hover:ring-1 hover:ring-[rgb(141,182,214)]">
+                  <p class="mono text-xs uppercase tracking-wide text-muted">{formatDate(post.data.pubDate)}</p>
+                  <h3 class="mt-2 text-base font-semibold text-slate-100">
+                    <a class="hover:text-accent" href={`/blog/${post.slug}/`}>
+                      {post.data.title}
+                    </a>
+                  </h3>
+                  <p class="mt-2 text-sm text-muted">{post.data.description}</p>
+                  <ul class="mt-3 flex flex-wrap gap-2">
+                    {post.data.tags.map((tag) => <li class="tag">{tag}</li>)}
+                  </ul>
+                </article>
+              </MotionCard>
             ))
           }
         </div>
