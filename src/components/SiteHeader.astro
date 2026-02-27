@@ -8,6 +8,7 @@ const links = [
   { label: 'Contact', href: '/#contact' },
   { label: 'Blog', href: '/blog/' }
 ];
+const isBlogRoute = Astro.url.pathname === '/blog/' || Astro.url.pathname.startsWith('/blog/');
 ---
 
 <header id="site-header" class="site-header sticky top-0 z-30 border-b border-transparent">
@@ -16,17 +17,24 @@ const links = [
     <nav aria-label="Primary">
       <ul class="flex flex-wrap items-center gap-2 text-sm text-muted md:gap-4">
         {
-          links.map((link) => (
-            <li>
-              <a
-                class="nav-link rounded-md px-2 py-1 transition hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
-                href={link.href}
-                data-section-link={link.href.startsWith('/#') ? link.href.slice(2) : undefined}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))
+          links.map((link) => {
+            const isBlogLink = link.href === '/blog/';
+            const isCurrent = isBlogLink && isBlogRoute;
+
+            return (
+              <li>
+                <a
+                  class="nav-link rounded-md px-2 py-1 transition hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+                  href={link.href}
+                  aria-current={isCurrent ? 'page' : undefined}
+                  data-current={isCurrent ? 'true' : undefined}
+                  data-section-link={link.href.startsWith('/#') ? link.href.slice(2) : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            );
+          })
         }
       </ul>
     </nav>

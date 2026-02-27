@@ -75,7 +75,7 @@ a {
 }
 
 .section-shell {
-  @apply rounded-2xl border border-solid border-border bg-surface/80 p-6 shadow-panel md:p-8;
+  @apply rounded-2xl border border-solid border-border bg-surface/90 p-6 md:p-8;
 }
 
 .site-header {
