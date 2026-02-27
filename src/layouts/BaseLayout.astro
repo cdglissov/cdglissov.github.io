@@ -6,13 +6,23 @@ interface Props {
   title: string;
   description: string;
   path?: string;
+  noIndex?: boolean;
+  showBackdrop?: boolean;
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
-const { title, description, path = '/', structuredData } = Astro.props;
+const {
+  title,
+  description,
+  path = '/',
+  noIndex = false,
+  showBackdrop = true,
+  structuredData
+} = Astro.props;
 const siteUrl = Astro.site ?? new URL('https://cdglissov.github.io');
 const canonical = new URL(path, siteUrl).toString();
 const ogImage = new URL('/og.png', siteUrl).toString();
+const robotsContent = noIndex ? 'noindex, follow' : 'index, follow';
 const schemaItems = Array.isArray(structuredData)
   ? structuredData
   : structuredData
@@ -27,7 +37,7 @@ const schemaItems = Array.isArray(structuredData)
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content={robotsContent} />
     <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
@@ -50,12 +60,12 @@ const schemaItems = Array.isArray(structuredData)
     />
     {
       schemaItems.map((schema) => (
-        <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+        <script type="application/ld+json" is:inline set:html={JSON.stringify(schema)} />
       ))
     }
   </head>
   <body>
-    <AmbientBackdrop client:load />
+    {showBackdrop && <AmbientBackdrop client:load />}
     <div class="site-shell">
       <a href="#content" class="skip-link">Skip to content</a>
       <slot />

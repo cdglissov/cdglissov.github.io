@@ -61,15 +61,15 @@ export const aboutExperience: AboutExperienceEntry[] = [
 export const learningTimeline: LearningEntry[] = [
   {
     period: '2026 February',
-    topic: 'Claude and Copilot plugings',
+    topic: 'Claude and Copilot plugins',
     description:
-      'Deep dive into agents and skills, and how to use hand-offs, subagents. This stuff will be huge.'
+      'Deep dive into agents and skills, and how to use hand-offs and subagents. This stuff will be huge.'
   },
   {
     period: '2026 January',
-    topic: 'Postgresql',
+    topic: 'PostgreSQL',
     description:
-      'Replacing MongoDB with Azure DB for Postgresql. Created a DB and used alembic for migrations. Learned about pgvector for vector search. I still prefer Qdrant.'
+      'Replacing MongoDB with Azure Database for PostgreSQL. Created a DB and used alembic for migrations. Learned about pgvector for vector search. I still prefer Qdrant.'
   }
 ];
 
