@@ -121,6 +121,54 @@ a {
   color: var(--text-muted);
 }
 
+.timeline-more {
+  margin-top: 0.85rem;
+}
+
+.timeline-list-extra {
+  margin-top: 0.95rem;
+}
+
+.timeline-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 0.55rem;
+  background: rgb(255 255 255 / 0.04);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  padding: 0.5rem 0.65rem;
+  text-transform: uppercase;
+  user-select: none;
+}
+
+.timeline-toggle:hover,
+.timeline-toggle:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  outline: none;
+}
+
+.timeline-toggle::-webkit-details-marker {
+  display: none;
+}
+
+.timeline-toggle-open {
+  display: none;
+}
+
+.timeline-more[open] .timeline-toggle-open {
+  display: inline;
+}
+
+.timeline-more[open] .timeline-toggle-closed {
+  display: none;
+}
+
 @media (max-width: 640px) {
   .timeline-entry {
     grid-template-columns: minmax(5.5rem, 6.2rem) minmax(0, 1fr);

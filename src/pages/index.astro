@@ -20,6 +20,15 @@ const featuredPosts = (
 )
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
+
+const collapsedTimelineCount = 5;
+const hasCollapsedTimeline = learningTimeline.length > collapsedTimelineCount;
+const visibleLearningTimeline = hasCollapsedTimeline
+  ? learningTimeline.slice(0, collapsedTimelineCount)
+  : learningTimeline;
+const hiddenLearningTimeline = hasCollapsedTimeline
+  ? learningTimeline.slice(collapsedTimelineCount)
+  : [];
 ---
 
 <BaseLayout
@@ -133,7 +142,7 @@ const featuredPosts = (
         />
         <div class="timeline-list">
           {
-            learningTimeline.map((entry) => (
+            visibleLearningTimeline.map((entry) => (
               <article class="timeline-entry">
                 <p class="timeline-date mono">{entry.period}</p>
                 <div class="timeline-content">
@@ -144,6 +153,29 @@ const featuredPosts = (
             ))
           }
         </div>
+        {
+          hasCollapsedTimeline && (
+            <details class="timeline-more">
+              <summary class="timeline-toggle">
+                <span class="timeline-toggle-closed">
+                  Show {hiddenLearningTimeline.length} more
+                </span>
+                <span class="timeline-toggle-open">Show less</span>
+              </summary>
+              <div class="timeline-list timeline-list-extra">
+                {hiddenLearningTimeline.map((entry) => (
+                  <article class="timeline-entry">
+                    <p class="timeline-date mono">{entry.period}</p>
+                    <div class="timeline-content">
+                      <h3 class="timeline-topic">{entry.topic}</h3>
+                      <p class="timeline-description">{entry.description}</p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </details>
+          )
+        }
       </section>
     </MotionReveal>
 
