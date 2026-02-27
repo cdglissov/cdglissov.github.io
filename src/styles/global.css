@@ -333,6 +333,32 @@ a {
   @apply rounded-full border border-solid border-border bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-wide text-muted;
 }
 
+.tag-filter {
+  appearance: none;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    color 160ms ease,
+    background-color 160ms ease;
+}
+
+.tag-filter:hover,
+.tag-filter:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  outline: none;
+}
+
+.tag-filter[aria-pressed='true'] {
+  border-color: var(--accent);
+  background: rgb(142 164 191 / 0.13);
+  color: var(--accent);
+}
+
+[data-post-card][data-hidden='true'] {
+  display: none;
+}
+
 .action-link {
   @apply inline-flex items-center gap-2 rounded-lg border border-solid border-border bg-white/5 px-3 py-2 text-sm transition duration-200 focus:outline-none focus:ring-2 focus:ring-accent;
 }

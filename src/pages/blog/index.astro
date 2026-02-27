@@ -28,22 +28,38 @@ const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort((
         title="Field Notes & Thoughts"
         subtitle="On just about anything..."
       />
-      <div class="mb-6 flex flex-wrap gap-2">
-        <a class="tag border-accent text-accent" href="/blog/">All</a>
+      <div class="mb-4 flex flex-wrap gap-2" data-blog-filters>
+        <button class="tag tag-filter" type="button" data-filter-all aria-pressed="true">All</button
+        >
         {
           tags.map((tag) => (
-            <a class="tag" href={`/blog/tag/${slugifyTag(tag)}/`}>
+            <button
+              class="tag tag-filter"
+              type="button"
+              data-tag={slugifyTag(tag)}
+              aria-pressed="false"
+            >
               {tag}
-            </a>
+            </button>
           ))
         }
       </div>
+      <p
+        class="mono mb-6 text-xs uppercase tracking-wide text-muted"
+        data-filter-status
+        aria-live="polite"
+      >
+        Showing all {posts.length} posts.
+      </p>
       <div class="space-y-4">
         {
           posts.map((post) => (
             <a
               class="group block rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
               href={`/blog/${post.slug}/`}
+              data-post-card
+              data-post-tags={post.data.tags.map((tag) => slugifyTag(tag)).join(',')}
+              data-hidden="false"
             >
               <article class="rounded-xl border border-border bg-white/5 p-5 transition-all duration-200 group-hover:border-[rgb(141,182,214)] group-hover:ring-1 group-hover:ring-[rgb(141,182,214)] group-focus-visible:border-[rgb(141,182,214)] group-focus-visible:ring-1 group-focus-visible:ring-[rgb(141,182,214)]">
                 <p class="mono text-xs uppercase tracking-wide text-muted">
@@ -67,3 +83,81 @@ const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort((
   </main>
   <Footer />
 </BaseLayout>
+
+<script is:inline>
+  (() => {
+    const filterBar = document.querySelector('[data-blog-filters]');
+    const status = document.querySelector('[data-filter-status]');
+
+    if (!filterBar) {
+      return;
+    }
+
+    const allButton = filterBar.querySelector('[data-filter-all]');
+    const tagButtons = Array.from(filterBar.querySelectorAll('[data-tag]'));
+    const posts = Array.from(document.querySelectorAll('[data-post-card]'));
+    const selectedTags = new Set();
+
+    if (!allButton || posts.length === 0) {
+      return;
+    }
+
+    const update = () => {
+      let visiblePosts = 0;
+
+      posts.forEach((post) => {
+        const postTags = (post.getAttribute('data-post-tags') || '').split(',').filter(Boolean);
+        const isVisible =
+          selectedTags.size === 0 ||
+          Array.from(selectedTags).every((tag) => postTags.includes(tag));
+
+        post.setAttribute('data-hidden', isVisible ? 'false' : 'true');
+
+        if (isVisible) {
+          visiblePosts += 1;
+        }
+      });
+
+      allButton.setAttribute('aria-pressed', selectedTags.size === 0 ? 'true' : 'false');
+
+      tagButtons.forEach((button) => {
+        const tag = button.getAttribute('data-tag') || '';
+        button.setAttribute('aria-pressed', selectedTags.has(tag) ? 'true' : 'false');
+      });
+
+      if (!status) {
+        return;
+      }
+
+      status.textContent =
+        selectedTags.size === 0
+          ? `Showing all ${posts.length} posts.`
+          : `Showing ${visiblePosts} of ${posts.length} posts.`;
+    };
+
+    allButton.addEventListener('click', () => {
+      selectedTags.clear();
+      update();
+    });
+
+    tagButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const tag = button.getAttribute('data-tag');
+
+        if (!tag) {
+          return;
+        }
+
+        if (selectedTags.has(tag)) {
+          selectedTags.delete(tag);
+        } else {
+          selectedTags.add(tag);
+        }
+
+        update();
+      });
+    });
+
+    update();
+  })();
+</script>
