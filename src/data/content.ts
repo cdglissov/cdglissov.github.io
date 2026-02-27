@@ -22,20 +22,6 @@ export const aboutParagraphs = [
   'My background in mathematical modelling and scientific computing helps me bridge research depth and production reliability, especially for optimization-heavy and data-intensive workflows.'
 ];
 
-export const skillGroups: SkillGroup[] = [
-  {
-    title: 'AI Engineering',
-    items: ['LLM applications', 'RAG architecture', 'Evaluation pipelines', 'Prompt and agent design']
-  },
-  {
-    title: 'Data + MLOps',
-    items: ['Feature pipelines', 'Model monitoring', 'Experiment tracking', 'CI/CD for ML']
-  },
-  {
-    title: 'Scientific Computing',
-    items: ['Numerical methods', 'Optimization', 'Simulation tooling', 'Python and TypeScript']
-  }
-];
 
 export const experiences: Experience[] = [
   {
