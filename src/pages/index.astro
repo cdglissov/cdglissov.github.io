@@ -7,7 +7,7 @@ import MotionReveal from '@/components/MotionReveal';
 import SectionHeading from '@/components/SectionHeading.astro';
 import SiteHeader from '@/components/SiteHeader.astro';
 import TypedText from '@/components/TypedText';
-import { aboutParagraphs, experiences, projects } from '@/data/content';
+import { aboutParagraphs, learningTimeline, projects } from '@/data/content';
 import { personSchema, siteConfig } from '@/data/site';
 import { formatDate } from '@/utils/format';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -125,26 +125,21 @@ const featuredPosts = (
     </MotionReveal>
 
     <MotionReveal client:visible className="mb-10" delay={0.1}>
-      <section id="experience" class="section-shell">
-        <SectionHeading kicker="Experience" title="Recent work" />
-        <div class="space-y-4">
+      <section id="learning" class="section-shell">
+        <SectionHeading
+          kicker="Learning"
+          title="Reverse-chronological timeline"
+          subtitle="Topics I have focused on recently, with the most recent first."
+        />
+        <div class="timeline-list">
           {
-            experiences.map((experience) => (
-              <article class="rounded-xl border border-border bg-white/5 p-5">
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                  <h3 class="text-base font-semibold text-slate-100">
-                    {experience.role}
-                  </h3>
-                  <p class="mono text-xs uppercase tracking-wide text-muted">
-                    {experience.period}
-                  </p>
+            learningTimeline.map((entry) => (
+              <article class="timeline-entry">
+                <p class="timeline-date mono">{entry.period}</p>
+                <div class="timeline-content">
+                  <h3 class="timeline-topic">{entry.topic}</h3>
+                  <p class="timeline-description">{entry.description}</p>
                 </div>
-                <p class="mt-1 text-sm text-accent">{experience.company}</p>
-                <ul class="mt-4 space-y-2 text-sm text-muted">
-                  {experience.bullets.map((bullet) => (
-                    <li>- {bullet}</li>
-                  ))}
-                </ul>
               </article>
             ))
           }

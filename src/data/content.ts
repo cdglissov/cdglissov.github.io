@@ -3,11 +3,10 @@ export type SkillGroup = {
   items: string[];
 };
 
-export type Experience = {
-  role: string;
-  company: string;
+export type LearningEntry = {
   period: string;
-  bullets: string[];
+  topic: string;
+  description: string;
 };
 
 export type Project = {
@@ -22,27 +21,36 @@ export const aboutParagraphs = [
   'My background in mathematical modelling and scientific computing helps me bridge research depth and production reliability, especially for optimization-heavy and data-intensive workflows.'
 ];
 
-
-export const experiences: Experience[] = [
+export const learningTimeline: LearningEntry[] = [
   {
-    role: 'Senior AI Specialist',
-    company: 'Independent Consulting',
-    period: '2023 - Present',
-    bullets: [
-      'Delivered production-ready LLM systems for internal search, analyst copilots, and structured report generation.',
-      'Built evaluation suites with regression checks to keep model quality stable during rapid iteration.',
-      'Introduced observability and cost controls that reduced inference waste while improving reliability.'
-    ]
+    period: '2025 - Present',
+    topic: 'Evaluation-first AI delivery',
+    description:
+      'Building regression-based evaluation loops so product teams can ship LLM updates with measurable quality and lower operational risk.'
   },
   {
-    role: 'Applied ML Engineer',
-    company: 'Scientific Software Team',
-    period: '2019 - 2023',
-    bullets: [
-      'Scaled data processing and simulation workflows for high-dimensional modelling use cases.',
-      'Moved research prototypes into maintained services with testing, versioning, and deployment automation.',
-      'Partnered with domain experts to formalize problem constraints into robust optimization strategies.'
-    ]
+    period: '2024 - Present',
+    topic: 'Observability for model systems',
+    description:
+      'Instrumenting prompts, traces, and cost signals end-to-end to improve debugging speed and keep production behavior predictable.'
+  },
+  {
+    period: '2023 - 2024',
+    topic: 'Production retrieval workflows',
+    description:
+      'Designing source-grounded search and assistant pipelines for technical users who need reliable answers with clear provenance.'
+  },
+  {
+    period: '2021 - 2023',
+    topic: 'Scientific computing at scale',
+    description:
+      'Modernizing data-heavy simulation and optimization workflows with stronger automation, testing, and reproducibility.'
+  },
+  {
+    period: '2019 - 2021',
+    topic: 'Applied modelling foundations',
+    description:
+      'Deepening mathematical modelling practice across constrained optimization, numerical methods, and practical decision systems.'
   }
 ];
 
