@@ -21,13 +21,13 @@ A clean, modern personal portfolio / CV site with a "tech" feel.
 ## Design
 - Clear hierarchy & flow: sections are ordered logically (About → Blog → Projects → Contact) and the nav makes it easy to jump around.
 - Consistency: the site uses repeated patterns (headings, cards, spacing) so it feels coherent.
-- Hero area: Name should be clear. Use typed-text subtitle. Add icons for linkedin, github, email. Make room for a punchy line.
+- Hero area: Name should be clear. Use typed-text subtitle. Icons for linkedin, github, email. Make room for a punchy line.
 - Use an easily readable and modern text font.
 
 # Blog
 - Markdown blog posts with math rendering. 
-- Add a feature section that features blog posts.
-- Add syntax highlighting + copy button.
+- A feature section that features blog posts.
+- Syntax highlighting + copy button.
 - Features:
     - Featured posts section on home
     - Tag filtering
