@@ -2,12 +2,32 @@ import { useEffect, useRef } from 'react';
 
 type NebulaParticle = {
   alpha: number;
-  drift: number;
-  phase: number;
+  coreAlpha: number;
+  coreOffsetX: number;
+  coreOffsetY: number;
+  coreScale: number;
+  dustAlpha: number;
+  dustOffsetX: number;
+  dustOffsetY: number;
+  dustScale: number;
+  driftPhaseX: number;
+  driftPhaseY: number;
+  driftSpeedX: number;
+  driftSpeedY: number;
+  driftX: number;
+  driftY: number;
+  overlayAlpha: number;
+  overlayOffsetX: number;
+  overlayOffsetY: number;
+  overlayRotation: number;
+  overlayRotationSpeed: number;
+  overlayScale: number;
+  paletteIndex: number;
+  pulseAmount: number;
+  pulseSpeed: number;
   rotation: number;
   rotationSpeed: number;
   size: number;
-  spriteIndex: number;
   velocityX: number;
   velocityY: number;
   x: number;
@@ -34,7 +54,24 @@ type StarCluster = {
   y: number;
 };
 
-const NEBULA_COLORS = ['#33b8ca', '#2dbbd4', '#506aff', '#0ea5e9', '#60a5fa', '#a78bfa'];
+type NebulaPalette = {
+  core: string;
+  dust: string;
+  halo: string;
+};
+
+type NebulaSpriteSet = {
+  core: HTMLCanvasElement;
+  dust: HTMLCanvasElement;
+  halo: HTMLCanvasElement;
+};
+
+const NEBULA_PALETTES: NebulaPalette[] = [
+  { core: '#a679b9', dust: '#151922', halo: '#486985' },
+  { core: '#b47495', dust: '#121720', halo: '#5e6f8e' },
+  { core: '#79a6bf', dust: '#171c24', halo: '#4f6f7f' },
+  { core: '#947ab1', dust: '#131822', halo: '#5a657a' }
+];
 const STAR_CHANNEL_DIM = 77;
 const STAR_CHANNEL_BRIGHT = 255;
 
@@ -61,7 +98,7 @@ export default function AmbientBackdrop() {
     let nebulaParticles: NebulaParticle[] = [];
     let starParticles: StarParticle[] = [];
     let starClusters: StarCluster[] = [];
-    let nebulaSprites: HTMLCanvasElement[] = [];
+    let nebulaSprites: NebulaSpriteSet[] = [];
     let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -78,48 +115,74 @@ export default function AmbientBackdrop() {
     smokeImage.decoding = 'async';
     smokeImage.src = '/smoke.png';
 
+    const createTintedNebulaSprite = (color: string, alpha: number) => {
+      const offscreen = document.createElement('canvas');
+      offscreen.width = smokeImage.width;
+      offscreen.height = smokeImage.height;
+      const offscreenContext = offscreen.getContext('2d');
+      if (!offscreenContext) return offscreen;
+
+      offscreenContext.clearRect(0, 0, offscreen.width, offscreen.height);
+      offscreenContext.drawImage(smokeImage, 0, 0);
+      offscreenContext.globalCompositeOperation = 'source-atop';
+      offscreenContext.fillStyle = color;
+      offscreenContext.globalAlpha = alpha;
+      offscreenContext.fillRect(0, 0, offscreen.width, offscreen.height);
+      offscreenContext.globalCompositeOperation = 'source-over';
+      return offscreen;
+    };
+
     const createNebulaSprites = () => {
       if (!smokeImage.width || !smokeImage.height) return;
 
-      nebulaSprites = NEBULA_COLORS.map((color) => {
-        const offscreen = document.createElement('canvas');
-        offscreen.width = smokeImage.width;
-        offscreen.height = smokeImage.height;
-        const offscreenContext = offscreen.getContext('2d');
-        if (!offscreenContext) return offscreen;
-
-        offscreenContext.clearRect(0, 0, offscreen.width, offscreen.height);
-        offscreenContext.drawImage(smokeImage, 0, 0);
-        offscreenContext.globalCompositeOperation = 'source-atop';
-        offscreenContext.fillStyle = color;
-        offscreenContext.globalAlpha = 0.95;
-        offscreenContext.fillRect(0, 0, offscreen.width, offscreen.height);
-        offscreenContext.globalCompositeOperation = 'source-over';
-        return offscreen;
-      });
+      nebulaSprites = NEBULA_PALETTES.map((palette) => ({
+        core: createTintedNebulaSprite(palette.core, 0.72),
+        dust: createTintedNebulaSprite(palette.dust, 0.8),
+        halo: createTintedNebulaSprite(palette.halo, 0.56)
+      }));
 
       smokeLoaded = true;
     };
 
     const targetCounts = (viewportWidth: number, viewportHeight: number) => ({
-      nebula: Math.min(24, Math.max(12, Math.floor((viewportWidth * viewportHeight) / 110000))),
+      nebula: Math.min(17, Math.max(8, Math.floor((viewportWidth * viewportHeight) / 165000))),
       stars: Math.min(380, Math.max(190, Math.floor((viewportWidth * viewportHeight) / 6000)))
     });
 
     const createNebulaParticle = (viewportWidth: number, viewportHeight: number): NebulaParticle => {
       const baseNebulaSize = Math.max(viewportWidth, viewportHeight) * 0.42;
       return {
-        alpha: randomBetween(0.05, 0.14),
-        drift: randomBetween(14, 42),
-        phase: randomBetween(0, Math.PI * 2),
+        alpha: randomBetween(0.03, 0.082),
+        coreAlpha: randomBetween(0.72, 1.14),
+        coreOffsetX: randomBetween(-0.11, 0.11),
+        coreOffsetY: randomBetween(-0.11, 0.11),
+        coreScale: randomBetween(0.46, 0.78),
+        dustAlpha: randomBetween(0.36, 0.76),
+        dustOffsetX: randomBetween(-0.09, 0.09),
+        dustOffsetY: randomBetween(-0.09, 0.09),
+        dustScale: randomBetween(0.68, 1.04),
+        driftPhaseX: randomBetween(0, Math.PI * 2),
+        driftPhaseY: randomBetween(0, Math.PI * 2),
+        driftSpeedX: randomBetween(0.03, 0.11),
+        driftSpeedY: randomBetween(0.02, 0.1),
+        driftX: randomBetween(6, 28),
+        driftY: randomBetween(4, 24),
+        overlayAlpha: randomBetween(0.24, 0.54),
+        overlayOffsetX: randomBetween(-0.13, 0.13),
+        overlayOffsetY: randomBetween(-0.13, 0.13),
+        overlayRotation: randomBetween(0, Math.PI * 2),
+        overlayRotationSpeed: randomBetween(-0.005, 0.005),
+        overlayScale: randomBetween(0.82, 1.3),
+        paletteIndex: Math.floor(Math.random() * NEBULA_PALETTES.length),
+        pulseAmount: randomBetween(0.024, 0.086),
+        pulseSpeed: randomBetween(0.03, 0.1),
         rotation: randomBetween(0, Math.PI * 2),
-        rotationSpeed: randomBetween(-0.015, 0.015),
-        size: baseNebulaSize * randomBetween(0.5, 0.95),
-        spriteIndex: Math.floor(Math.random() * NEBULA_COLORS.length),
-        velocityX: randomBetween(-1.2, 1.2),
-        velocityY: randomBetween(-0.9, 0.9),
-        x: randomBetween(-viewportWidth * 0.15, viewportWidth * 1.15),
-        y: randomBetween(-viewportHeight * 0.15, viewportHeight * 1.15)
+        rotationSpeed: randomBetween(-0.006, 0.006),
+        size: baseNebulaSize * randomBetween(0.48, 0.96),
+        velocityX: randomBetween(-0.45, 0.45),
+        velocityY: randomBetween(-0.36, 0.36),
+        x: randomBetween(-viewportWidth * 0.25, viewportWidth * 1.25),
+        y: randomBetween(-viewportHeight * 0.25, viewportHeight * 1.25)
       };
     };
 
@@ -242,33 +305,62 @@ export default function AmbientBackdrop() {
           particle.x += particle.velocityX * delta;
           particle.y += particle.velocityY * delta;
           particle.rotation += particle.rotationSpeed * delta;
+          particle.overlayRotation += particle.overlayRotationSpeed * delta;
         }
 
         const margin = particle.size * 0.35;
         particle.x = wrapValue(particle.x, -margin, width + margin);
         particle.y = wrapValue(particle.y, -margin, height + margin);
 
-        const driftX = Math.sin(time * 0.09 + particle.phase) * particle.drift;
-        const driftY = Math.cos(time * 0.07 + particle.phase * 1.3) * particle.drift * 0.7;
-        const pulsing = 0.86 + Math.sin(time * 0.12 + particle.phase) * 0.14;
+        const driftX = Math.sin(time * particle.driftSpeedX + particle.driftPhaseX) * particle.driftX;
+        const driftY = Math.cos(time * particle.driftSpeedY + particle.driftPhaseY) * particle.driftY;
+        const pulsing =
+          0.9 + Math.sin(time * particle.pulseSpeed + particle.driftPhaseX * 0.8) * particle.pulseAmount;
 
         context.save();
         context.translate(particle.x + driftX, particle.y + driftY);
         context.rotate(particle.rotation);
         context.globalAlpha = particle.alpha * pulsing;
 
-        if (smokeLoaded && nebulaSprites[particle.spriteIndex]) {
+        if (smokeLoaded && nebulaSprites[particle.paletteIndex]) {
+          const spriteSet = nebulaSprites[particle.paletteIndex];
+          const baseSize = particle.size;
+          const overlaySize = baseSize * particle.overlayScale;
+          const coreSize = baseSize * particle.coreScale;
+          const dustSize = baseSize * particle.dustScale;
+          const overlayX = baseSize * particle.overlayOffsetX;
+          const overlayY = baseSize * particle.overlayOffsetY;
+          const coreX = baseSize * particle.coreOffsetX;
+          const coreY = baseSize * particle.coreOffsetY;
+          const dustX = baseSize * particle.dustOffsetX;
+          const dustY = baseSize * particle.dustOffsetY;
+
+          context.drawImage(spriteSet.halo, -baseSize / 2, -baseSize / 2, baseSize, baseSize);
+
+          context.save();
+          context.rotate(particle.overlayRotation);
+          context.globalAlpha = particle.alpha * particle.overlayAlpha * pulsing;
           context.drawImage(
-            nebulaSprites[particle.spriteIndex],
-            -particle.size / 2,
-            -particle.size / 2,
-            particle.size,
-            particle.size
+            spriteSet.halo,
+            -overlaySize / 2 + overlayX,
+            -overlaySize / 2 + overlayY,
+            overlaySize,
+            overlaySize
           );
+          context.restore();
+
+          context.globalAlpha = particle.alpha * particle.coreAlpha * pulsing;
+          context.drawImage(spriteSet.core, -coreSize / 2 + coreX, -coreSize / 2 + coreY, coreSize, coreSize);
+
+          context.globalCompositeOperation = 'multiply';
+          context.globalAlpha = particle.alpha * particle.dustAlpha * (0.72 + pulsing * 0.28);
+          context.drawImage(spriteSet.dust, -dustSize / 2 + dustX, -dustSize / 2 + dustY, dustSize, dustSize);
+          context.globalCompositeOperation = 'screen';
         } else {
           const radius = particle.size * 0.45;
           const fallback = context.createRadialGradient(0, 0, 0, 0, 0, radius);
-          fallback.addColorStop(0, 'rgba(96, 165, 250, 0.2)');
+          fallback.addColorStop(0, 'rgba(150, 146, 193, 0.11)');
+          fallback.addColorStop(0.52, 'rgba(91, 116, 146, 0.08)');
           fallback.addColorStop(1, 'rgba(96, 165, 250, 0)');
           context.fillStyle = fallback;
           context.beginPath();

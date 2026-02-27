@@ -24,10 +24,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Source Sans 3', 'Segoe UI', sans-serif;
-  background:
-    radial-gradient(48rem 26rem at 12% 0%, rgba(127, 157, 189, 0.1), transparent 68%),
-    radial-gradient(40rem 22rem at 86% 4%, rgba(88, 107, 131, 0.1), transparent 70%),
-    var(--bg-main);
+  background: linear-gradient(180deg, #090d10 0%, #080b0e 22%, var(--bg-main) 52%, var(--bg-main) 100%);
   background-attachment: fixed;
   background-repeat: no-repeat;
   color: var(--text-main);
@@ -44,7 +41,7 @@ body {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.89;
+  opacity: 0.92;
 }
 
 .ambient-canvas {
