@@ -2,9 +2,9 @@ import rss from '@astrojs/rss';
 import { getCollection } from 'astro:content';
 
 export async function GET(context: { site: URL | undefined }) {
-  const posts = (
-    await getCollection('blog', (entry) => !entry.data.draft)
-  ).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  const posts = (await getCollection('blog', (entry) => !entry.data.draft)).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+  );
 
   return rss({
     title: 'Christian D. Glissov - Blog',

@@ -1,36 +1,36 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "07:00"
-      timezone: "Europe/Copenhagen"
+      interval: 'weekly'
+      day: 'monday'
+      time: '07:00'
+      timezone: 'Europe/Copenhagen'
     open-pull-requests-limit: 5
     commit-message:
-      prefix: "deps"
+      prefix: 'deps'
     ignore:
-      - dependency-name: "*"
+      - dependency-name: '*'
         update-types:
-          - "version-update:semver-major"
+          - 'version-update:semver-major'
     labels:
-      - "dependencies"
+      - 'dependencies'
 
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     schedule:
-      interval: "weekly"
-      day: "monday"
-      time: "07:15"
-      timezone: "Europe/Copenhagen"
+      interval: 'weekly'
+      day: 'monday'
+      time: '07:15'
+      timezone: 'Europe/Copenhagen'
     open-pull-requests-limit: 5
     commit-message:
-      prefix: "ci"
+      prefix: 'ci'
     ignore:
-      - dependency-name: "*"
+      - dependency-name: '*'
         update-types:
-          - "version-update:semver-major"
+          - 'version-update:semver-major'
     labels:
-      - "dependencies"
-      - "github-actions"
+      - 'dependencies'
+      - 'github-actions'

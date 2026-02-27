@@ -8,20 +8,14 @@ const links = [
   { label: 'Contact', href: '/#contact' },
   { label: 'Blog', href: '/blog/' }
 ];
-const isBlogRoute =
-  Astro.url.pathname === '/blog/' || Astro.url.pathname.startsWith('/blog/');
+const isBlogRoute = Astro.url.pathname === '/blog/' || Astro.url.pathname.startsWith('/blog/');
 ---
 
-<header
-  id="site-header"
-  class="site-header sticky top-0 z-30 border-b border-transparent"
->
+<header id="site-header" class="site-header sticky top-0 z-30 border-b border-transparent">
   <div
     class="site-header-inner mx-auto flex h-14 w-[min(1080px,92vw)] items-center justify-between"
   >
-    <a href="/" class="text-sm font-semibold tracking-wide text-slate-100"
-      >{siteConfig.name}</a
-    >
+    <a href="/" class="text-sm font-semibold tracking-wide text-slate-100">{siteConfig.name}</a>
 
     <button
       id="mobile-nav-toggle"
@@ -48,9 +42,7 @@ const isBlogRoute =
                   href={link.href}
                   aria-current={isCurrent ? 'page' : undefined}
                   data-current={isCurrent ? 'true' : undefined}
-                  data-section-link={
-                    link.href.startsWith('/#') ? link.href.slice(2) : undefined
-                  }
+                  data-section-link={link.href.startsWith('/#') ? link.href.slice(2) : undefined}
                 >
                   {link.label}
                 </a>
@@ -81,9 +73,7 @@ const isBlogRoute =
                   href={link.href}
                   aria-current={isCurrent ? 'page' : undefined}
                   data-current={isCurrent ? 'true' : undefined}
-                  data-section-link={
-                    link.href.startsWith('/#') ? link.href.slice(2) : undefined
-                  }
+                  data-section-link={link.href.startsWith('/#') ? link.href.slice(2) : undefined}
                 >
                   {link.label}
                 </a>
@@ -103,9 +93,7 @@ const isBlogRoute =
       const mobileToggle = document.getElementById('mobile-nav-toggle');
       const mobilePanel = document.getElementById('mobile-nav-panel');
 
-      const trackedLinks = Array.from(
-        header.querySelectorAll('a[data-section-link]')
-      )
+      const trackedLinks = Array.from(header.querySelectorAll('a[data-section-link]'))
         .map((link) => {
           const sectionId = link.getAttribute('data-section-link');
           const section = sectionId ? document.getElementById(sectionId) : null;
@@ -122,8 +110,7 @@ const isBlogRoute =
 
         const offsetTop = header.getBoundingClientRect().bottom + 12;
         const isAtBottom =
-          window.innerHeight + window.scrollY >=
-          document.documentElement.scrollHeight - 2;
+          window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
         let activeSectionId = isAtBottom
           ? trackedLinks[trackedLinks.length - 1].sectionId
           : trackedLinks[0].sectionId;

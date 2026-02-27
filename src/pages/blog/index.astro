@@ -10,8 +10,8 @@ const posts = (await getCollection('blog', (entry) => !entry.data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort(
-  (a, b) => a.localeCompare(b)
+const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort((a, b) =>
+  a.localeCompare(b)
 );
 ---
 

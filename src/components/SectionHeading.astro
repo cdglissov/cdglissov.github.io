@@ -10,6 +10,8 @@ const { kicker, title, subtitle } = Astro.props;
 
 <div class="mb-6">
   <p class="mono kicker mb-2 text-xs uppercase tracking-[0.2em]">{kicker}</p>
-  <h2 class="text-2xl font-semibold tracking-tight text-slate-100 md:text-3xl">{title}</h2>
+  <h2 class="text-2xl font-semibold tracking-tight text-slate-100 md:text-3xl">
+    {title}
+  </h2>
   {subtitle && <p class="mt-2 max-w-2xl text-sm text-muted md:text-base">{subtitle}</p>}
 </div>

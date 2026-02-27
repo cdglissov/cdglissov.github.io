@@ -32,9 +32,9 @@ export type EvalRecord = {
 
 export function releaseGate(records: EvalRecord[]): boolean {
   const avgScore = records.reduce((sum, item) => sum + item.score, 0) / records.length;
-  const p95Latency = records
-    .map((item) => item.latencyMs)
-    .sort((a, b) => a - b)[Math.floor(records.length * 0.95)];
+  const p95Latency = records.map((item) => item.latencyMs).sort((a, b) => a - b)[
+    Math.floor(records.length * 0.95)
+  ];
 
   return avgScore >= 0.84 && p95Latency <= 1600;
 }

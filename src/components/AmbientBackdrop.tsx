@@ -181,21 +181,37 @@ export default function AmbientBackdrop() {
         startX = -margin;
         startY = randomBetween(height * 0.15, height * 0.85);
         endX = width + margin;
-        endY = clampValue(startY + randomBetween(-height * 0.26, height * 0.26), height * 0.1, height * 0.9);
+        endY = clampValue(
+          startY + randomBetween(-height * 0.26, height * 0.26),
+          height * 0.1,
+          height * 0.9
+        );
       } else if (edge === 1) {
         startX = width + margin;
         startY = randomBetween(height * 0.15, height * 0.85);
         endX = -margin;
-        endY = clampValue(startY + randomBetween(-height * 0.26, height * 0.26), height * 0.1, height * 0.9);
+        endY = clampValue(
+          startY + randomBetween(-height * 0.26, height * 0.26),
+          height * 0.1,
+          height * 0.9
+        );
       } else if (edge === 2) {
         startX = randomBetween(width * 0.1, width * 0.9);
         startY = -margin;
-        endX = clampValue(startX + randomBetween(-width * 0.25, width * 0.25), width * 0.06, width * 0.94);
+        endX = clampValue(
+          startX + randomBetween(-width * 0.25, width * 0.25),
+          width * 0.06,
+          width * 0.94
+        );
         endY = height + margin;
       } else {
         startX = randomBetween(width * 0.1, width * 0.9);
         startY = height + margin;
-        endX = clampValue(startX + randomBetween(-width * 0.25, width * 0.25), width * 0.06, width * 0.94);
+        endX = clampValue(
+          startX + randomBetween(-width * 0.25, width * 0.25),
+          width * 0.06,
+          width * 0.94
+        );
         endY = -margin;
       }
 
@@ -205,7 +221,10 @@ export default function AmbientBackdrop() {
       const normalX = -dy / distance;
       const normalY = dx / distance;
       const tangentJitter = distance * randomBetween(0.05, 0.16);
-      const lateralJitter = Math.min(Math.max(width, height) * 0.34, distance * randomBetween(0.2, 0.5));
+      const lateralJitter = Math.min(
+        Math.max(width, height) * 0.34,
+        distance * randomBetween(0.2, 0.5)
+      );
 
       const c1T = randomBetween(0.2, 0.42);
       const c2T = randomBetween(0.58, 0.82);
@@ -284,7 +303,10 @@ export default function AmbientBackdrop() {
       stars: Math.min(380, Math.max(190, Math.floor((viewportWidth * viewportHeight) / 6000)))
     });
 
-    const createNebulaParticle = (viewportWidth: number, viewportHeight: number): NebulaParticle => {
+    const createNebulaParticle = (
+      viewportWidth: number,
+      viewportHeight: number
+    ): NebulaParticle => {
       const baseNebulaSize = Math.max(viewportWidth, viewportHeight) * 0.42;
       return {
         alpha: randomBetween(0.03, 0.082),
@@ -392,8 +414,12 @@ export default function AmbientBackdrop() {
 
       if (!nebulaParticles.length || !starParticles.length) {
         starClusters = createStarClusters(width, height);
-        nebulaParticles = Array.from({ length: targetNebulaCount }, () => createNebulaParticle(width, height));
-        starParticles = Array.from({ length: targetStarCount }, () => createStarParticle(width, height, starClusters));
+        nebulaParticles = Array.from({ length: targetNebulaCount }, () =>
+          createNebulaParticle(width, height)
+        );
+        starParticles = Array.from({ length: targetStarCount }, () =>
+          createStarParticle(width, height, starClusters)
+        );
         return;
       }
 
@@ -447,10 +473,13 @@ export default function AmbientBackdrop() {
         particle.x = wrapValue(particle.x, -margin, width + margin);
         particle.y = wrapValue(particle.y, -margin, height + margin);
 
-        const driftX = Math.sin(time * particle.driftSpeedX + particle.driftPhaseX) * particle.driftX;
-        const driftY = Math.cos(time * particle.driftSpeedY + particle.driftPhaseY) * particle.driftY;
+        const driftX =
+          Math.sin(time * particle.driftSpeedX + particle.driftPhaseX) * particle.driftX;
+        const driftY =
+          Math.cos(time * particle.driftSpeedY + particle.driftPhaseY) * particle.driftY;
         const pulsing =
-          0.9 + Math.sin(time * particle.pulseSpeed + particle.driftPhaseX * 0.8) * particle.pulseAmount;
+          0.9 +
+          Math.sin(time * particle.pulseSpeed + particle.driftPhaseX * 0.8) * particle.pulseAmount;
 
         context.save();
         context.translate(particle.x + driftX, particle.y + driftY);
@@ -485,11 +514,23 @@ export default function AmbientBackdrop() {
           context.restore();
 
           context.globalAlpha = particle.alpha * particle.coreAlpha * pulsing;
-          context.drawImage(spriteSet.core, -coreSize / 2 + coreX, -coreSize / 2 + coreY, coreSize, coreSize);
+          context.drawImage(
+            spriteSet.core,
+            -coreSize / 2 + coreX,
+            -coreSize / 2 + coreY,
+            coreSize,
+            coreSize
+          );
 
           context.globalCompositeOperation = 'multiply';
           context.globalAlpha = particle.alpha * particle.dustAlpha * (0.72 + pulsing * 0.28);
-          context.drawImage(spriteSet.dust, -dustSize / 2 + dustX, -dustSize / 2 + dustY, dustSize, dustSize);
+          context.drawImage(
+            spriteSet.dust,
+            -dustSize / 2 + dustX,
+            -dustSize / 2 + dustY,
+            dustSize,
+            dustSize
+          );
           context.globalCompositeOperation = 'screen';
         } else {
           const radius = particle.size * 0.45;
@@ -549,13 +590,16 @@ export default function AmbientBackdrop() {
         easedProgress
       );
       const xDrift =
-        Math.sin(time * alienFlight.driftXRate + alienFlight.driftXPhase) * alienFlight.driftXAmount;
+        Math.sin(time * alienFlight.driftXRate + alienFlight.driftXPhase) *
+        alienFlight.driftXAmount;
       const yDrift =
-        Math.sin(time * alienFlight.driftYRate + alienFlight.driftYPhase) * alienFlight.driftYAmount;
+        Math.sin(time * alienFlight.driftYRate + alienFlight.driftYPhase) *
+        alienFlight.driftYAmount;
       const yBob = Math.sin(time * alienFlight.bobRate + alienFlight.phase) * alienFlight.bobAmount;
       const x = xPath + xDrift;
       const y = yPath + yDrift + yBob;
-      const wobble = Math.sin(time * alienFlight.wobbleRate + alienFlight.phase) * alienFlight.wobbleAmount;
+      const wobble =
+        Math.sin(time * alienFlight.wobbleRate + alienFlight.phase) * alienFlight.wobbleAmount;
 
       context.save();
       context.translate(x, y);

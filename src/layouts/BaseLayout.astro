@@ -12,7 +12,11 @@ interface Props {
 const { title, description, path = '/', structuredData } = Astro.props;
 const siteUrl = Astro.site ?? new URL('https://cdglissov.github.io');
 const canonical = new URL(path, siteUrl).toString();
-const schemaItems = Array.isArray(structuredData) ? structuredData : structuredData ? [structuredData] : [];
+const schemaItems = Array.isArray(structuredData)
+  ? structuredData
+  : structuredData
+    ? [structuredData]
+    : [];
 ---
 
 <!doctype html>
@@ -32,7 +36,12 @@ const schemaItems = Array.isArray(structuredData) ? structuredData : structuredD
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <link rel="alternate" type="application/rss+xml" title="Christian D. Glissov RSS" href="/rss.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Christian D. Glissov RSS"
+      href="/rss.xml"
+    />
     {
       schemaItems.map((schema) => (
         <script type="application/ld+json" set:html={JSON.stringify(schema)} />

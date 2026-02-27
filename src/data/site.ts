@@ -2,7 +2,12 @@ export const siteConfig = {
   name: 'Christian D. Glissov',
   role: 'Senior AI Specialist',
   shortBio: 'I code and surf the latent manifold.',
-  heroPhrases: ['❯ Hello world! 👋','❯ Welcome to my digital space 🌌', '❯ Senior AI Specialist', '❯ MSc in Mathematical Modelling and Computation'],
+  heroPhrases: [
+    '❯ Hello world! 👋',
+    '❯ Welcome to my digital space 🌌',
+    '❯ Senior AI Specialist',
+    '❯ MSc in Mathematical Modelling and Computation'
+  ],
   githubUrl: 'https://github.com/cdglissov',
   linkedinUrl: 'https://www.linkedin.com/in/christian-glissov/',
   formspreeUrl: 'https://formspree.io/f/xvojpppy'
@@ -15,7 +20,5 @@ export const personSchema = {
   jobTitle: 'Senior AI Specialist',
   url: 'https://cdglissov.github.io/',
   sameAs: ['https://github.com/cdglissov', 'https://www.linkedin.com/in/christian-glissov/'],
-  description:
-    'Senior AI specialist with a background in mathematical modelling and computation.'
+  description: 'Senior AI specialist with a background in mathematical modelling and computation.'
 };
-

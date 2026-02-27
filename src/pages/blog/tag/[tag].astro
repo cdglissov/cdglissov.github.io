@@ -36,9 +36,7 @@ export async function getStaticPaths() {
     props: {
       tag: value.label,
       tagSlug,
-      posts: value.posts.sort(
-        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-      )
+      posts: value.posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
     }
   }));
 }

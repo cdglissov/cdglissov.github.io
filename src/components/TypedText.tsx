@@ -17,7 +17,9 @@ export default function TypedText({
 }: TypedTextProps) {
   const splitIntoGraphemes = (value: string) => {
     if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
-      const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+      const segmenter = new Intl.Segmenter(undefined, {
+        granularity: 'grapheme'
+      });
       return Array.from(segmenter.segment(value), ({ segment }) => segment);
     }
 
@@ -66,9 +68,19 @@ export default function TypedText({
     }
 
     return () => window.clearTimeout(timeoutId);
-  }, [charIndex, deleting, erasingSpeed, graphemes.length, pauseMs, phrases.length, reduceMotion, typingSpeed]);
+  }, [
+    charIndex,
+    deleting,
+    erasingSpeed,
+    graphemes.length,
+    pauseMs,
+    phrases.length,
+    reduceMotion,
+    typingSpeed
+  ]);
 
-  const visibleText = reduceMotion || phrases.length <= 1 ? currentPhrase : graphemes.slice(0, charIndex).join('');
+  const visibleText =
+    reduceMotion || phrases.length <= 1 ? currentPhrase : graphemes.slice(0, charIndex).join('');
 
   return (
     <span className={className} aria-live="polite">
