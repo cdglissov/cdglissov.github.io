@@ -6,7 +6,7 @@ export const siteConfig = {
     '❯ Hello world! 👋',
     '❯ Welcome to my digital space 🌌',
     '❯ Senior AI Specialist',
-    '❯ MSc in Mathematical Modelling and Computation'
+    '❯ MSc in Mathematical Modelling'
   ],
   githubUrl: 'https://github.com/cdglissov',
   linkedinUrl: 'https://www.linkedin.com/in/christian-glissov/',
