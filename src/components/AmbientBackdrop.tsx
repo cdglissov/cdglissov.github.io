@@ -67,10 +67,10 @@ type NebulaSpriteSet = {
 };
 
 const NEBULA_PALETTES: NebulaPalette[] = [
-  { core: '#a679b9', dust: '#151922', halo: '#486985' },
-  { core: '#b47495', dust: '#121720', halo: '#5e6f8e' },
-  { core: '#79a6bf', dust: '#171c24', halo: '#4f6f7f' },
-  { core: '#947ab1', dust: '#131822', halo: '#5a657a' }
+  { core: '#ad7fc2', dust: '#151922', halo: '#4f7290' },
+  { core: '#bc7b9d', dust: '#121720', halo: '#66789a' },
+  { core: '#84aec8', dust: '#171c24', halo: '#58798b' },
+  { core: '#9b83ba', dust: '#131822', halo: '#637086' }
 ];
 const STAR_CHANNEL_DIM = 77;
 const STAR_CHANNEL_BRIGHT = 255;
@@ -136,9 +136,9 @@ export default function AmbientBackdrop() {
       if (!smokeImage.width || !smokeImage.height) return;
 
       nebulaSprites = NEBULA_PALETTES.map((palette) => ({
-        core: createTintedNebulaSprite(palette.core, 0.72),
+        core: createTintedNebulaSprite(palette.core, 0.76),
         dust: createTintedNebulaSprite(palette.dust, 0.8),
-        halo: createTintedNebulaSprite(palette.halo, 0.56)
+        halo: createTintedNebulaSprite(palette.halo, 0.6)
       }));
 
       smokeLoaded = true;
