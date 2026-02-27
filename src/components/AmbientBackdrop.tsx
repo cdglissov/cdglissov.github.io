@@ -28,12 +28,19 @@ type StarParticle = {
   y: number;
 };
 
+type StarCluster = {
+  radius: number;
+  x: number;
+  y: number;
+};
+
 const NEBULA_COLORS = ['#33b8ca', '#2dbbd4', '#506aff', '#0ea5e9', '#60a5fa', '#a78bfa'];
 const STAR_CHANNEL_DIM = 77;
 const STAR_CHANNEL_BRIGHT = 255;
 
 const randomBetween = (min: number, max: number) => Math.random() * (max - min) + min;
 const starChannel = () => (Math.random() < 0.2 ? STAR_CHANNEL_DIM : STAR_CHANNEL_BRIGHT);
+const clampValue = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
 const wrapValue = (value: number, min: number, max: number) => {
   if (value < min) return max;
@@ -53,6 +60,7 @@ export default function AmbientBackdrop() {
 
     let nebulaParticles: NebulaParticle[] = [];
     let starParticles: StarParticle[] = [];
+    let starClusters: StarCluster[] = [];
     let nebulaSprites: HTMLCanvasElement[] = [];
     let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -115,9 +123,41 @@ export default function AmbientBackdrop() {
       };
     };
 
-    const createStarParticle = (viewportWidth: number, viewportHeight: number): StarParticle => {
+    const createStarClusters = (viewportWidth: number, viewportHeight: number): StarCluster[] => {
+      const area = viewportWidth * viewportHeight;
+      const maxClusters = Math.min(6, Math.max(2, Math.floor(area / 240000)));
+      const clusterCount = Math.floor(randomBetween(0, maxClusters + 1));
+
+      return Array.from({ length: clusterCount }, () => {
+        const spreadBase = Math.min(viewportWidth, viewportHeight);
+        return {
+          radius: randomBetween(spreadBase * 0.035, spreadBase * 0.11),
+          x: randomBetween(viewportWidth * 0.08, viewportWidth * 0.92),
+          y: randomBetween(viewportHeight * 0.08, viewportHeight * 0.92)
+        };
+      });
+    };
+
+    const createStarParticle = (
+      viewportWidth: number,
+      viewportHeight: number,
+      clusters: StarCluster[]
+    ): StarParticle => {
       const size = randomBetween(0.55, 2.35);
       const sizeRatio = (size - 0.55) / (2.35 - 0.55);
+      const clusterChance = randomBetween(0.38, 0.66);
+      const useCluster = clusters.length > 0 && Math.random() < clusterChance;
+
+      let x = randomBetween(0, viewportWidth);
+      let y = randomBetween(0, viewportHeight);
+
+      if (useCluster) {
+        const cluster = clusters[Math.floor(Math.random() * clusters.length)];
+        const angle = randomBetween(0, Math.PI * 2);
+        const distance = cluster.radius * Math.pow(Math.random(), 1.7);
+        x = clampValue(cluster.x + Math.cos(angle) * distance, 0, viewportWidth);
+        y = clampValue(cluster.y + Math.sin(angle) * distance, 0, viewportHeight);
+      }
 
       return {
         blue: starChannel(),
@@ -129,8 +169,8 @@ export default function AmbientBackdrop() {
         twinkleRate: randomBetween(0.35, 1.1),
         velocityX: randomBetween(-3.2, 3.2),
         velocityY: randomBetween(-2.6, 2.6),
-        x: randomBetween(0, viewportWidth),
-        y: randomBetween(0, viewportHeight)
+        x,
+        y
       };
     };
 
@@ -153,8 +193,9 @@ export default function AmbientBackdrop() {
       const { nebula: targetNebulaCount, stars: targetStarCount } = targetCounts(width, height);
 
       if (!nebulaParticles.length || !starParticles.length) {
+        starClusters = createStarClusters(width, height);
         nebulaParticles = Array.from({ length: targetNebulaCount }, () => createNebulaParticle(width, height));
-        starParticles = Array.from({ length: targetStarCount }, () => createStarParticle(width, height));
+        starParticles = Array.from({ length: targetStarCount }, () => createStarParticle(width, height, starClusters));
         return;
       }
 
@@ -182,8 +223,11 @@ export default function AmbientBackdrop() {
       }
 
       if (starParticles.length < targetStarCount) {
+        if (Math.random() < 0.35) {
+          starClusters = createStarClusters(width, height);
+        }
         while (starParticles.length < targetStarCount) {
-          starParticles.push(createStarParticle(width, height));
+          starParticles.push(createStarParticle(width, height, starClusters));
         }
       } else if (starParticles.length > targetStarCount) {
         starParticles.length = targetStarCount;
