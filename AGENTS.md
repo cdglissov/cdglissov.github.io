@@ -1,62 +1,142 @@
 # AGENTS.md
 
-## Project Overview
-A clean, modern personal portfolio / CV site with a "tech" feel.
+## Mission
 
-## Features
-- Function over flair: prioritize readable structure and clear sections (About/Skills/Experience/Projects/Contact) rather than heavy animations.
-- Modern Stack: Built with Astro, TypeScript, and Tailwind CSS
-- Smooth Animations: Framer Motion for elegant transitions and interactions
-- Fully Responsive: Optimized for all devices and screen sizes
-- SEO Optimized: Meta tags and structured data for search engines
-- Security-First: Following best practices and secure coding standards 
-- Zero Config Deployment: Automated GitHub Actions workflow
-- Accessible: WCAG compliant design
+Build and maintain a clean, professional Astro portfolio/blog where readability, information hierarchy, and reliability matter more than visual gimmicks.
 
-## Colors
-- Color is restrained and utilitarian. It's a neutral palette (near-black/charcoal) with gray UI elements for separation and hierarchy.
-- Accent color is used sparingly (mainly on interactive bits like links / emphasis), so nothing feels loud or "branded" - more "professional/dev portfolio."
-- Readability and atmosphere is priority. The colors should feel calm, minimal, and safe.
+## Product goals
 
-## Design
-- Clear hierarchy & flow: sections are ordered logically and the nav makes it easy to jump around.
-- Consistency: the site uses repeated patterns (headings, cards, spacing) so it feels coherent.
-- Hero area: Name should be clear. Use typed-text subtitle. Icons for linkedin, github, email. Make room for a punchy line.
-- Use an easily readable and modern text font.
+- Keep the experience calm, minimal, and technical.
+- Prioritize clear sections and scannable content.
+- Use motion sparingly and purposefully.
+- Preserve SEO, accessibility, and deployment reliability as first-class requirements.
 
-## Tech Stack
-- Framework: Astro
-- UI components: React (only where needed)
-- Language: TypeScript
-- Styling: Tailwind CSS
-- Animations: Framer Motion (inside React components)
-- Icons: React Icons
-- Deployment: GitHub Pages via GitHub Actions 
-- Content: Markdown with math rendering
+## Information architecture
 
-## Formatting, evaluation, and linting
-- Add formatting + quality gates: Prettier, ESLint, TypeScript checks
-- Test implementation works as expected
+Homepage flow should stay coherent and easy to navigate:
 
-## Animation
-Use React islands only for:
-- typed-text
-- small Framer Motion transitions (section reveal, hover)
-- Respect prefers-reduced-motion.
+- Hero
+- About
+- Projects
+- Learning
+- Featured Writing
+- Contact
 
-## Deployment + maintenance
-- GitHub Actions deploy to GitHub Pages.
-- Add CI checks: typecheck, lint, build, link check.
-- Add Dependabot.
-- Document “how to add a project/post” in README (5-minute workflow).
+Blog structure:
 
-## Ship checklist 
-- Fill real content (projects, experience bullets, 2–3 blog posts).
-- Verify mobile layout + contact links.
-- Confirm Pages URL + canonical URLs + sitemap/RSS working.
+- Index page at `/blog/`
+- Post pages at `/blog/<slug>/`
+- Tag pages at `/blog/tag/<tag>/`
+- RSS at `/rss.xml`
 
-## Context
-Site url: https://cdglissov.github.io/
-Linkedin: https://www.linkedin.com/in/christian-glissov/
-Formspree: https://formspree.io/f/xvojpppy
-About me: Senior AI specialist. Background in mathematical modelling and scientific computing
+## Source-of-truth files
+
+- Site identity + external links: `src/data/site.ts`
+- About, experience, learning timeline, projects: `src/data/content.ts`
+- Blog frontmatter schema: `src/content.config.ts`
+- Homepage composition: `src/pages/index.astro`
+- Blog listing + tag pages: `src/pages/blog/index.astro`, `src/pages/blog/tag/[tag].astro`
+- Global styling tokens and base look: `src/styles/global.css`
+- SEO/canonical site settings: `astro.config.mjs`, `src/layouts/BaseLayout.astro`
+
+When changing content structure, update the relevant type definitions in `src/data/content.ts` before editing entries.
+
+## Design rules
+
+- Keep a restrained neutral palette; avoid loud branding colors.
+- Use accent color sparingly for links, focus, and interactive emphasis.
+- Preserve high contrast and readable body copy.
+- Maintain consistent spacing, card structure, and heading patterns across sections.
+- Keep typography modern and legible; avoid decorative display styles.
+
+## Motion and React island rules
+
+Use React islands only when needed:
+
+- Typed text in hero (`TypedText`).
+- Small Framer Motion transitions (`MotionReveal`, `MotionCard`).
+
+Motion constraints:
+
+- Respect `prefers-reduced-motion`.
+- Avoid animation-heavy section choreography.
+- Keep transitions short and subtle.
+
+## Content rules
+
+- Tone: professional, technically grounded, concise.
+- Avoid filler copy and hype language.
+- Keep chronology and role labels accurate in experience and learning timelines.
+- Ensure every external link is valid and uses safe attributes (`target="_blank"` + `rel="noreferrer"` where appropriate).
+- Do not leave obvious placeholders in shipped content unless explicitly intentional.
+
+## Accessibility and SEO rules
+
+- Use semantic headings and maintain logical heading order.
+- Keep keyboard focus states visible.
+- Include descriptive labels for form fields and interactive controls.
+- Preserve structured data consistency with `personSchema` in `src/data/site.ts`.
+- Keep canonical URL/site config aligned with `https://cdglissov.github.io/`.
+- Ensure sitemap and RSS continue to build correctly.
+
+## Engineering standards
+
+- Stack: Astro + TypeScript + Tailwind CSS + React islands + Framer Motion.
+- Runtime: Node.js `>=24.14.0`.
+- Lint/format/type/build must pass before shipping.
+
+Required local commands:
+
+```bash
+npm run typecheck
+npm run lint
+npm run format:check
+npm run build
+```
+
+Single-command gate:
+
+```bash
+npm run check
+```
+
+## CI, deployment, and maintenance
+
+- CI workflow runs typecheck, lint, format check, build, and link check.
+- Deploy workflow publishes `dist/` to GitHub Pages on pushes to `main`.
+- Dependabot should remain enabled for npm and GitHub Actions.
+- Keep README workflows current for adding projects and blog posts.
+
+## Quick update workflows
+
+Add/update a project:
+
+1. Edit `projects` in `src/data/content.ts`.
+2. Confirm `name`, `description`, `stack`, and `href` are complete.
+3. Run `npm run build` and verify the project card renders correctly.
+
+Add/update a learning timeline entry:
+
+1. Edit `learningTimeline` in `src/data/content.ts`.
+2. Keep `period`, `topic`, and `description` concise and typo-free.
+3. Verify timeline ordering and mobile readability on the homepage.
+
+Add a blog post:
+
+1. Create a new markdown file in `src/content/blog/`.
+2. Include valid frontmatter required by `src/content.config.ts`:
+   - `title`
+   - `description`
+   - `pubDate`
+   - `tags` (optional but recommended)
+   - `featured` / `draft` as needed
+3. Run `npm run build` and verify post, tag page, and RSS output.
+
+## Ship checklist
+
+- Mobile layout checks passed for homepage and blog pages.
+- Contact form action points to configured Formspree endpoint.
+- LinkedIn/GitHub/contact links resolve correctly.
+- Canonical URL, sitemap, and RSS are valid.
+- `npm run check` passes locally.
+- No accidental regressions in accessibility or readability.

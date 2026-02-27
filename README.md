@@ -11,6 +11,11 @@ Modern Astro portfolio and blog with a neutral, professional design, typed hero 
 - RSS + sitemap
 - GitHub Pages deployment via GitHub Actions
 
+## Requirements
+
+- Node.js `>=24.14.0`
+- npm
+
 ## Local development
 
 ```bash
@@ -25,6 +30,12 @@ npm run typecheck
 npm run lint
 npm run format:check
 npm run build
+```
+
+All checks in one command:
+
+```bash
+npm run check
 ```
 
 ## 5-minute workflow: add a project
