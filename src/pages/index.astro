@@ -92,18 +92,22 @@ const hiddenLearningTimeline = hasCollapsedTimeline
       <section id="about" class="section-shell">
         <SectionHeading
           kicker="About"
-          title="I am Christian. I live in Copenhagen, where I create autonomous systems."
-          subtitle="I love learning"
+          title="I am Christian."
+          subtitle="I live in Copenhagen, where I create autonomous systems."
         />
-        <div class="space-y-4 text-sm leading-7 text-slate-300 md:text-base">
-          {aboutParagraphs.map((paragraph) => <p set:html={paragraph}></p>)}
+        <div class="max-w-[84ch] space-y-4 text-sm text-slate-300 md:text-base">
+          {
+            aboutParagraphs.map((paragraph) => (
+              <p class="leading-7" set:html={paragraph}></p>
+            ))
+          }
         </div>
       </section>
     </MotionReveal>
 
     <MotionReveal client:visible className="mb-10" delay={0.12}>
       <section id="projects" class="section-shell">
-        <SectionHeading kicker="Projects" title="Selected implementations" />
+        <SectionHeading kicker="Projects" title="Things I've built" />
         <div class="grid gap-4 md:grid-cols-2">
           {
             projects.map((project) => (
@@ -137,8 +141,8 @@ const hiddenLearningTimeline = hasCollapsedTimeline
       <section id="learning" class="section-shell">
         <SectionHeading
           kicker="Learning"
-          title="Reverse-chronological timeline"
-          subtitle="Topics I have focused on recently, with the most recent first."
+          title="Milestones"
+          subtitle="One of the things i love most about programming is that there's always something new to learn. Here's a selection of some of the things I've been learning lately:"
         />
         <div class="timeline-list">
           {
@@ -184,7 +188,7 @@ const hiddenLearningTimeline = hasCollapsedTimeline
         <SectionHeading
           kicker="Featured Writing"
           title="Recent notes from the blog"
-          subtitle="Technical write-ups on evaluation, modelling, and AI delivery practices."
+          subtitle="Sometimes I find myself writing about interesting things I've learned or experienced."
         />
         <div class="grid gap-4 md:grid-cols-3">
           {
@@ -228,8 +232,8 @@ const hiddenLearningTimeline = hasCollapsedTimeline
       <section id="contact" class="section-shell">
         <SectionHeading
           kicker="Contact"
-          title="Let’s discuss your AI roadmap"
-          subtitle="Share the current problem, constraints, and timeline."
+          title="Let's chat!"
+          subtitle="Share whatever your heart desires."
         />
         <form action={siteConfig.formspreeUrl} class="grid gap-4" method="POST">
           <label class="grid gap-2 text-sm">
