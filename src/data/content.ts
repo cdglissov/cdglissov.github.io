@@ -9,6 +9,13 @@ export type LearningEntry = {
   description: string;
 };
 
+export type AboutExperienceEntry = {
+  period: string;
+  place: string;
+  label: string;
+  type: 'education' | 'work';
+};
+
 export type Project = {
   name: string;
   description: string;
@@ -24,59 +31,89 @@ export const aboutParagraphs = [
   'I love learning and I\'m always excited to connect with like-minded people. If you want to chat about a project, build something, or anything else, feel free to <a href="https://www.linkedin.com/in/christian-glissov/" class="text-accent underline" target="_blank" rel="noreferrer">reach out</a>!'
 ];
 
-export const learningTimeline: LearningEntry[] = [
+export const aboutExperience: AboutExperienceEntry[] = [
   {
     period: '2025 - Present',
-    topic: 'Evaluation-first AI delivery',
-    description:
-      'Building regression-based evaluation loops so product teams can ship LLM updates with measurable quality and lower operational risk.'
+    place: 'If Insurance',
+    label: 'Senior AI Specialist',
+    type: 'work'
   },
   {
-    period: '2024 - Present',
-    topic: 'Observability for model systems',
-    description:
-      'Instrumenting prompts, traces, and cost signals end-to-end to improve debugging speed and keep production behavior predictable.'
+    period: '2024 - 2025',
+    place: 'Netcompany',
+    label: 'Senior Data Specialist',
+    type: 'work'
   },
   {
-    period: '2023 - 2024',
-    topic: 'Production retrieval workflows',
-    description:
-      'Designing source-grounded search and assistant pipelines for technical users who need reliable answers with clear provenance.'
-  },
-  {
-    period: '2021 - 2023',
-    topic: 'Scientific computing at scale',
-    description:
-      'Modernizing data-heavy simulation and optimization workflows with stronger automation, testing, and reproducibility.'
+    period: '2021 - 2024',
+    place: 'Netcompany',
+    label: 'Data Consultant',
+    type: 'work'
   },
   {
     period: '2019 - 2021',
-    topic: 'Applied modelling foundations',
-    description:
-      'Deepening mathematical modelling practice across constrained optimization, numerical methods, and practical decision systems.'
+    place: 'Technical University of Denmark',
+    label: 'Mathematical Modelling and Computation, MSc',
+    type: 'education'
   }
+];
+
+export const learningTimeline: LearningEntry[] = [
+  {
+    period: '2026 February',
+    topic: 'Claude and Copilot plugings',
+    description:
+      'Deep dive into agents and skills, and how to use hand-offs, subagents. This stuff will be huge.'
+  },
+  {
+    period: '2026 January',
+    topic: 'Postgresql',
+    description:
+      'Replacing MongoDB with Azure DB for Postgresql. Created a DB and used alembic for migrations. Learned about pgvector for vector search. I still prefer Qdrant.'
+  },
 ];
 
 export const projects: Project[] = [
   {
-    name: 'Research Copilot for Technical Teams',
+    name: 'Recurrent Flow Networks',
     description:
-      'A retrieval-augmented assistant that answers domain questions with source-backed responses and quality scoring.',
-    stack: ['Astro', 'TypeScript', 'Python', 'Vector Search', 'OpenTelemetry'],
-    href: 'https://github.com/cdglissov'
+      'Proposing an unsupervised algorithm to generalise the underlying distribution of video data.',
+    stack: ['Python', 'Bash', 'High-performance computing', 'GitHub'],
+    href: 'https://github.com/cdglissov/recurrent-flows-msc/blob/master/MSC_Thesis.pdf'
   },
   {
-    name: 'Model Evaluation Harness',
+    name: 'COVID-19 in New York City',
     description:
-      'A reproducible benchmark framework for prompt and model versions with dataset snapshots, golden tests, and drift alerts.',
-    stack: ['TypeScript', 'Node.js', 'CI', 'Statistical testing'],
-    href: 'https://github.com/cdglissov'
+      'Visualising and analysing the relationship between COVID-19 and socioeconomic status.',
+    stack: ['Python', 'HTML', 'JS', 'CSS', 'd3js', 'Bokeh', 'GitHub'],
+    href: 'https://cdglissov.github.io/nyc.covid19/'
   },
   {
-    name: 'Optimization Pipeline Modernization',
+    name: 'My Portfolio Website',
     description:
-      'Migrated legacy scientific workflows to resilient cloud jobs with queue-based orchestration and observability.',
-    stack: ['Python', 'Numerical methods', 'Docker', 'GitHub Actions'],
-    href: 'https://github.com/cdglissov'
-  }
+      'A modern, responsive portfolio website built with Astro and TypeScript.',
+    stack: ['Astro', 'TypeScript', 'Tailwind CSS'],
+    href: 'https://github.com/cdglissov/cdglissov.github.io'
+  },
+  {
+    name: 'Exploring Adversarial Attacks with Data Augmentation',
+    description:
+      'An investigation of how data augmentation can be used to defend against adversarial attacks.',
+    stack: ['Python', 'Paper'],
+    href: 'https://github.com/samuelepapa/adversarial_augmentation/blob/master/Adversarial_Attacks.pdf'
+  },
+  {
+    name: 'Topic Modelling of Danish Parliament Transcripts',
+    description:
+      'Using probabilistic LDA to extract and analyse topics in transcript data.',
+    stack: ['Python'],
+    href: 'https://github.com/cdglissov/MBML_project/blob/master/main.ipynb'
+  },
+  {
+    name: 'Applying Linear and Non-linear Time Series Models',
+    description:
+      'A collection of time series models used to analyse and model different problems.',
+    stack: ['R'],
+    href: 'https://github.com/cdglissov/Time-series-analysis/tree/main'
+  },
 ];

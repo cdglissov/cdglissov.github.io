@@ -1,5 +1,5 @@
 ---
-title: From Models to Reliable Products
+title: Just a placeholder for now...
 description: Why shipping AI is mostly about guardrails, observability, and feedback loops.
 pubDate: 2026-02-10
 tags:

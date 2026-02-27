@@ -1,13 +1,22 @@
 ---
 import { getCollection } from 'astro:content';
-import { FaEnvelope, FaGithub, FaLinkedin } from 'react-icons/fa6';
+import {
+  FaEnvelope,
+  FaGithub,
+  FaLinkedin
+} from 'react-icons/fa6';
 import Footer from '@/components/Footer.astro';
 import MotionCard from '@/components/MotionCard';
 import MotionReveal from '@/components/MotionReveal';
 import SectionHeading from '@/components/SectionHeading.astro';
 import SiteHeader from '@/components/SiteHeader.astro';
 import TypedText from '@/components/TypedText';
-import { aboutParagraphs, learningTimeline, projects } from '@/data/content';
+import {
+  aboutExperience,
+  aboutParagraphs,
+  learningTimeline,
+  projects
+} from '@/data/content';
 import { personSchema, siteConfig } from '@/data/site';
 import { formatDate } from '@/utils/format';
 import BaseLayout from '@/layouts/BaseLayout.astro';
@@ -95,12 +104,66 @@ const hiddenLearningTimeline = hasCollapsedTimeline
           title="I am Christian."
           subtitle="I live in Copenhagen, where I create autonomous systems."
         />
-        <div class="max-w-[84ch] space-y-4 text-sm text-slate-300 md:text-base">
-          {
-            aboutParagraphs.map((paragraph) => (
-              <p class="leading-7" set:html={paragraph}></p>
-            ))
-          }
+        <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(16.5rem,20rem)]">
+          <div class="max-w-[68ch] space-y-4 text-sm text-slate-300 md:text-base">
+            {
+              aboutParagraphs.map((paragraph) => (
+                <p class="leading-7" set:html={paragraph}></p>
+              ))
+            }
+          </div>
+          <aside
+            class="h-fit rounded-xl border border-border bg-white/5 p-4 lg:mt-1"
+            aria-label="Experience summary"
+          >
+            <ul>
+              {
+                aboutExperience.map((entry, index) => {
+                  const previousEntry = index > 0 ? aboutExperience[index - 1] : undefined;
+                  const isSectionTransition =
+                    previousEntry && previousEntry.type !== entry.type;
+
+                  const logoSrc =
+                    entry.type === 'education'
+                      ? '/logo_dtu.png'
+                      : entry.place.toLowerCase().includes('netcompany')
+                        ? '/logo_nc.png'
+                        : '/logo_if.png';
+                  const logoAlt =
+                    entry.type === 'education'
+                      ? 'DTU logo'
+                      : entry.place.toLowerCase().includes('netcompany')
+                        ? 'Netcompany logo'
+                        : 'If logo';
+
+                  return (
+                    <li
+                      class:list={[
+                        'space-y-1.5 py-3 first:pt-0 last:pb-0',
+                        isSectionTransition && 'mt-2 border-t border-border pt-5'
+                      ]}
+                    >
+                      <p class="flex items-center justify-between gap-3 text-xs text-muted">
+                        <span>{entry.place}</span>
+                        <span class="mono text-[0.68rem] uppercase tracking-[0.12em]">
+                          {entry.period}
+                        </span>
+                      </p>
+                      <p class="flex items-center gap-2.5 text-sm text-slate-100">
+                        <img
+                          src={logoSrc}
+                          alt={logoAlt}
+                          class="h-4 w-4 rounded-sm object-contain"
+                          loading="lazy"
+                        />
+                        <span>{entry.label}</span>
+                      </p>
+                    </li>
+                  );
+                })
+              }
+            </ul>
+          </aside>
         </div>
       </section>
     </MotionReveal>

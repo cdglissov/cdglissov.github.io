@@ -1,5 +1,5 @@
 ---
-title: Bayesian Search for Prompt and Retrieval Tuning
+title: Just a placeholder for now...
 description: A concise way to tune expensive AI pipelines when brute-force sweeps are too costly.
 pubDate: 2026-01-18
 tags:
