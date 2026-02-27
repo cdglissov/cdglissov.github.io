@@ -66,3 +66,5 @@ GitHub Actions workflow `.github/workflows/static.yml`:
 - Treat `dist/` as generated output.
 - Keep asset imports centralized through entry files so webpack can track and emit them.
 - If changing page structure, verify related navbar behavior in `src/js/navbar_utility.js`.
+- Always use 4 space identation
+- Follow stylelint best practices when modifying .scss and .css files.

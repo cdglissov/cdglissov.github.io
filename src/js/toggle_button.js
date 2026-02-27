@@ -1,19 +1,41 @@
 export let active = false
 
-export default window.toggle = function() {
-    let toggle = document.querySelector('.toggle')
-    let text = document.querySelector('.text')
+function updateThemeToggle(toggleElement, textElement) {
+  toggleElement.classList.toggle("active", active)
+  toggleElement.setAttribute("aria-pressed", String(active))
+  document.documentElement.setAttribute("data-bs-theme", active ? "light" : "dark")
+  textElement.textContent = active ? "Dark mode off" : "Dark mode on"
+}
 
-    active = !active
+function applySavedTheme() {
+  const savedTheme = localStorage.getItem("theme")
+  if (savedTheme === "light") {
+    active = true
+  }
+}
 
-    if (active) {
-      toggle.classList.add('active')
-      document.documentElement.setAttribute('data-bs-theme','light')
-      text.innerHTML = 'Dark mode off'
-    } else {
-      toggle.classList.remove('active')
-      document.documentElement.setAttribute('data-bs-theme','dark')
-      text.innerHTML = 'Dark mode on'
-    }
+export default window.toggle = function () {
+  const toggleElement = document.querySelector(".toggle")
+  const textElement = document.querySelector(".text")
+
+  if (!toggleElement || !textElement) {
+    return
   }
 
+  active = !active
+  localStorage.setItem("theme", active ? "light" : "dark")
+  updateThemeToggle(toggleElement, textElement)
+}
+
+applySavedTheme()
+
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleElement = document.querySelector(".toggle")
+  const textElement = document.querySelector(".text")
+
+  if (!toggleElement || !textElement) {
+    return
+  }
+
+  updateThemeToggle(toggleElement, textElement)
+})
