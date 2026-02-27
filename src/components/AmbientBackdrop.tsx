@@ -66,6 +66,23 @@ type NebulaSpriteSet = {
   halo: HTMLCanvasElement;
 };
 
+type AlienFlight = {
+  arcAmount: number;
+  bobAmount: number;
+  bobRate: number;
+  durationMs: number;
+  endX: number;
+  endY: number;
+  flipX: boolean;
+  phase: number;
+  size: number;
+  startMs: number;
+  startX: number;
+  startY: number;
+  wobbleAmount: number;
+  wobbleRate: number;
+};
+
 const NEBULA_PALETTES: NebulaPalette[] = [
   { core: '#ad7fc2', dust: '#151922', halo: '#4f7290' },
   { core: '#bc7b9d', dust: '#121720', halo: '#66789a' },
@@ -74,10 +91,16 @@ const NEBULA_PALETTES: NebulaPalette[] = [
 ];
 const STAR_CHANNEL_DIM = 77;
 const STAR_CHANNEL_BRIGHT = 255;
+const ALIEN_MIN_INTERVAL_MS = 11000;
+const ALIEN_MAX_INTERVAL_MS = 28000;
+const ALIEN_MIN_DURATION_MS = 10000;
+const ALIEN_MAX_DURATION_MS = 16500;
 
 const randomBetween = (min: number, max: number) => Math.random() * (max - min) + min;
 const starChannel = () => (Math.random() < 0.2 ? STAR_CHANNEL_DIM : STAR_CHANNEL_BRIGHT);
 const clampValue = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
+const lerp = (start: number, end: number, progress: number) => start + (end - start) * progress;
+const easeInOutSine = (progress: number) => 0.5 - Math.cos(progress * Math.PI) * 0.5;
 
 const wrapValue = (value: number, min: number, max: number) => {
   if (value < min) return max;
@@ -110,10 +133,71 @@ export default function AmbientBackdrop() {
     let lastTime = 0;
     let stopped = false;
     let smokeLoaded = false;
+    let alienLoaded = false;
+    let alienFlight: AlienFlight | null = null;
+    let nextAlienFlightAtMs = 0;
 
     const smokeImage = new Image();
     smokeImage.decoding = 'async';
     smokeImage.src = '/smoke.png';
+    const alienImage = new Image();
+    alienImage.decoding = 'async';
+    alienImage.src = '/happy_alien.png';
+    const onAlienLoad = () => {
+      alienLoaded = true;
+    };
+
+    const scheduleAlienFlight = (fromMs: number) => {
+      nextAlienFlightAtMs = fromMs + randomBetween(ALIEN_MIN_INTERVAL_MS, ALIEN_MAX_INTERVAL_MS);
+    };
+
+    const createAlienFlight = (startMs: number): AlienFlight => {
+      const edge = Math.floor(randomBetween(0, 4));
+      const margin = 90;
+      let startX = 0;
+      let startY = 0;
+      let endX = 0;
+      let endY = 0;
+
+      if (edge === 0) {
+        startX = -margin;
+        startY = randomBetween(height * 0.15, height * 0.85);
+        endX = width + margin;
+        endY = clampValue(startY + randomBetween(-height * 0.26, height * 0.26), height * 0.1, height * 0.9);
+      } else if (edge === 1) {
+        startX = width + margin;
+        startY = randomBetween(height * 0.15, height * 0.85);
+        endX = -margin;
+        endY = clampValue(startY + randomBetween(-height * 0.26, height * 0.26), height * 0.1, height * 0.9);
+      } else if (edge === 2) {
+        startX = randomBetween(width * 0.1, width * 0.9);
+        startY = -margin;
+        endX = clampValue(startX + randomBetween(-width * 0.25, width * 0.25), width * 0.06, width * 0.94);
+        endY = height + margin;
+      } else {
+        startX = randomBetween(width * 0.1, width * 0.9);
+        startY = height + margin;
+        endX = clampValue(startX + randomBetween(-width * 0.25, width * 0.25), width * 0.06, width * 0.94);
+        endY = -margin;
+      }
+
+      return {
+        arcAmount: randomBetween(8, 26) * (Math.random() < 0.5 ? -1 : 1),
+        bobAmount: randomBetween(3.5, 10),
+        bobRate: randomBetween(1.2, 2.4),
+        durationMs: randomBetween(ALIEN_MIN_DURATION_MS, ALIEN_MAX_DURATION_MS),
+        endX,
+        endY,
+        flipX: endX < startX,
+        phase: randomBetween(0, Math.PI * 2),
+        size: clampValue(Math.min(width, height) * randomBetween(0.06, 0.085), 34, 72),
+        startMs,
+        startX,
+        startY,
+        wobbleAmount: randomBetween(0.04, 0.13),
+        wobbleRate: randomBetween(0.8, 1.9)
+      };
+    };
 
     const createTintedNebulaSprite = (color: string, alpha: number) => {
       const offscreen = document.createElement('canvas');
@@ -374,6 +458,57 @@ export default function AmbientBackdrop() {
       context.globalCompositeOperation = 'source-over';
     };
 
+    const drawAlien = (timeMs: number, time: number) => {
+      if (reducedMotion || !alienLoaded || !alienImage.width || !alienImage.height) {
+        return;
+      }
+
+      if (!alienFlight) {
+        if (timeMs >= nextAlienFlightAtMs) {
+          alienFlight = createAlienFlight(timeMs);
+        } else {
+          return;
+        }
+      }
+
+      const progress = (timeMs - alienFlight.startMs) / alienFlight.durationMs;
+      if (progress >= 1) {
+        alienFlight = null;
+        scheduleAlienFlight(timeMs);
+        return;
+      }
+
+      const easedProgress = easeInOutSine(clampValue(progress, 0, 1));
+      const fadeWindow = 0.12;
+      const fadeIn = clampValue(progress / fadeWindow, 0, 1);
+      const fadeOut = clampValue((1 - progress) / fadeWindow, 0, 1);
+      const alpha = Math.min(fadeIn, fadeOut) * 0.88;
+      const x = lerp(alienFlight.startX, alienFlight.endX, easedProgress);
+      const yLinear = lerp(alienFlight.startY, alienFlight.endY, easedProgress);
+      const yArc = Math.sin(easedProgress * Math.PI) * alienFlight.arcAmount;
+      const yBob = Math.sin(time * alienFlight.bobRate + alienFlight.phase) * alienFlight.bobAmount;
+      const y = yLinear + yArc + yBob;
+      const wobble = Math.sin(time * alienFlight.wobbleRate + alienFlight.phase) * alienFlight.wobbleAmount;
+
+      context.save();
+      context.translate(x, y);
+      if (alienFlight.flipX) {
+        context.scale(-1, 1);
+      }
+      context.rotate(wobble);
+      context.globalAlpha = alpha;
+      context.globalCompositeOperation = 'screen';
+      context.drawImage(
+        alienImage,
+        -alienFlight.size / 2,
+        -alienFlight.size / 2,
+        alienFlight.size,
+        alienFlight.size
+      );
+      context.globalCompositeOperation = 'source-over';
+      context.restore();
+    };
+
     const drawStars = (time: number, delta: number) => {
       for (const star of starParticles) {
         if (!reducedMotion) {
@@ -397,6 +532,7 @@ export default function AmbientBackdrop() {
       const time = timeMs * 0.001;
       context.clearRect(0, 0, width, height);
       drawNebula(time, delta);
+      drawAlien(timeMs, time);
       drawStars(time, delta);
     };
 
@@ -416,12 +552,14 @@ export default function AmbientBackdrop() {
       reducedMotion = event.matches;
 
       if (reducedMotion) {
+        alienFlight = null;
         if (rafId) {
           window.cancelAnimationFrame(rafId);
           rafId = 0;
         }
         drawFrame(performance.now());
       } else if (!rafId) {
+        scheduleAlienFlight(performance.now());
         lastTime = performance.now();
         rafId = window.requestAnimationFrame(drawFrame);
       }
@@ -438,11 +576,18 @@ export default function AmbientBackdrop() {
     };
 
     resize();
+    scheduleAlienFlight(performance.now());
 
     if (smokeImage.complete) {
       createNebulaSprites();
     } else {
       smokeImage.addEventListener('load', createNebulaSprites);
+    }
+
+    if (alienImage.complete) {
+      alienLoaded = true;
+    } else {
+      alienImage.addEventListener('load', onAlienLoad);
     }
 
     window.addEventListener('resize', onResize, { passive: true });
@@ -461,6 +606,7 @@ export default function AmbientBackdrop() {
       window.removeEventListener('resize', onResize);
       reducedMotionQuery.removeEventListener('change', onReducedMotionChange);
       smokeImage.removeEventListener('load', createNebulaSprites);
+      alienImage.removeEventListener('load', onAlienLoad);
     };
   }, []);
 
