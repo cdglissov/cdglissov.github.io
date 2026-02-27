@@ -92,11 +92,11 @@ const hiddenLearningTimeline = hasCollapsedTimeline
       <section id="about" class="section-shell">
         <SectionHeading
           kicker="About"
-          title="Production-minded AI engineering"
-          subtitle="I focus on systems that stay trustworthy and useful over time."
+          title="I am Christian. I live in Copenhagen, where I create autonomous systems."
+          subtitle="I love learning"
         />
         <div class="space-y-4 text-sm leading-7 text-slate-300 md:text-base">
-          {aboutParagraphs.map((paragraph) => <p>{paragraph}</p>)}
+          {aboutParagraphs.map((paragraph) => <p set:html={paragraph}></p>)}
         </div>
       </section>
     </MotionReveal>

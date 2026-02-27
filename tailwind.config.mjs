@@ -11,7 +11,7 @@ export default {
         border: '#252a32',
         text: '#d7dde5',
         muted: '#98a4b3',
-        accent: '#8ea4bf'
+        accent: 'rgb(74, 144, 177)'
       },
       boxShadow: {
         panel: '0 16px 50px rgba(0, 0, 0, 0.3)'

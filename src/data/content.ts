@@ -17,10 +17,11 @@ export type Project = {
 };
 
 export const aboutParagraphs = [
-  'As a kid growing up in Copenhagen in the \'90s, I was fascinated by space, nature, and science. I spent hours tinkering with computers, exploring nature, and gaming with friends.',
-  'I had a strange obsession with observing ants and introducing grape snails to our garden (we didn\'t have any, but my aunt had plenty, and I thought they were amazing - much to my parents\' delight). I\'ve always been captivated by space: a vast, dark, mysterious expanse where you can gaze at the stars and let your thoughts drift. What\'s out there? Why is it there? Why are we here? I credit that fascination with the unknown for my love of science fiction, and science.',
-  'In my teenage years, I took up strength training. I didn\'t know much about anatomy and physiology at the time - but I wanted to. That curiosity led me to specialize in powerlifting and eventually become a certified strength coach. The same drive to understand how things work - whether the human body or tiny bits - has shaped my path ever since. It led me to a career at the intersection of research and engineering where I specialised in generative machine learning.',
-  'Today, I\'m a Senior AI Specialist, working on building AI systems and experimenting with emerging technologies. In my free time I code, hike, powerlift, and spend time with my lovely family and friends.'
+  'As a kid I was fascinated by space, nature, and science. I have spent hours tinkering with computers, gazing at ants, and reading about technology and math.',
+  'I\'ve always been captivated by space: a vast, dark, mysterious expanse where you can gaze at the stars and let your thoughts drift. Space always inspires to many existential question; What\'s out there? Why is it there? Why are we here? I credit that fascination with the unknown for my love of science fiction, science, and the design of this website.',
+  'In my teenage years, I took up strength training. I wanted to learn biomechanics, anatomy, and physiology. That curiosity led me to specialize in powerlifting and eventually become a certified strength coach. The same drive to understand how things work - whether the human body or transistors in a computer - has shaped my path ever since. It led me to a career at the intersection of research and engineering where I specialised in generative machine learning.',
+  'Today, I\'m a Senior AI Specialist, working on building AI systems and experimenting with emerging technologies. In my free time I code, hike, lift heavy things, and spend time with my lovely family and friends.',
+  'I love learning and I\'m always excited to connect with like-minded people. If you want to chat about a project, build something, or anything else, feel free to <a href="https://www.linkedin.com/in/christian-glissov/" class="text-accent underline" target="_blank" rel="noreferrer">reach out</a>!'
 ];
 
 export const learningTimeline: LearningEntry[] = [

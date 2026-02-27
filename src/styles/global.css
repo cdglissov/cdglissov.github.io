@@ -11,7 +11,7 @@
   --bg-panel-soft: #161a21;
   --text-main: #d7dde5;
   --text-muted: #98a4b3;
-  --accent: #8ea4bf;
+  --accent: rgb(74, 144, 177);
   --kicker: rgb(74, 144, 177);
   --header-scrolled-bg: rgba(74, 144, 177, 0.096);
   --border: #252a32;
@@ -60,7 +60,7 @@ main {
 }
 
 a {
-  color: var(--text-main);
+  color: var(--accent);
 }
 
 .skip-link {
@@ -374,7 +374,7 @@ a {
 .prose {
   --tw-prose-body: var(--text-main);
   --tw-prose-headings: #eef4fc;
-  --tw-prose-links: #d2deec;
+  --tw-prose-links: var(--accent);
   --tw-prose-bold: #f3f8ff;
   --tw-prose-code: #e2ebf5;
   --tw-prose-pre-bg: #11151c;
