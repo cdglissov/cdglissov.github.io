@@ -1,5 +1,6 @@
 ---
 import '@/styles/global.css';
+import AmbientBackdrop from '@/components/AmbientBackdrop';
 
 interface Props {
   title: string;
@@ -39,8 +40,11 @@ const schemaItems = Array.isArray(structuredData) ? structuredData : structuredD
     }
   </head>
   <body>
-    <a href="#content" class="skip-link">Skip to content</a>
-    <slot />
+    <AmbientBackdrop client:load />
+    <div class="site-shell">
+      <a href="#content" class="skip-link">Skip to content</a>
+      <slot />
+    </div>
     <script is:inline>
       (() => {
         const attachCopyButtons = () => {
