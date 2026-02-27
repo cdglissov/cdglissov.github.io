@@ -19,6 +19,7 @@ type StarParticle = {
   green: number;
   phase: number;
   red: number;
+  speedFactor: number;
   size: number;
   twinkleRate: number;
   velocityX: number;
@@ -114,18 +115,24 @@ export default function AmbientBackdrop() {
       };
     };
 
-    const createStarParticle = (viewportWidth: number, viewportHeight: number): StarParticle => ({
-      blue: starChannel(),
-      green: starChannel(),
-      phase: randomBetween(0, Math.PI * 2),
-      red: starChannel(),
-      size: randomBetween(0.55, 2.35),
-      twinkleRate: randomBetween(0.35, 1.1),
-      velocityX: randomBetween(-2.8, 2.8),
-      velocityY: randomBetween(-2.3, 2.3),
-      x: randomBetween(0, viewportWidth),
-      y: randomBetween(0, viewportHeight)
-    });
+    const createStarParticle = (viewportWidth: number, viewportHeight: number): StarParticle => {
+      const size = randomBetween(0.55, 2.35);
+      const sizeRatio = (size - 0.55) / (2.35 - 0.55);
+
+      return {
+        blue: starChannel(),
+        green: starChannel(),
+        phase: randomBetween(0, Math.PI * 2),
+        red: starChannel(),
+        speedFactor: 0.85 + sizeRatio * 0.55,
+        size,
+        twinkleRate: randomBetween(0.35, 1.1),
+        velocityX: randomBetween(-3.2, 3.2),
+        velocityY: randomBetween(-2.6, 2.6),
+        x: randomBetween(0, viewportWidth),
+        y: randomBetween(0, viewportHeight)
+      };
+    };
 
     const resize = () => {
       const previousWidth = width || window.innerWidth;
@@ -234,10 +241,11 @@ export default function AmbientBackdrop() {
     const drawStars = (time: number, delta: number) => {
       for (const star of starParticles) {
         if (!reducedMotion) {
-          const driftX = Math.sin((star.y + time * 24) * 0.006 + star.phase) * 0.72;
-          const driftY = Math.cos((star.x + time * 16) * 0.007 + star.phase) * 0.58;
-          star.x += (star.velocityX + driftX) * delta;
-          star.y += (star.velocityY + driftY) * delta;
+          const driftX = Math.sin((star.y + time * 24) * 0.006 + star.phase) * 0.84;
+          const driftY = Math.cos((star.x + time * 16) * 0.007 + star.phase) * 0.66;
+          const speed = star.speedFactor;
+          star.x += (star.velocityX + driftX) * delta * speed;
+          star.y += (star.velocityY + driftY) * delta * speed;
         }
 
         star.x = wrapValue(star.x, -4, width + 4);
