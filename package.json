@@ -1,5 +1,5 @@
 {
-  "name": "cdglissov website",
+  "name": "cdglissov-website",
   "version": "1.0.0",
   "description": "Portfolio",
   "main": "index.js",
@@ -15,7 +15,7 @@
   "author": "Christian Glissov",
   "license": "MIT",
   "dependencies": {
-    "bootstrap": "^5.3.0-alpha3",
+    "bootstrap": "^5.3.8",
     "typed.js": "^3.0.0"
   },
   "devDependencies": {
@@ -33,10 +33,9 @@
     "sass": "^1.63.4",
     "sass-loader": "^13.3.2",
     "style-loader": "^4.0.0",
-    "stylelint": "^15.6.0",
-    "stylelint-config-sass-guidelines": "^10.0.0",
+    "stylelint": "^17.4.0",
+    "stylelint-config-sass-guidelines": "^13.0.0",
     "stylelint-config-standard-scss": "^17.0.0",
-    "stylelint-config-twbs-bootstrap": "^10.0.0",
     "terser-webpack-plugin": "^5.3.9",
     "webpack": "^5.82.0",
     "webpack-cli": "^5.1.0",
