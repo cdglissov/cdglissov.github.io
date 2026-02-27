@@ -4,4 +4,5 @@
 src/assets/img/
 src/assets/fav
 sources.txt
-/dist/*.map
+/dist
+/.astro

@@ -1,0 +1,77 @@
+---
+import { getCollection } from 'astro:content';
+import Footer from '@/components/Footer.astro';
+import SectionHeading from '@/components/SectionHeading.astro';
+import SiteHeader from '@/components/SiteHeader.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { formatDate, slugifyTag } from '@/utils/format';
+
+type BlogEntry = Awaited<ReturnType<typeof getCollection<'blog'>>>[number];
+
+type Props = {
+  tag: string;
+  posts: BlogEntry[];
+  tagSlug: string;
+};
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', (entry) => !entry.data.draft);
+  const byTag = new Map<string, { label: string; posts: BlogEntry[] }>();
+
+  posts.forEach((post) => {
+    post.data.tags.forEach((tag) => {
+      const slug = slugifyTag(tag);
+      const current = byTag.get(slug);
+
+      if (current) {
+        current.posts.push(post);
+      } else {
+        byTag.set(slug, { label: tag, posts: [post] });
+      }
+    });
+  });
+
+  return [...byTag.entries()].map(([tagSlug, value]) => ({
+    params: { tag: tagSlug },
+    props: {
+      tag: value.label,
+      tagSlug,
+      posts: value.posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+    }
+  }));
+}
+
+const { tag, posts, tagSlug } = Astro.props as Props;
+---
+
+<BaseLayout
+  title={`${tag} | Blog | Christian D. Glissov`}
+  description={`Posts tagged ${tag} on AI systems and engineering.`}
+  path={`/blog/tag/${tagSlug}/`}
+>
+  <SiteHeader />
+  <main id="content" class="pb-16 pt-10 md:pt-14">
+    <section class="section-shell">
+      <SectionHeading kicker="Tag" title={tag} subtitle={`Showing ${posts.length} post${posts.length === 1 ? '' : 's'}.`} />
+      <a class="mb-6 inline-block text-sm text-accent underline-offset-4 hover:underline" href="/blog/">
+        Back to all posts
+      </a>
+      <div class="space-y-4">
+        {
+          posts.map((post) => (
+            <article class="rounded-xl border border-border bg-white/5 p-5">
+              <p class="mono text-xs uppercase tracking-wide text-muted">{formatDate(post.data.pubDate)}</p>
+              <h2 class="mt-2 text-xl font-semibold text-slate-100">
+                <a class="hover:text-accent" href={`/blog/${post.slug}/`}>
+                  {post.data.title}
+                </a>
+              </h2>
+              <p class="mt-2 text-sm text-muted">{post.data.description}</p>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
