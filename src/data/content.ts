@@ -24,11 +24,11 @@ export type Project = {
 };
 
 export const aboutParagraphs = [
-  'As a kid I was fascinated by space, nature, and science. I have spent hours tinkering with computers, observing ants, and reading about technology and math.',
-  'I\'ve always been captivated by space: a vast, dark, mysterious expanse where you can gaze at the stars and let your thoughts drift. Space always inspires to many existential thoughts; What\'s out there? Why is it there? Why are we here? I credit that fascination with the unknown for my love of science fiction, science, and the design of this website.',
-  'In my teenage years, I took up strength training. I wanted to learn biomechanics, anatomy, and physiology. That curiosity led me to specialize in powerlifting and eventually become a certified strength coach. The same drive to understand how things work - whether the human body or transistors in a computer - has shaped my path ever since. It motivated me to pursue a career at the intersection of research and engineering. During my studies I specialised in generative machine learning.',
-  'Today, I\'m a Senior AI Specialist, working on building AI systems and experimenting with emerging technologies. In my free time I code, hike, lift heavy things, and spend time with my lovely family and friends.',
-  'I love learning and I\'m always excited to connect with like-minded people. If you want to chat about a project, build something, or anything else, feel free to <a href="https://www.linkedin.com/in/christian-glissov/" class="text-accent underline" target="_blank" rel="noreferrer">reach out</a>!'
+  'As a kid I was fascinated by space, nature, and science. I spent hours tinkering with computers, observing ants, and reading about technology and mathematics.',
+  'I\'ve always been captivated by space - a vast, dark expanse where you can gaze at the stars and let your thoughts drift. It always invites existential questions; What\'s out there? Why is it there? Why are we here? I credit that fascination with the unknown for my love of science fiction, science, and even the design of this website.',
+  'In my teenage years, I took up strength training. I wanted to learn anatomy and physiology - and like most teenagers, I had ambitions involving bigger biceps. That journey led me into powerlifting and eventually to becoming a certified strength coach. The same drive to understand how things work - whether muscles and tendons or neurons in a neural network - has shaped my path ever since. It ultimately led me to pursue a career at the intersection of research and engineering, where I later specialized in generative machine learning.',
+  'Today, I\'m a Senior AI Specialist, building AI systems and experimenting with emerging technologies. In my free time, I code, hike, lift heavy things, and spend time with my family and friends.',
+  'I love learning and connecting with curious people. If you\'d like to chat about a project, build something together, or just exchange ideas, feel free to <a href="https://www.linkedin.com/in/christian-glissov/" class="text-accent underline" target="_blank" rel="noreferrer">reach out</a>!'
 ];
 
 export const aboutExperience: AboutExperienceEntry[] = [
