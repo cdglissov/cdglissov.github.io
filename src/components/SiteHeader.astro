@@ -12,10 +12,22 @@ const isBlogRoute = Astro.url.pathname === '/blog/' || Astro.url.pathname.starts
 ---
 
 <header id="site-header" class="site-header sticky top-0 z-30 border-b border-transparent">
-  <div class="mx-auto flex w-[min(1080px,92vw)] flex-wrap items-center justify-between gap-4 py-4">
+  <div class="site-header-inner mx-auto flex h-16 w-[min(1080px,92vw)] items-center justify-between">
     <a href="/" class="text-sm font-semibold tracking-wide text-slate-100">{siteConfig.name}</a>
-    <nav aria-label="Primary">
-      <ul class="flex flex-wrap items-center gap-2 text-sm text-muted md:gap-4">
+
+    <button
+      id="mobile-nav-toggle"
+      type="button"
+      class="mobile-nav-toggle md:hidden"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-nav-panel"
+    >
+      <span class="mobile-nav-toggle__bar" aria-hidden="true"></span>
+    </button>
+
+    <nav aria-label="Primary" class="hidden md:block">
+      <ul class="flex items-center gap-4 text-sm text-muted">
         {
           links.map((link) => {
             const isBlogLink = link.href === '/blog/';
@@ -38,6 +50,37 @@ const isBlogRoute = Astro.url.pathname === '/blog/' || Astro.url.pathname.starts
         }
       </ul>
     </nav>
+
+    <nav
+      id="mobile-nav-panel"
+      aria-label="Primary mobile"
+      class="mobile-nav-panel md:hidden"
+      data-open="false"
+      hidden
+    >
+      <ul class="grid gap-1 text-sm text-muted">
+        {
+          links.map((link) => {
+            const isBlogLink = link.href === '/blog/';
+            const isCurrent = isBlogLink && isBlogRoute;
+
+            return (
+              <li>
+                <a
+                  class="nav-link block w-full rounded-md px-3 py-2 transition hover:text-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+                  href={link.href}
+                  aria-current={isCurrent ? 'page' : undefined}
+                  data-current={isCurrent ? 'true' : undefined}
+                  data-section-link={link.href.startsWith('/#') ? link.href.slice(2) : undefined}
+                >
+                  {link.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
   </div>
 </header>
 <script is:inline>
@@ -45,6 +88,8 @@ const isBlogRoute = Astro.url.pathname === '/blog/' || Astro.url.pathname.starts
     const init = () => {
       const header = document.getElementById('site-header');
       if (!header) return;
+      const mobileToggle = document.getElementById('mobile-nav-toggle');
+      const mobilePanel = document.getElementById('mobile-nav-panel');
 
       const trackedLinks = Array.from(header.querySelectorAll('a[data-section-link]'))
         .map((link) => {
@@ -86,6 +131,15 @@ const isBlogRoute = Astro.url.pathname === '/blog/' || Astro.url.pathname.starts
         }
       };
 
+      const setMobileMenuState = (isOpen) => {
+        if (!mobileToggle || !mobilePanel) return;
+
+        mobileToggle.setAttribute('aria-expanded', String(isOpen));
+        mobilePanel.dataset.open = isOpen ? 'true' : 'false';
+        mobilePanel.hidden = !isOpen;
+        header.dataset.mobileOpen = isOpen ? 'true' : 'false';
+      };
+
       let ticking = false;
       const onScroll = () => {
         if (ticking) return;
@@ -97,10 +151,44 @@ const isBlogRoute = Astro.url.pathname === '/blog/' || Astro.url.pathname.starts
         });
       };
 
+      if (mobileToggle && mobilePanel) {
+        mobileToggle.addEventListener('click', () => {
+          const isOpen = mobileToggle.getAttribute('aria-expanded') === 'true';
+          setMobileMenuState(!isOpen);
+        });
+
+        mobilePanel.querySelectorAll('a').forEach((link) => {
+          link.addEventListener('click', () => {
+            setMobileMenuState(false);
+          });
+        });
+
+        document.addEventListener('keydown', (event) => {
+          if (event.key === 'Escape') {
+            setMobileMenuState(false);
+          }
+        });
+
+        document.addEventListener('click', (event) => {
+          const target = event.target;
+          if (!(target instanceof Node)) return;
+          if (!header.contains(target)) {
+            setMobileMenuState(false);
+          }
+        });
+
+        setMobileMenuState(false);
+      }
+
       updateHeaderState();
       updateActiveLink();
       window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll);
+      window.addEventListener('resize', () => {
+        if (window.matchMedia('(min-width: 768px)').matches) {
+          setMobileMenuState(false);
+        }
+        onScroll();
+      });
     };
 
     if (document.readyState === 'loading') {
