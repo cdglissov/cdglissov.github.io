@@ -36,7 +36,9 @@ export async function getStaticPaths() {
     props: {
       tag: value.label,
       tagSlug,
-      posts: value.posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+      posts: value.posts.sort(
+        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+      )
     }
   }));
 }
@@ -52,22 +54,34 @@ const { tag, posts, tagSlug } = Astro.props as Props;
   <SiteHeader />
   <main id="content" class="pb-16 pt-10 md:pt-14">
     <section class="section-shell">
-      <SectionHeading kicker="Tag" title={tag} subtitle={`Showing ${posts.length} post${posts.length === 1 ? '' : 's'}.`} />
-      <a class="mb-6 inline-block text-sm text-accent underline-offset-4 hover:underline" href="/blog/">
+      <SectionHeading
+        kicker="Tag"
+        title={tag}
+        subtitle={`Showing ${posts.length} post${posts.length === 1 ? '' : 's'}.`}
+      />
+      <a
+        class="mb-6 inline-block text-sm text-accent underline-offset-4 hover:underline"
+        href="/blog/"
+      >
         Back to all posts
       </a>
       <div class="space-y-4">
         {
           posts.map((post) => (
-            <article class="rounded-xl border border-border bg-white/5 p-5">
-              <p class="mono text-xs uppercase tracking-wide text-muted">{formatDate(post.data.pubDate)}</p>
-              <h2 class="mt-2 text-xl font-semibold text-slate-100">
-                <a class="hover:text-accent" href={`/blog/${post.slug}/`}>
+            <a
+              class="group block rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+              href={`/blog/${post.slug}/`}
+            >
+              <article class="rounded-xl border border-border bg-white/5 p-5 transition-all duration-200 group-hover:border-[rgb(141,182,214)] group-hover:ring-1 group-hover:ring-[rgb(141,182,214)] group-focus-visible:border-[rgb(141,182,214)] group-focus-visible:ring-1 group-focus-visible:ring-[rgb(141,182,214)]">
+                <p class="mono text-xs uppercase tracking-wide text-muted">
+                  {formatDate(post.data.pubDate)}
+                </p>
+                <h2 class="mt-2 text-xl font-semibold text-slate-100 transition-colors duration-200 group-hover:text-accent group-focus-visible:text-accent">
                   {post.data.title}
-                </a>
-              </h2>
-              <p class="mt-2 text-sm text-muted">{post.data.description}</p>
-            </article>
+                </h2>
+                <p class="mt-2 text-sm text-muted">{post.data.description}</p>
+              </article>
+            </a>
           ))
         }
       </div>

@@ -24,7 +24,13 @@ body {
   margin: 0;
   padding: 0;
   font-family: 'Source Sans 3', 'Segoe UI', sans-serif;
-  background: linear-gradient(180deg, #090d10 0%, #080b0e 22%, var(--bg-main) 52%, var(--bg-main) 100%);
+  background: linear-gradient(
+    180deg,
+    #090d10 0%,
+    #080b0e 22%,
+    var(--bg-main) 52%,
+    var(--bg-main) 100%
+  );
   background-attachment: fixed;
   background-repeat: no-repeat;
   color: var(--text-main);
@@ -125,7 +131,31 @@ a {
 }
 
 .action-link {
-  @apply inline-flex items-center gap-2 rounded-lg border border-solid border-border bg-white/5 px-3 py-2 text-sm transition hover:border-accent hover:text-accent focus:outline-none focus:ring-2 focus:ring-accent;
+  @apply inline-flex items-center gap-2 rounded-lg border border-solid border-border bg-white/5 px-3 py-2 text-sm transition duration-200 focus:outline-none focus:ring-2 focus:ring-accent;
+}
+
+.action-link:hover,
+.action-link:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgb(142 164 191 / 0.13);
+  box-shadow: 0 8px 22px rgb(0 0 0 / 0.24);
+  transform: scale(1.02);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .action-link {
+    transition:
+      border-color 160ms ease,
+      color 160ms ease,
+      background-color 160ms ease,
+      box-shadow 160ms ease;
+  }
+
+  .action-link:hover,
+  .action-link:focus-visible {
+    transform: none;
+  }
 }
 
 .prose {

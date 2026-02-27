@@ -10,7 +10,9 @@ const posts = (await getCollection('blog', (entry) => !entry.data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort((a, b) => a.localeCompare(b));
+const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort(
+  (a, b) => a.localeCompare(b)
+);
 ---
 
 <BaseLayout
@@ -28,23 +30,36 @@ const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort((
       />
       <div class="mb-6 flex flex-wrap gap-2">
         <a class="tag border-accent text-accent" href="/blog/">All</a>
-        {tags.map((tag) => <a class="tag" href={`/blog/tag/${slugifyTag(tag)}/`}>{tag}</a>)}
+        {
+          tags.map((tag) => (
+            <a class="tag" href={`/blog/tag/${slugifyTag(tag)}/`}>
+              {tag}
+            </a>
+          ))
+        }
       </div>
       <div class="space-y-4">
         {
           posts.map((post) => (
-            <article class="rounded-xl border border-border bg-white/5 p-5">
-              <p class="mono text-xs uppercase tracking-wide text-muted">{formatDate(post.data.pubDate)}</p>
-              <h2 class="mt-2 text-xl font-semibold text-slate-100">
-                <a class="hover:text-accent" href={`/blog/${post.slug}/`}>
+            <a
+              class="group block rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+              href={`/blog/${post.slug}/`}
+            >
+              <article class="rounded-xl border border-border bg-white/5 p-5 transition-all duration-200 group-hover:border-[rgb(141,182,214)] group-hover:ring-1 group-hover:ring-[rgb(141,182,214)] group-focus-visible:border-[rgb(141,182,214)] group-focus-visible:ring-1 group-focus-visible:ring-[rgb(141,182,214)]">
+                <p class="mono text-xs uppercase tracking-wide text-muted">
+                  {formatDate(post.data.pubDate)}
+                </p>
+                <h2 class="mt-2 text-xl font-semibold text-slate-100 transition-colors duration-200 group-hover:text-accent group-focus-visible:text-accent">
                   {post.data.title}
-                </a>
-              </h2>
-              <p class="mt-2 text-sm text-muted">{post.data.description}</p>
-              <ul class="mt-3 flex flex-wrap gap-2">
-                {post.data.tags.map((tag) => <li class="tag">{tag}</li>)}
-              </ul>
-            </article>
+                </h2>
+                <p class="mt-2 text-sm text-muted">{post.data.description}</p>
+                <ul class="mt-3 flex flex-wrap gap-2">
+                  {post.data.tags.map((tag) => (
+                    <li class="tag">{tag}</li>
+                  ))}
+                </ul>
+              </article>
+            </a>
           ))
         }
       </div>
