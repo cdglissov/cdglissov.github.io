@@ -394,6 +394,27 @@ a {
   padding: 0;
 }
 
+.prose .katex-display {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.2rem;
+}
+
+.prose .katex-display > .katex {
+  display: inline-block;
+  min-width: max-content;
+}
+
+@media (max-width: 640px) {
+  .prose .katex-display {
+    font-size: 0.88em;
+    text-align: left;
+  }
+}
+
 .code-wrap {
   position: relative;
 }

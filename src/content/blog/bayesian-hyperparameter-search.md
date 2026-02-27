@@ -1,5 +1,5 @@
 ---
-title: Just a placeholder for now...
+title: Just a placeholder for now 1...
 description: A concise way to tune expensive AI pipelines when brute-force sweeps are too costly.
 pubDate: 2026-01-18
 tags:
