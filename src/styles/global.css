@@ -1,6 +1,4 @@
-@import '@fontsource/ibm-plex-sans/400.css';
-@import '@fontsource/ibm-plex-sans/500.css';
-@import '@fontsource/ibm-plex-sans/600.css';
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
 @import '@fontsource/ibm-plex-mono/400.css';
 @import 'katex/dist/katex.min.css';
 
@@ -16,6 +14,8 @@
   --text-main: #d7dde5;
   --text-muted: #98a4b3;
   --accent: #8ea4bf;
+  --kicker: rgb(74 127 168);
+  --header-scrolled-bg: rgb(74 127 168);
   --border: #252a32;
 }
 
@@ -23,7 +23,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: 'IBM Plex Sans', sans-serif;
+  font-family: 'Source Sans 3', 'Segoe UI', sans-serif;
   background:
     radial-gradient(circle at 20% 0%, rgba(142, 164, 191, 0.1), transparent 35%),
     radial-gradient(circle at 80% 0%, rgba(70, 81, 99, 0.16), transparent 30%),
@@ -60,8 +60,32 @@ a {
   @apply rounded-2xl border border-solid border-border bg-surface/80 p-6 shadow-panel md:p-8;
 }
 
+.site-header {
+  background-color: transparent;
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
+  transition:
+    background-color 240ms ease,
+    border-color 240ms ease,
+    backdrop-filter 240ms ease,
+    -webkit-backdrop-filter 240ms ease,
+    box-shadow 240ms ease;
+}
+
+.site-header[data-scrolled='true'] {
+  background-color: var(--header-scrolled-bg);
+  border-color: rgb(255 255 255 / 0.14);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px rgb(0 0 0 / 0.25);
+}
+
 .mono {
   font-family: 'IBM Plex Mono', monospace;
+}
+
+.kicker {
+  color: var(--kicker);
 }
 
 .muted {

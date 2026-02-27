@@ -10,7 +10,7 @@ const links = [
 ];
 ---
 
-<header class="sticky top-0 z-30 border-b border-border/80 bg-canvas/85 backdrop-blur-md">
+<header id="site-header" class="site-header sticky top-0 z-30 border-b border-transparent">
   <div class="mx-auto flex w-[min(1080px,92vw)] flex-wrap items-center justify-between gap-4 py-4">
     <a href="/" class="text-sm font-semibold tracking-wide text-slate-100">{siteConfig.name}</a>
     <nav aria-label="Primary">
@@ -28,3 +28,16 @@ const links = [
     </nav>
   </div>
 </header>
+<script is:inline>
+  (() => {
+    const header = document.getElementById('site-header');
+    if (!header) return;
+
+    const updateHeaderState = () => {
+      header.dataset.scrolled = window.scrollY > 12 ? 'true' : 'false';
+    };
+
+    updateHeaderState();
+    window.addEventListener('scroll', updateHeaderState, { passive: true });
+  })();
+</script>

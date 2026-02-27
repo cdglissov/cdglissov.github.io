@@ -15,6 +15,15 @@ export default function TypedText({
   pauseMs = 1300,
   className = ''
 }: TypedTextProps) {
+  const splitIntoGraphemes = (value: string) => {
+    if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
+      const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+      return Array.from(segmenter.segment(value), ({ segment }) => segment);
+    }
+
+    return Array.from(value);
+  };
+
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
@@ -36,6 +45,7 @@ export default function TypedText({
 
     return phrases[phraseIndex % phrases.length];
   }, [phraseIndex, phrases]);
+  const graphemes = useMemo(() => splitIntoGraphemes(currentPhrase), [currentPhrase]);
 
   useEffect(() => {
     if (reduceMotion || phrases.length <= 1) {
@@ -44,9 +54,9 @@ export default function TypedText({
 
     let timeoutId = 0;
 
-    if (!deleting && charIndex < currentPhrase.length) {
+    if (!deleting && charIndex < graphemes.length) {
       timeoutId = window.setTimeout(() => setCharIndex((value) => value + 1), typingSpeed);
-    } else if (!deleting && charIndex === currentPhrase.length) {
+    } else if (!deleting && charIndex === graphemes.length) {
       timeoutId = window.setTimeout(() => setDeleting(true), pauseMs);
     } else if (deleting && charIndex > 0) {
       timeoutId = window.setTimeout(() => setCharIndex((value) => value - 1), erasingSpeed);
@@ -56,9 +66,9 @@ export default function TypedText({
     }
 
     return () => window.clearTimeout(timeoutId);
-  }, [charIndex, currentPhrase.length, deleting, erasingSpeed, pauseMs, phrases.length, reduceMotion, typingSpeed]);
+  }, [charIndex, deleting, erasingSpeed, graphemes.length, pauseMs, phrases.length, reduceMotion, typingSpeed]);
 
-  const visibleText = reduceMotion || phrases.length <= 1 ? currentPhrase : currentPhrase.slice(0, charIndex);
+  const visibleText = reduceMotion || phrases.length <= 1 ? currentPhrase : graphemes.slice(0, charIndex).join('');
 
   return (
     <span className={className} aria-live="polite">
