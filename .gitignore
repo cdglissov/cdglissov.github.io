@@ -1,7 +1,7 @@
 # Ignore folders
 /img
 /node_modules
+/dist
 src/assets/img/
 src/assets/fav
 sources.txt
-/dist/*.map
