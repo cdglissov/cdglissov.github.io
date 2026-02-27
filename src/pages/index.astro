@@ -64,28 +64,6 @@ const featuredPosts = (await getCollection('blog', (entry) => !entry.data.draft 
       </section>
     </MotionReveal>
 
-    <MotionReveal client:visible className="mb-10" delay={0.1}>
-      <section id="experience" class="section-shell">
-        <SectionHeading kicker="Experience" title="Recent work" />
-        <div class="space-y-4">
-          {
-            experiences.map((experience) => (
-              <article class="rounded-xl border border-border bg-white/5 p-5">
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                  <h3 class="text-base font-semibold text-slate-100">{experience.role}</h3>
-                  <p class="mono text-xs uppercase tracking-wide text-muted">{experience.period}</p>
-                </div>
-                <p class="mt-1 text-sm text-accent">{experience.company}</p>
-                <ul class="mt-4 space-y-2 text-sm text-muted">
-                  {experience.bullets.map((bullet) => <li>- {bullet}</li>)}
-                </ul>
-              </article>
-            ))
-          }
-        </div>
-      </section>
-    </MotionReveal>
-
     <MotionReveal client:visible className="mb-10" delay={0.12}>
       <section id="projects" class="section-shell">
         <SectionHeading kicker="Projects" title="Selected implementations" />
@@ -111,6 +89,28 @@ const featuredPosts = (await getCollection('blog', (entry) => !entry.data.draft 
       </section>
     </MotionReveal>
 
+    <MotionReveal client:visible className="mb-10" delay={0.1}>
+      <section id="experience" class="section-shell">
+        <SectionHeading kicker="Experience" title="Recent work" />
+        <div class="space-y-4">
+          {
+            experiences.map((experience) => (
+              <article class="rounded-xl border border-border bg-white/5 p-5">
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                  <h3 class="text-base font-semibold text-slate-100">{experience.role}</h3>
+                  <p class="mono text-xs uppercase tracking-wide text-muted">{experience.period}</p>
+                </div>
+                <p class="mt-1 text-sm text-accent">{experience.company}</p>
+                <ul class="mt-4 space-y-2 text-sm text-muted">
+                  {experience.bullets.map((bullet) => <li>- {bullet}</li>)}
+                </ul>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+    </MotionReveal>
+    
     <MotionReveal client:visible className="mb-10" delay={0.15}>
       <section class="section-shell">
         <SectionHeading
