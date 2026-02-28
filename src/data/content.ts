@@ -84,14 +84,14 @@ export const projects: Project[] = [
     name: 'Recurrent Flow Networks',
     description:
       'Proposing an unsupervised algorithm to generalise the underlying distribution of video data.',
-    stack: ['Python', 'Bash', 'High-performance computing', 'GitHub'],
+    stack: ['Python', 'PyTorch'],
     href: 'https://github.com/cdglissov/recurrent-flows-msc/blob/master/MSC_Thesis.pdf'
   },
   {
     name: 'COVID-19 in New York City',
     description:
       'Visualising and analysing the relationship between COVID-19 and socioeconomic status.',
-    stack: ['Python', 'HTML', 'JS', 'CSS', 'd3js', 'Bokeh', 'GitHub'],
+    stack: ['Python', 'HTML', 'JavaScript', 'CSS', 'd3js', 'Bokeh'],
     href: 'https://cdglissov.github.io/nyc.covid19/'
   },
   {

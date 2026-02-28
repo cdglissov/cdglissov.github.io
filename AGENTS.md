@@ -28,6 +28,7 @@ Blog structure:
 - Post pages at `/blog/<slug>/`
 - Tag pages at `/blog/tag/<tag>/`
 - RSS at `/rss.xml`
+- Blog content at `src/content/blog`
 
 ## Source-of-truth files
 

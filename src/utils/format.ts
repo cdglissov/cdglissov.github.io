@@ -7,5 +7,13 @@ export function formatDate(input: Date): string {
 }
 
 export function slugifyTag(tag: string): string {
-  return tag.toLowerCase().trim().replace(/\s+/g, '-');
+  const slug = tag
+    .toLowerCase()
+    .trim()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+
+  return slug || 'tag';
 }

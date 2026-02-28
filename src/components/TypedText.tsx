@@ -8,6 +8,17 @@ type TypedTextProps = {
   className?: string;
 };
 
+const splitIntoGraphemes = (value: string) => {
+  if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
+    const segmenter = new Intl.Segmenter(undefined, {
+      granularity: 'grapheme'
+    });
+    return Array.from(segmenter.segment(value), ({ segment }) => segment);
+  }
+
+  return Array.from(value);
+};
+
 export default function TypedText({
   phrases,
   typingSpeed = 65,
@@ -15,17 +26,6 @@ export default function TypedText({
   pauseMs = 1300,
   className = ''
 }: TypedTextProps) {
-  const splitIntoGraphemes = (value: string) => {
-    if (typeof Intl !== 'undefined' && 'Segmenter' in Intl) {
-      const segmenter = new Intl.Segmenter(undefined, {
-        granularity: 'grapheme'
-      });
-      return Array.from(segmenter.segment(value), ({ segment }) => segment);
-    }
-
-    return Array.from(value);
-  };
-
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
@@ -48,9 +48,10 @@ export default function TypedText({
     return phrases[phraseIndex % phrases.length];
   }, [phraseIndex, phrases]);
   const graphemes = useMemo(() => splitIntoGraphemes(currentPhrase), [currentPhrase]);
+  const shouldAnimate = !reduceMotion && phrases.length > 1;
 
   useEffect(() => {
-    if (reduceMotion || phrases.length <= 1) {
+    if (!shouldAnimate) {
       return;
     }
 
@@ -74,20 +75,25 @@ export default function TypedText({
     erasingSpeed,
     graphemes.length,
     pauseMs,
+    shouldAnimate,
     phrases.length,
-    reduceMotion,
     typingSpeed
   ]);
 
-  const visibleText =
-    reduceMotion || phrases.length <= 1 ? currentPhrase : graphemes.slice(0, charIndex).join('');
+  if (phrases.length === 0) {
+    return null;
+  }
+
+  const visibleText = shouldAnimate ? graphemes.slice(0, charIndex).join('') : currentPhrase;
 
   return (
-    <span className={className} aria-live="polite">
+    <span className={className} aria-label={currentPhrase}>
       {visibleText}
-      <span className="ml-1 inline-block w-[1ch] animate-pulse text-accent" aria-hidden="true">
-        |
-      </span>
+      {shouldAnimate && (
+        <span className="ml-1 inline-block w-[1ch] animate-pulse text-accent" aria-hidden="true">
+          |
+        </span>
+      )}
     </span>
   );
 }

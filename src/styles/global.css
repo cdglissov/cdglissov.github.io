@@ -98,6 +98,25 @@ a {
   @apply rounded-full border border-solid border-border bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-wide text-muted;
 }
 
+.blog-post-card {
+  @apply rounded-xl border border-border bg-white/5 p-5 transition-all duration-200;
+}
+
+.group:hover .blog-post-card,
+.group:focus-visible .blog-post-card {
+  border-color: rgb(141 182 214 / 0.46);
+  box-shadow: 0 0 0 1px rgb(141 182 214 / 0.26);
+}
+
+.blog-post-card-title {
+  @apply mt-2 text-xl font-semibold text-slate-100 transition-colors duration-200;
+}
+
+.group:hover .blog-post-card-title,
+.group:focus-visible .blog-post-card-title {
+  color: var(--accent);
+}
+
 .prose {
   --tw-prose-body: var(--text-main);
   --tw-prose-headings: #eef4fc;
