@@ -61,6 +61,12 @@ export const aboutExperience: AboutExperienceEntry[] = [
 export const learningTimeline: LearningEntry[] = [
   {
     period: '2026 February',
+    topic: 'Astro',
+    description:
+      'Really enjoyed diving into Astro. Great framework for content driven static sites. Learned a lot with some help from Codex.'
+  },
+  {
+    period: '2026 February',
     topic: 'Claude and Copilot plugins',
     description:
       'Deep dive into agents and skills, and how to use hand-offs and subagents. This stuff will be huge.'
