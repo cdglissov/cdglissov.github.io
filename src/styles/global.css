@@ -385,6 +385,17 @@ a {
   transform: scale(1.02);
 }
 
+.card-lift {
+  transition: transform 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .card-lift,
+  .group:focus-visible .card-lift {
+    transform: translateY(-6px);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .mobile-nav-toggle__bar,
   .mobile-nav-toggle__bar::before,
@@ -406,6 +417,15 @@ a {
 
   .action-link:hover,
   .action-link:focus-visible {
+    transform: none;
+  }
+
+  .card-lift {
+    transition: none;
+  }
+
+  .group:hover .card-lift,
+  .group:focus-visible .card-lift {
     transform: none;
   }
 }

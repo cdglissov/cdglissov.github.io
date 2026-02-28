@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import { FaEnvelope, FaGithub, FaLinkedin } from 'react-icons/fa6';
 import Footer from '@/components/Footer.astro';
-import MotionCard from '@/components/MotionCard';
 import MotionReveal from '@/components/MotionReveal';
 import SectionHeading from '@/components/SectionHeading.astro';
 import SiteHeader from '@/components/SiteHeader.astro';
@@ -136,26 +135,24 @@ const hiddenLearningTimeline = hasCollapsedTimeline
         <div class="grid gap-4 md:grid-cols-2">
           {
             projects.map((project) => (
-              <MotionCard client:visible className="h-full">
-                <a
-                  class="group block h-full rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
-                  href={project.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <article class="flex h-full flex-col rounded-xl border border-border bg-white/5 p-5 transition-all duration-200 group-hover:border-[rgb(141,182,214)] group-hover:ring-1 group-hover:ring-[rgb(141,182,214)] group-focus-visible:border-[rgb(141,182,214)] group-focus-visible:ring-1 group-focus-visible:ring-[rgb(141,182,214)]">
-                    <h3 class="text-base font-semibold text-slate-100 transition-colors duration-200 group-hover:text-accent group-focus-visible:text-accent">
-                      {project.name}
-                    </h3>
-                    <p class="mt-2 text-sm text-muted">{project.description}</p>
-                    <ul class="mt-4 flex flex-wrap gap-2">
-                      {project.stack.map((tech) => (
-                        <li class="tag">{tech}</li>
-                      ))}
-                    </ul>
-                  </article>
-                </a>
-              </MotionCard>
+              <a
+                class="group block h-full rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+                href={project.href}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <article class="card-lift flex h-full flex-col rounded-xl border border-border bg-white/5 p-5 transition-all duration-200 group-hover:border-[rgb(141,182,214)] group-hover:ring-1 group-hover:ring-[rgb(141,182,214)] group-focus-visible:border-[rgb(141,182,214)] group-focus-visible:ring-1 group-focus-visible:ring-[rgb(141,182,214)]">
+                  <h3 class="text-base font-semibold text-slate-100 transition-colors duration-200 group-hover:text-accent group-focus-visible:text-accent">
+                    {project.name}
+                  </h3>
+                  <p class="mt-2 text-sm text-muted">{project.description}</p>
+                  <ul class="mt-4 flex flex-wrap gap-2">
+                    {project.stack.map((tech) => (
+                      <li class="tag">{tech}</li>
+                    ))}
+                  </ul>
+                </article>
+              </a>
             ))
           }
         </div>
@@ -218,27 +215,25 @@ const hiddenLearningTimeline = hasCollapsedTimeline
         <div class="grid gap-4 md:grid-cols-3">
           {
             featuredPosts.map((post) => (
-              <MotionCard client:visible className="h-full">
-                <a
-                  class="group block h-full rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
-                  href={`/blog/${post.slug}/`}
-                >
-                  <article class="h-full rounded-xl border border-border bg-white/5 p-4 transition-all duration-200 group-hover:border-[rgb(141,182,214)] group-hover:ring-1 group-hover:ring-[rgb(141,182,214)] group-focus-visible:border-[rgb(141,182,214)] group-focus-visible:ring-1 group-focus-visible:ring-[rgb(141,182,214)]">
-                    <p class="mono text-xs uppercase tracking-wide text-muted">
-                      {formatDate(post.data.pubDate)}
-                    </p>
-                    <h3 class="mt-2 text-base font-semibold text-slate-100 transition-colors duration-200 group-hover:text-accent group-focus-visible:text-accent">
-                      {post.data.title}
-                    </h3>
-                    <p class="mt-2 text-sm text-muted">{post.data.description}</p>
-                    <ul class="mt-3 flex flex-wrap gap-2">
-                      {post.data.tags.map((tag) => (
-                        <li class="tag">{tag}</li>
-                      ))}
-                    </ul>
-                  </article>
-                </a>
-              </MotionCard>
+              <a
+                class="group block h-full rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent"
+                href={`/blog/${post.slug}/`}
+              >
+                <article class="card-lift h-full rounded-xl border border-border bg-white/5 p-4 transition-all duration-200 group-hover:border-[rgb(141,182,214)] group-hover:ring-1 group-hover:ring-[rgb(141,182,214)] group-focus-visible:border-[rgb(141,182,214)] group-focus-visible:ring-1 group-focus-visible:ring-[rgb(141,182,214)]">
+                  <p class="mono text-xs uppercase tracking-wide text-muted">
+                    {formatDate(post.data.pubDate)}
+                  </p>
+                  <h3 class="mt-2 text-base font-semibold text-slate-100 transition-colors duration-200 group-hover:text-accent group-focus-visible:text-accent">
+                    {post.data.title}
+                  </h3>
+                  <p class="mt-2 text-sm text-muted">{post.data.description}</p>
+                  <ul class="mt-3 flex flex-wrap gap-2">
+                    {post.data.tags.map((tag) => (
+                      <li class="tag">{tag}</li>
+                    ))}
+                  </ul>
+                </article>
+              </a>
             ))
           }
         </div>
