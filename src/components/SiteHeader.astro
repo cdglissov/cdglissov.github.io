@@ -249,6 +249,15 @@ const isBlogRoute = Astro.url.pathname === '/blog/' || Astro.url.pathname.starts
       const updateActiveLink = () => {
         if (!trackedLinks.length) return;
 
+        const isAtTop = window.scrollY <= 2;
+        if (isAtTop) {
+          for (const tracked of trackedLinks) {
+            tracked.link.dataset.current = 'false';
+            tracked.link.removeAttribute('aria-current');
+          }
+          return;
+        }
+
         const offsetTop = header.getBoundingClientRect().bottom + 12;
         const isAtBottom =
           window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
