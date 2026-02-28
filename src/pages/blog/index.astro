@@ -83,6 +83,39 @@ const tags = Array.from(new Set(posts.flatMap((post) => post.data.tags))).sort((
   </main>
   <Footer />
 </BaseLayout>
+<style>
+  .tag-filter {
+    appearance: none;
+    cursor: pointer;
+    transition:
+      border-color 160ms ease,
+      color 160ms ease,
+      background-color 160ms ease;
+    outline: none;
+  }
+
+  .tag-filter:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .tag-filter[aria-pressed='true'] {
+    border-color: var(--accent);
+    background: rgb(142 164 191 / 0.13);
+    color: var(--accent);
+  }
+
+  [data-post-card][data-hidden='true'] {
+    display: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .tag-filter:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+  }
+</style>
 
 <script is:inline>
   (() => {
