@@ -48,7 +48,26 @@ export default function TypedText({
     return phrases[phraseIndex % phrases.length];
   }, [phraseIndex, phrases]);
   const graphemes = useMemo(() => splitIntoGraphemes(currentPhrase), [currentPhrase]);
-  const shouldAnimate = !reduceMotion && phrases.length > 1;
+  const longestPhrase = useMemo(() => {
+    if (phrases.length === 0) {
+      return '';
+    }
+
+    let result = phrases[0];
+    let maxLength = splitIntoGraphemes(result).length;
+
+    for (const phrase of phrases.slice(1)) {
+      const length = splitIntoGraphemes(phrase).length;
+      if (length > maxLength) {
+        result = phrase;
+        maxLength = length;
+      }
+    }
+
+    return result;
+  }, [phrases]);
+  const canType = !reduceMotion && phrases.length > 1;
+  const shouldAnimate = canType;
 
   useEffect(() => {
     if (!shouldAnimate) {
@@ -84,16 +103,27 @@ export default function TypedText({
     return null;
   }
 
-  const visibleText = shouldAnimate ? graphemes.slice(0, charIndex).join('') : currentPhrase;
+  const visibleText = canType ? graphemes.slice(0, charIndex).join('') : currentPhrase;
 
   return (
-    <span className={className} aria-label={currentPhrase}>
-      {visibleText}
-      {shouldAnimate && (
-        <span className="ml-1 inline-block w-[1ch] animate-pulse text-accent" aria-hidden="true">
-          |
-        </span>
-      )}
+    <span className={`inline-grid max-w-full align-top ${className}`} aria-label={currentPhrase}>
+      <span className="invisible col-start-1 row-start-1" aria-hidden="true">
+        {longestPhrase}
+        {canType && <span className="ml-1 inline-block w-[1ch]">|</span>}
+      </span>
+      <span className="col-start-1 row-start-1">
+        {visibleText}
+        {canType && (
+          <span
+            className={`ml-1 inline-block w-[1ch] text-accent ${
+              shouldAnimate ? 'animate-pulse' : 'invisible'
+            }`}
+            aria-hidden="true"
+          >
+            |
+          </span>
+        )}
+      </span>
     </span>
   );
 }
