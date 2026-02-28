@@ -28,6 +28,7 @@ Blog structure:
 - Post pages at `/blog/<slug>/`
 - Tag pages at `/blog/tag/<tag>/`
 - RSS at `/rss.xml`
+- Blog content at `src/content/blog`
 
 ## Source-of-truth files
 
@@ -152,3 +153,12 @@ Add a blog post:
 - Canonical URL, sitemap, and RSS are valid.
 - `npm run check` passes locally.
 - No accidental regressions in accessibility or readability.
+
+## Good practices
+
+When making changes:
+
+- Remove any unused or redundant code.
+- Update docs and AGENTS.md when necessary.
+- Simplicity and readability can sometimes be tradeoffs. Find a good balance.
+- Follow best practices (e.g. best practices of Astro, TypeScript, Tailwind CSS).

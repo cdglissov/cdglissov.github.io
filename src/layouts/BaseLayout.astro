@@ -117,5 +117,29 @@ const schemaItems = Array.isArray(structuredData)
         }
       })();
     </script>
+    <style is:global>
+      .code-wrap {
+        position: relative;
+      }
+
+      .copy-btn {
+        position: absolute;
+        top: 0.6rem;
+        right: 0.6rem;
+        border-radius: 0.45rem;
+        border: 1px solid #2c3440;
+        background: #151a22;
+        color: #cdd5df;
+        font-size: 0.72rem;
+        padding: 0.25rem 0.5rem;
+      }
+
+      .copy-btn:hover,
+      .copy-btn:focus-visible {
+        border-color: var(--accent);
+        color: #fff;
+        outline: none;
+      }
+    </style>
   </body>
 </html>

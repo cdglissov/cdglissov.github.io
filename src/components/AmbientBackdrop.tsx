@@ -402,7 +402,7 @@ export default function AmbientBackdrop() {
       const nextHeight = window.innerHeight;
       const widthDelta = Math.abs(nextWidth - previousWidth);
       const heightDelta = Math.abs(nextHeight - previousHeight);
-      const shouldRescaleParticles = widthDelta > 1 || heightDelta <= 1;
+      const shouldRescaleParticles = widthDelta > 1 || heightDelta > 1;
 
       width = nextWidth;
       height = nextHeight;
