@@ -51,16 +51,28 @@ When changing content structure, update the relevant type definitions in `src/da
 
 ## Motion and React island rules
 
-Use React islands only when needed:
+Default to static Astro and CSS. Add client-side islands only when there is a clear UX need.
+
+Decision order for interactions:
+
+1. HTML/CSS only.
+2. Small inline vanilla script.
+3. React island.
+4. Framer Motion island when it is simpler and more maintainable than custom animation code.
+
+Current preferred uses:
 
 - Typed text in hero (`TypedText`).
-- Small Framer Motion transitions (`MotionReveal`, `MotionCard`).
+- Section-level reveal transitions (`MotionReveal`) when needed.
+- Avoid per-card/per-item motion islands by default.
 
 Motion constraints:
 
 - Respect `prefers-reduced-motion`.
 - Avoid animation-heavy section choreography.
 - Keep transitions short and subtle.
+- Prefer section-level motion over many repeated animated wrappers.
+- If a motion change adds hydration, verify the tradeoff by checking bundle output (`npm run build`).
 
 ## Content rules
 
@@ -81,7 +93,7 @@ Motion constraints:
 
 ## Engineering standards
 
-- Stack: Astro + TypeScript + Tailwind CSS + React islands + Framer Motion.
+- Stack: Astro + TypeScript + Tailwind CSS, with React islands and Framer Motion used selectively for justified interactions.
 - Runtime: Node.js `>=24.14.0`.
 - Lint/format/type/build must pass before shipping.
 

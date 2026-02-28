@@ -65,7 +65,7 @@ const schemaItems = Array.isArray(structuredData)
     }
   </head>
   <body>
-    {showBackdrop && <AmbientBackdrop client:load />}
+    {showBackdrop && <AmbientBackdrop client:idle />}
     <div class="site-shell">
       <a href="#content" class="skip-link">Skip to content</a>
       <slot />

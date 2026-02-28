@@ -42,7 +42,7 @@ const hiddenLearningTimeline = hasCollapsedTimeline
         {siteConfig.name}
       </h1>
       <p class="mt-3 text-lg text-slate-200 md:text-xl">
-        <TypedText client:load className="font-medium" phrases={siteConfig.heroPhrases} />
+        <TypedText client:idle className="font-medium" phrases={siteConfig.heroPhrases} />
       </p>
       <p class="mt-4 max-w-2xl text-sm text-muted md:text-base">
         {siteConfig.shortBio}
