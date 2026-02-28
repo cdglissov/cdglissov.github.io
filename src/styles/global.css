@@ -387,7 +387,7 @@ a {
 }
 
 .card-lift {
-  transition: transform 200ms ease;
+  transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .card-link {
@@ -405,19 +405,23 @@ a {
   border: 1px solid var(--border);
   background: rgb(255 255 255 / 0.05);
   transition:
-    border-color 200ms ease,
-    box-shadow 200ms ease;
+    border-color 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 240ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .group:hover .card-shell,
 .group:focus-visible .card-shell {
-  border-color: var(--accent-soft);
-  box-shadow: 0 0 0 1px var(--accent-soft);
+  border-color: rgb(141 182 214 / 0.46);
+  background: rgb(255 255 255 / 0.07);
+  box-shadow:
+    0 14px 34px -22px rgb(0 0 0 / 0.9),
+    0 0 0 1px rgb(141 182 214 / 0.26);
 }
 
 .card-title {
   color: #f1f5f9;
-  transition: color 200ms ease;
+  transition: color 200ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .group:hover .card-title,
@@ -481,7 +485,7 @@ a {
 @media (hover: hover) and (pointer: fine) {
   .group:hover .card-lift,
   .group:focus-visible .card-lift {
-    transform: translateY(-6px);
+    transform: translateY(-4px);
   }
 }
 

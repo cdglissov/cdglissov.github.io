@@ -6,7 +6,7 @@ Modern Astro portfolio and blog with a neutral, professional design, typed hero 
 
 - Astro + TypeScript
 - Tailwind CSS
-- React islands (typed text + Framer Motion section/card transitions)
+- React islands
 - Markdown content collections with KaTeX math rendering
 - RSS + sitemap
 - GitHub Pages deployment via GitHub Actions
