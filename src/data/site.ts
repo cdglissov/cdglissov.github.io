@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: 'Christian D. Glissov',
   role: 'Senior AI Specialist',
-  shortBio: 'I code and surf the latent manifold.',
+  shortBio: '',
   heroPhrases: [
     '❯ Hello world! 👋',
     '❯ Welcome to my digital space 🌌',
