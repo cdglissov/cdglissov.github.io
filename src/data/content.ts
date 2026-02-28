@@ -28,7 +28,7 @@ export const aboutParagraphs = [
   "I've always been captivated by space - a vast, dark expanse where you can gaze at the stars and let your thoughts drift. It always invites existential questions; What's out there? Why is it there? Why are we here? I credit that fascination with the unknown for my love of science fiction, science, and even the design of this website.",
   'In my teenage years, I took up strength training. I wanted to learn anatomy and physiology - and like most teenagers, I had ambitions involving bigger biceps. That journey led me into powerlifting and eventually to becoming a certified strength coach. The same drive to understand how things work - whether muscles and tendons or neurons in a neural network - has shaped my path ever since. It ultimately led me to pursue a career at the intersection of research and engineering, where I later specialized in generative machine learning.',
   "Today, I'm a Senior AI Specialist, building AI systems and experimenting with emerging technologies. In my free time, I code, hike, lift heavy things, and spend time with my family and friends.",
-  'I love learning and connecting with curious people. If you\'d like to chat about a project, build something together, or just exchange ideas, feel free to <a href="https://www.linkedin.com/in/christian-glissov/" class="text-accent underline" target="_blank" rel="noreferrer">reach out</a>!'
+  'I love learning and connecting with curious people. If you\'d like to chat about a project, build something together, or just exchange ideas, feel free to <a href="/#contact" class="text-accent underline">reach out</a>!'
 ];
 
 export const aboutExperience: AboutExperienceEntry[] = [

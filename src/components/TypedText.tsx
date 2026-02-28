@@ -48,6 +48,7 @@ export default function TypedText({
     return phrases[phraseIndex % phrases.length];
   }, [phraseIndex, phrases]);
   const graphemes = useMemo(() => splitIntoGraphemes(currentPhrase), [currentPhrase]);
+  /* Based on phrase length, we add additional space to ensure proper alignment */
   const longestPhrase = useMemo(() => {
     if (phrases.length === 0) {
       return '';
