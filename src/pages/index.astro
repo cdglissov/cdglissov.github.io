@@ -105,9 +105,9 @@ const hiddenLearningTimeline = hasCollapsedTimeline
                         isSectionTransition && 'mt-2 border-t border-border pt-5'
                       ]}
                     >
-                      <p class="flex items-center justify-between gap-3 text-xs text-muted">
-                        <span>{entry.place}</span>
-                        <span class="mono text-[0.68rem] uppercase tracking-[0.12em]">
+                      <p class="flex items-start gap-3 text-xs text-muted">
+                        <span class="min-w-0 flex-1">{entry.place}</span>
+                        <span class="mono ml-auto shrink-0 whitespace-nowrap text-[0.68rem] uppercase tracking-[0.12em]">
                           {entry.period}
                         </span>
                       </p>
