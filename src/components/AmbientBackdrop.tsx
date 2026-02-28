@@ -398,9 +398,14 @@ export default function AmbientBackdrop() {
       const previousWidth = width || window.innerWidth;
       const previousHeight = height || window.innerHeight;
       const previousMax = Math.max(previousWidth, previousHeight);
+      const nextWidth = window.innerWidth;
+      const nextHeight = window.innerHeight;
+      const widthDelta = Math.abs(nextWidth - previousWidth);
+      const heightDelta = Math.abs(nextHeight - previousHeight);
+      const shouldRescaleParticles = widthDelta > 1 || heightDelta <= 1;
 
-      width = window.innerWidth;
-      height = window.innerHeight;
+      width = nextWidth;
+      height = nextHeight;
       devicePixelRatio = Math.min(window.devicePixelRatio || 1, 1.75);
 
       canvas.width = Math.floor(width * devicePixelRatio);
@@ -423,19 +428,21 @@ export default function AmbientBackdrop() {
         return;
       }
 
-      const scaleX = width / previousWidth;
-      const scaleY = height / previousHeight;
-      const sizeScale = Math.max(width, height) / previousMax;
+      if (shouldRescaleParticles) {
+        const scaleX = width / previousWidth;
+        const scaleY = height / previousHeight;
+        const sizeScale = Math.max(width, height) / previousMax;
 
-      for (const particle of nebulaParticles) {
-        particle.x *= scaleX;
-        particle.y *= scaleY;
-        particle.size *= sizeScale;
-      }
+        for (const particle of nebulaParticles) {
+          particle.x *= scaleX;
+          particle.y *= scaleY;
+          particle.size *= sizeScale;
+        }
 
-      for (const star of starParticles) {
-        star.x *= scaleX;
-        star.y *= scaleY;
+        for (const star of starParticles) {
+          star.x *= scaleX;
+          star.y *= scaleY;
+        }
       }
 
       if (nebulaParticles.length < targetNebulaCount) {

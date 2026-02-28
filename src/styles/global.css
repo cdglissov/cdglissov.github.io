@@ -35,6 +35,13 @@ body {
   min-height: 100%;
 }
 
+@media (hover: none) and (pointer: coarse) {
+  html,
+  body {
+    background-attachment: scroll;
+  }
+}
+
 .site-shell {
   position: relative;
   z-index: 1;
