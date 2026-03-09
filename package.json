@@ -45,7 +45,7 @@
     "@typescript-eslint/parser": "^8.24.1",
     "astro-eslint-parser": "^1.2.2",
     "autoprefixer": "^10.4.20",
-    "eslint": "^9.22.0",
+    "eslint": "^9.39.4",
     "eslint-plugin-astro": "^0.34.0",
     "postcss": "^8.5.3",
     "prettier": "^3.5.2",
