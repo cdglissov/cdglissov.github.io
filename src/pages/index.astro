@@ -166,7 +166,7 @@ const hiddenLearningTimeline = hasCollapsedTimeline
                 <p class="timeline-date mono">{entry.period}</p>
                 <div class="timeline-content">
                   <h3 class="timeline-topic">{entry.topic}</h3>
-                  <p class="timeline-description">{entry.description}</p>
+                  <p class="timeline-description" set:html={entry.description} />
                 </div>
               </article>
             ))
@@ -187,7 +187,7 @@ const hiddenLearningTimeline = hasCollapsedTimeline
                     <p class="timeline-date mono">{entry.period}</p>
                     <div class="timeline-content">
                       <h3 class="timeline-topic">{entry.topic}</h3>
-                      <p class="timeline-description">{entry.description}</p>
+                      <p class="timeline-description" set:html={entry.description} />
                     </div>
                   </article>
                 ))}
@@ -208,7 +208,7 @@ const hiddenLearningTimeline = hasCollapsedTimeline
         <div class="grid gap-4 md:grid-cols-3">
           {
             featuredPosts.map((post) => (
-              <a class="card-link group" href={`/blog/${post.slug}/`}>
+              <a class="card-link group" href={`/blog/${post.id}/`}>
                 <article class="card-lift card-shell h-full rounded-xl p-4">
                   <p class="mono text-xs uppercase tracking-wide text-muted">
                     {formatDate(post.data.pubDate)}
@@ -262,6 +262,8 @@ const hiddenLearningTimeline = hasCollapsedTimeline
   <Footer />
 </BaseLayout>
 <style>
+  @reference '../styles/global.css';
+
   .timeline-list {
     display: grid;
     gap: 2.5rem;
@@ -299,6 +301,11 @@ const hiddenLearningTimeline = hasCollapsedTimeline
     font-size: 0.92rem;
     line-height: 1.65;
     color: var(--text-muted);
+  }
+
+  .timeline-description :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
   }
 
   .timeline-more {

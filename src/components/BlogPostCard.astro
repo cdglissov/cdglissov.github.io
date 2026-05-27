@@ -18,7 +18,7 @@ const anchorClass = [
   .join(' ');
 ---
 
-<a class={anchorClass} href={href ?? `/blog/${post.slug}/`} {...anchorProps}>
+<a class={anchorClass} href={href ?? `/blog/${post.id}/`} {...anchorProps}>
   <article class="blog-post-card">
     <p class="mono text-xs uppercase tracking-wide text-muted">
       {formatDate(post.data.pubDate)}

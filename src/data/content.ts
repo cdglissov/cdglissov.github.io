@@ -6,6 +6,7 @@ export type SkillGroup = {
 export type LearningEntry = {
   period: string;
   topic: string;
+  /** Supports trusted inline HTML rendered on the homepage. */
   description: string;
 };
 
@@ -59,6 +60,24 @@ export const aboutExperience: AboutExperienceEntry[] = [
 ];
 
 export const learningTimeline: LearningEntry[] = [
+  {
+    period: '2026 May',
+    topic: 'Agentic Engineering',
+    description:
+      'Spending the majority of my time keeping up with the latest developments in agentic engineering. Diving deep into harness engineering.'
+  },
+  {
+    period: '2026 May',
+    topic: 'Copier',
+    description:
+      'Standardizing python scaffolding, just to save some time. Take a <a href="https://github.com/cdglissov/starter-templates" target="_blank" rel="noreferrer">look</a>.'
+  },
+  {
+    period: '2026 March',
+    topic: 'OpenTelemetry',
+    description:
+      'Explored OpenTelemetry for monitoring and observability. Set up tracing and metrics for a production environment.'
+  },
   {
     period: '2026 February',
     topic: 'Astro',
